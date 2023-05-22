@@ -1,8 +1,12 @@
+import { cx } from "cva";
 import Providers from "./Providers";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Atkinson_Hyperlegible } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const ak = Atkinson_Hyperlegible({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -16,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={cx(ak.className, "text-slate-50")}>
         <Providers>{children}</Providers>
       </body>
     </html>
