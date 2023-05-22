@@ -1,23 +1,44 @@
 "use client";
 
-import Button from "./design/Button";
+import { ArrowUpTrayIcon } from "@heroicons/react/24/solid";
+import Spinner from "./design/icons/Spinner";
+import { useState } from "react";
+import Button from "./design/button/Button";
+import Card from "./design/Card";
+import { submit } from "./actions";
+import TextInput from "./design/form/TextInput";
+import Form from "./design/form/Form";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+
   return (
     <main className="grid place-items-center min-h-screen bg-slate-950">
-      <div className="flex flex-col gap-2">
-        <Button intent="primary">
-          <Button.Text>Upload</Button.Text>
+      <Card>
+        <Form action={submit}>
+          <h1 className="text-xl font-bold mb-3">Create Gist</h1>
 
-          <Button.BusyText modifier="ing...">Upload</Button.BusyText>
-        </Button>
+          <label htmlFor="title">
+            Title
+          </label>
 
-        <Button intent="secondary">
-          <Button.Text>Upload</Button.Text>
+          <TextInput placeholder="My Gist" name="title" />
 
-          <Button.BusyText modifier="ing...">Upload</Button.BusyText>
-        </Button>
-      </div>
+          <Button
+            intent="primary"
+            busy={loading}
+            onClick={() => {
+              setLoading((loading) => !loading);
+            }}
+          >
+            <Button.Icon busyIcon={<Spinner />}>
+              <ArrowUpTrayIcon />
+            </Button.Icon>
+
+            <Button.Text busyText={["Upload", "ing..."]}>Upload</Button.Text>
+          </Button>
+        </Form>
+      </Card>
     </main>
   );
 }
