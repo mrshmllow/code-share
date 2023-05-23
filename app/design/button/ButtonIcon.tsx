@@ -2,6 +2,7 @@ import { ReactNode, useContext } from "react";
 import { ButtonContext } from "./Button";
 import { m } from "framer-motion";
 import { cva } from "cva";
+import Spinner from "../icons/Spinner";
 
 const span = cva("w-5 h-5 inline-flex items-center");
 
@@ -14,7 +15,7 @@ export default function ButtonIcon({
 }) {
   const { busy } = useContext(ButtonContext);
 
-  return busy && busyIcon !== undefined ? (
+  return busy ? (
     <m.span
       className={span()}
       initial={{
@@ -24,7 +25,7 @@ export default function ButtonIcon({
         scale: 1,
       }}
     >
-      {busyIcon}
+      {busyIcon !== undefined ? busyIcon : <Spinner />}
     </m.span>
   ) : (
     <span className={span()}>{children}</span>

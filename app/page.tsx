@@ -1,44 +1,113 @@
 "use client";
 
-import { ArrowUpTrayIcon } from "@heroicons/react/24/solid";
-import Spinner from "./design/icons/Spinner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./design/button/Button";
-import Card from "./design/Card";
-import { submit } from "./actions";
-import TextInput from "./design/form/TextInput";
-import Form from "./design/form/Form";
+import {
+  ClipboardIcon,
+  ExclamationCircleIcon,
+  ShieldExclamationIcon,
+} from "@heroicons/react/24/outline";
+import { isPermissionDenied } from "./clipboard";
 
 export default function Home() {
-  const [loading, setLoading] = useState(false);
+  const [permissionPending, setLoading] = useState(false);
+  const [permError, setPermError] = useState(false);
+  const [permanantDisable, setPermanantDisable] = useState(false);
+
+  async function localIsPermissionDenied() {
+    const has = await isPermissionDenied();
+
+    if (has) {
+      setPermError(true);
+    }
+
+    return has;
+  }
+
+  function showPermError() {
+    setPermError(true);
+
+    console.log("perm error");
+  }
+
+  useEffect(() => {
+    localIsPermissionDenied();
+    setPermanantDisable(true)
+
+    async function handleKeyDown(ev: KeyboardEvent) {
+      if (!(ev.key === "v" && ev.ctrlKey)) {
+        return;
+      }
+
+      if (await localIsPermissionDenied()) {
+        return showPermError();
+      }
+
+      setLoading(true);
+
+      try {
+        const text = await navigator.clipboard.readText();
+
+        console.log(text);
+      } catch {
+        showPermError();
+      }
+
+      setLoading(false);
+    }
+
+    document.body.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   return (
-    <main className="grid place-items-center min-h-screen bg-slate-950">
-      <Card>
-        <Form action={submit}>
-          <h1 className="text-xl font-bold mb-3">Create Gist</h1>
+    <main className="relative">
+      <div className="pattern-wavy pattern-slate-800 pattern-bg-white pattern-size-8 pattern-opacity-20 absolute -top-24 left-0 w-full h-[calc(100%+6rem)] -z-10" />
 
-          <label htmlFor="title">
-            Title
-          </label>
+      <div className="px-4 pb-10">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl my-5 mb-7">
+          Easily Share Code
+        </h1>
 
-          <TextInput placeholder="My Gist" name="title" />
+        <h2 className="text-lg mb-1">Share Gist</h2>
+
+        <div className="flex items-center gap-3 flex-wrap">
+          <Button>New Gist</Button>
 
           <Button
-            intent="primary"
-            busy={loading}
-            onClick={() => {
-              setLoading((loading) => !loading);
+            onClick={async () => {
+              if (await localIsPermissionDenied()) {
+                return showPermError();
+              }
+
+              setLoading(true);
+
+              try {
+                const text = await navigator.clipboard.readText();
+
+                console.log(text);
+              } catch {
+                showPermError();
+              }
+
+              setLoading(false);
             }}
+            busy={permissionPending}
+            disabled={permanantDisable}
           >
-            <Button.Icon busyIcon={<Spinner />}>
-              <ArrowUpTrayIcon />
+            <Button.Icon>
+              {permError ? <ShieldExclamationIcon /> : <ClipboardIcon />}
             </Button.Icon>
 
-            <Button.Text busyText={["Upload", "ing..."]}>Upload</Button.Text>
+            <Button.Text>From Clipboard</Button.Text>
           </Button>
-        </Form>
-      </Card>
+
+          <p className="text-slate-200 select-none">Or ctrl+v</p>
+        </div>
+      </div>
     </main>
   );
 }
