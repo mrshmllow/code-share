@@ -1,0 +1,1 @@
+ALTER TABLE "gists" ALTER COLUMN "text" SET NOT NULL;
