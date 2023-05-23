@@ -1,18 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import Button from "./design/button/Button";
 import {
   ClipboardIcon,
   ExclamationCircleIcon,
-  ShieldExclamationIcon,
 } from "@heroicons/react/24/outline";
 import { isPermissionDenied } from "./clipboard";
+import ButtonishLink from "./design/button/ButtonishLink";
+import { Balancer } from "react-wrap-balancer";
+import { createGist } from "./actions";
 
 export default function Home() {
   const [permissionPending, setLoading] = useState(false);
   const [permError, setPermError] = useState(false);
   const [permanantDisable, setPermanantDisable] = useState(false);
+  const [gistCreatePending, startTransition] = useTransition();
 
   async function localIsPermissionDenied() {
     const has = await isPermissionDenied();
@@ -30,9 +33,15 @@ export default function Home() {
     console.log("perm error");
   }
 
+  async function createGistFromClipboard() {
+    const text = await navigator.clipboard.readText();
+
+    startTransition(() => createGist(text));
+  }
+
   useEffect(() => {
     localIsPermissionDenied();
-    setPermanantDisable(true)
+    // setPermanantDisable(true);
 
     async function handleKeyDown(ev: KeyboardEvent) {
       if (!(ev.key === "v" && ev.ctrlKey)) {
@@ -46,9 +55,7 @@ export default function Home() {
       setLoading(true);
 
       try {
-        const text = await navigator.clipboard.readText();
-
-        console.log(text);
+        await createGistFromClipboard();
       } catch {
         showPermError();
       }
@@ -68,14 +75,19 @@ export default function Home() {
       <div className="pattern-wavy pattern-slate-800 pattern-bg-white pattern-size-8 pattern-opacity-20 absolute -top-24 left-0 w-full h-[calc(100%+6rem)] -z-10" />
 
       <div className="px-4 pb-10">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl my-5 mb-7">
+        <Balancer
+          as="h1"
+          className="text-4xl sm:text-5xl lg:text-6xl my-5 mb-7"
+        >
           Easily Share Code
-        </h1>
+        </Balancer>
 
         <h2 className="text-lg mb-1">Share Gist</h2>
 
         <div className="flex items-center gap-3 flex-wrap">
-          <Button>New Gist</Button>
+          <ButtonishLink href="/new" full="sm">
+            New Gist
+          </ButtonishLink>
 
           <Button
             onClick={async () => {
@@ -86,26 +98,27 @@ export default function Home() {
               setLoading(true);
 
               try {
-                const text = await navigator.clipboard.readText();
-
-                console.log(text);
+                await createGistFromClipboard();
               } catch {
                 showPermError();
               }
 
               setLoading(false);
             }}
-            busy={permissionPending}
+            isBusy={permissionPending || gistCreatePending}
             disabled={permanantDisable}
+            full="sm"
           >
             <Button.Icon>
-              {permError ? <ShieldExclamationIcon /> : <ClipboardIcon />}
+              {permError ? <ExclamationCircleIcon /> : <ClipboardIcon />}
             </Button.Icon>
 
             <Button.Text>From Clipboard</Button.Text>
           </Button>
 
-          <p className="text-slate-200 select-none">Or ctrl+v</p>
+          <p className="text-slate-200 select-none hidden sm:block">
+            Or ctrl+v
+          </p>
         </div>
       </div>
     </main>

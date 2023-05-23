@@ -35,7 +35,7 @@ export default function Header() {
       </Link>
 
       <div className="flex items-center text-slate-200 gap-4">
-        <p className="text-slate-200 font-normal select-none">crl+v</p>
+        <p className="text-slate-200 font-normal select-none hidden sm:block">ctrl+v</p>
 
         <Menu as="div" className="relative inline-block text-left">
           <div>
@@ -44,21 +44,22 @@ export default function Header() {
           <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-slate-900 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10 p-2">
             <Menu.Item>
               {({ active }) => (
-                <button
+                <Link
                   className={cx(
                     "px-4 py-2 rounded-lg text-left",
                     active && "bg-slate-800"
                   )}
+                  href="/new"
                 >
                   New Gist
-                </button>
+                </Link>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
                 <button
                   className={cx(
-                    "px-4 py-2 rounded-lg text-left flex items-center gap-2 disabled:text-slate-300",
+                    "px-4 py-2 rounded-lg text-left flex items-center gap-2 disabled:text-slate-400",
                     active && "bg-slate-800"
                   )}
                   onClick={async () => {
@@ -74,7 +75,7 @@ export default function Header() {
                   disabled={permError}
                 >
                   <span className="w-5 h-5">
-                    {permError ? <ShieldExclamationIcon /> : <ClipboardIcon />}
+                    {permError ? <ExclamationCircleIcon /> : <ClipboardIcon />}
                   </span>
 
                   <span>From Clipboard</span>

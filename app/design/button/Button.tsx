@@ -7,7 +7,7 @@ import ButtonText from "./ButtonText";
 import ButtonIcon from "./ButtonIcon";
 
 export const button = cva(
-  "px-4 min-w-fit min-h-[2.5rem] transform-gpu rounded-lg inline-flex transition-colors items-center justify-center outline-none ring-offset-slate-950 focus-visible:ring-2 ring-offset-2",
+  "px-4 min-h-[2.5rem] transform-gpu rounded-lg inline-flex transition-colors items-center justify-center outline-none ring-offset-slate-950 focus-visible:ring-2 ring-offset-2",
   {
     variants: {
       intent: {
@@ -21,6 +21,11 @@ export const button = cva(
       disabled: {
         true: "",
         false: "",
+      },
+      full: {
+        sm: "w-full sm:min-w-fit",
+        true: "w-full",
+        false: "min-w-fit",
       },
     },
     compoundVariants: [
@@ -81,6 +86,7 @@ export const button = cva(
       intent: "primary",
       isBusy: false,
       disabled: false,
+      full: false
     },
   }
 );
@@ -89,22 +95,21 @@ interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled">,
   VariantProps<typeof button> {
   children: ReactNode;
-  busy?: boolean;
 }
 
 export const ButtonContext = createContext({
   busy: false,
 });
 
-function Button({ children, intent, busy, disabled, ...extra }: ButtonProps) {
+function Button({ children, intent, isBusy, disabled, full, ...extra }: ButtonProps) {
   return (
     <ButtonContext.Provider
       value={{
-        busy: busy !== undefined ? busy : false,
+        busy: typeof isBusy === "boolean" ? isBusy : false,
       }}
     >
       <m.button
-        className={button({ intent, isBusy: busy, disabled })}
+        className={button({ intent, isBusy, disabled, full })}
         whileTap={{
           scale: disabled ? 1 : 0.9,
         }}

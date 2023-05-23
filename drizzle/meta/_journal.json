@@ -15,6 +15,20 @@
       "when": 1684779859957,
       "tag": "0001_friendly_vision",
       "breakpoints": false
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1684832576027,
+      "tag": "0002_bitter_tenebrous",
+      "breakpoints": false
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1684839716825,
+      "tag": "0003_nice_killmonger",
+      "breakpoints": false
     }
   ]
 }
