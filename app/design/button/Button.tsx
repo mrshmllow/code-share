@@ -6,24 +6,28 @@ import { ReactNode, createContext } from "react";
 import ButtonText from "./ButtonText";
 import ButtonIcon from "./ButtonIcon";
 
-const button = cva(
+export const button = cva(
   "px-4 min-w-fit min-h-[2.5rem] transform-gpu rounded-lg inline-flex transition-colors items-center justify-center outline-none ring-offset-slate-950 focus-visible:ring-2 ring-offset-2",
   {
     variants: {
       intent: {
-        secondary:
-          "border-slate-300 border text-slate-700 disabled:bg-slate-200",
-        primary: "border-slate-700 border text-slate-300 disabled:bg-slate-800",
+        secondary: "border-slate-300 border",
+        primary: "border-slate-700 border",
       },
       isBusy: {
         true: "cursor-progress",
+        false: "",
+      },
+      disabled: {
+        true: "",
         false: "",
       },
     },
     compoundVariants: [
       {
         isBusy: false,
-        className: "hover:brightness-95 disabled:hover:brightness-100",
+        disabled: false,
+        className: "hover:brightness-95",
       },
 
       {
@@ -34,11 +38,22 @@ const button = cva(
       {
         intent: "secondary",
         isBusy: false,
-        className: "hover:text-slate-950 disabled:hover:text-inherit",
+        disabled: false,
+        className: "hover:text-slate-950",
       },
       {
         intent: "secondary",
         className: "from-slate-100 to-slate-200 bg-gradient-to-br",
+      },
+      {
+        intent: "secondary",
+        disabled: true,
+        className: "bg-slate-200 text-slate-700",
+      },
+      {
+        intent: "secondary",
+        disabled: false,
+        className: "bg-slate-200 text-black",
       },
       {
         intent: "primary",
@@ -48,22 +63,30 @@ const button = cva(
       {
         intent: "primary",
         isBusy: false,
-        className: "hover:text-slate-50 disabled:hover:text-inherit",
+        disabled: false,
+        className: "hover:text-slate-50",
       },
       {
         intent: "primary",
-        className: "from-slate-900 to-slate-800 bg-gradient-to-br",
+        disabled: true,
+        className: "bg-slate-800 text-slate-300",
+      },
+      {
+        intent: "primary",
+        disabled: false,
+        className: "from-slate-900 to-slate-800 bg-gradient-to-br text-white",
       },
     ],
     defaultVariants: {
       intent: "primary",
       isBusy: false,
+      disabled: false,
     },
   }
 );
 
 interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled">,
   VariantProps<typeof button> {
   children: ReactNode;
   busy?: boolean;
@@ -81,7 +104,7 @@ function Button({ children, intent, busy, disabled, ...extra }: ButtonProps) {
       }}
     >
       <m.button
-        className={button({ intent, isBusy: busy })}
+        className={button({ intent, isBusy: busy, disabled })}
         whileTap={{
           scale: disabled ? 1 : 0.9,
         }}

@@ -2,6 +2,7 @@ import { cx } from "cva";
 import Providers from "./Providers";
 import "./globals.css";
 import { Atkinson_Hyperlegible } from "next/font/google";
+import Header from "./Header";
 
 const ak = Atkinson_Hyperlegible({
   weight: ["400", "700"],
@@ -20,8 +21,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cx(ak.className, "text-slate-50")}>
-        <Providers>{children}</Providers>
+      <body className={cx(ak.className, "text-slate-50 bg-slate-950")}>
+        <Providers>
+          <Header />
+
+          {children}
+        </Providers>
       </body>
     </html>
   );
