@@ -33,5 +33,6 @@ export async function GET(
 
   return NextResponse.json({
     name: gist.name,
+    now: Date.now()
   });
 }
