@@ -67,11 +67,6 @@ export async function POST(req: NextRequest) {
     const isValid = receiver.verify({
       signature,
       body: text,
-      // url:
-      //   env.VERCEL_ENV === "development"
-      //     ? undefined
-      //     : new URL("https://gist-share-production.up.railway.app/api/gen/name")
-      //       .href,
     });
 
     if (!isValid) {
@@ -173,7 +168,7 @@ export async function POST(req: NextRequest) {
     })
     .where(eq(gists.id, gist.id));
 
-  revalidateTag(String(gist.id))
+  revalidateTag(`${gist.id}.name`)
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }

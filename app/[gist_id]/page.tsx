@@ -21,7 +21,7 @@ export default function GistPage({
     const interval = setInterval(async () => {
       const res = await fetch(`/api/name/${gist_id}`, {
         next: {
-          tags: [gist_id]
+          tags: [`${gist_id}.name`]
         }
       });
 
