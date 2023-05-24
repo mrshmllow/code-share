@@ -24,7 +24,7 @@
     "eslint-config-next": "13.4.3",
     "framer-motion": "^10.12.12",
     "hotkeys-js": "^3.10.2",
-    "next": "13.4.3",
+    "next": "13.4.4-canary.6",
     "openai": "^3.2.1",
     "postcss": "8.4.23",
     "postgres": "^3.3.4",
