@@ -20,6 +20,8 @@ export async function createGist(text: string) {
     body: {
       gistId: gist[0].id,
     },
+    retries: 1,
+    contentBasedDeduplication: true
   });
 
   redirect(`/${gist[0].id}`);
