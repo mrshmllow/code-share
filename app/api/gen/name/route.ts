@@ -3,8 +3,7 @@ import { gists } from "@/db/schema";
 import { receiver } from "@/lib/messaging/receiver";
 import { openai } from "@/lib/openai";
 import { eq } from "drizzle-orm";
-import { NextApiResponse } from "next";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
@@ -31,7 +30,7 @@ async function genDefaultName(id: number) {
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }
 
-export async function POST(req: NextRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
   const signature = req.headers.get("upstash-signature");
   const text = await req.text();
 
@@ -174,7 +173,7 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
     })
     .where(eq(gists.id, gist.id));
 
-  await res.revalidate(`/${gist.id}`)
+  revalidatePath(`/${gist.id}`)
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }
