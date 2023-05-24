@@ -82,10 +82,8 @@ export default function Home() {
           Easily Share Code
         </Balancer>
 
-        <div className="flex items-center gap-3 flex-wrap">
-          <ButtonishLink href="/new">
-            New Gist
-          </ButtonishLink>
+        <div className="flex items-center gap-3 flex-wrap mb-2">
+          <ButtonishLink href="/new">New Gist</ButtonishLink>
 
           <Button
             onClick={async () => {
@@ -112,11 +110,11 @@ export default function Home() {
 
             <Button.Text>From Clipboard</Button.Text>
           </Button>
-
-          <p className="text-slate-200 select-none hidden sm:block">
-            Or ctrl+v
-          </p>
         </div>
+
+        <p className="text-slate-200 select-none hidden sm:block">
+          Try hitting <strong>ctrl+v</strong>!
+        </p>
       </div>
     </main>
   );
