@@ -29,6 +29,13 @@
       "when": 1684839716825,
       "tag": "0003_nice_killmonger",
       "breakpoints": false
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1684887374477,
+      "tag": "0004_white_black_panther",
+      "breakpoints": false
     }
   ]
 }
