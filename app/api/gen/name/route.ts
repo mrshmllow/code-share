@@ -62,6 +62,7 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    console.log(signature)
     const isValid = receiver.verify({
       signature,
       body: await req.text(),
