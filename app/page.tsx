@@ -74,15 +74,13 @@ export default function Home() {
     <main className="relative">
       <div className="pattern-wavy pattern-slate-800 pattern-bg-white pattern-size-8 pattern-opacity-20 absolute -top-24 left-0 w-full h-[calc(100%+6rem)] -z-10" />
 
-      <div className="px-4 pb-10">
+      <div className="px-4 pb-10 flex flex-col items-center">
         <Balancer
           as="h1"
           className="text-4xl sm:text-5xl lg:text-6xl my-5 mb-7"
         >
           Easily Share Code
         </Balancer>
-
-        <h2 className="text-lg mb-1">Share Gist</h2>
 
         <div className="flex items-center gap-3 flex-wrap">
           <ButtonishLink href="/new">
