@@ -85,7 +85,7 @@ export default function Home() {
         <h2 className="text-lg mb-1">Share Gist</h2>
 
         <div className="flex items-center gap-3 flex-wrap">
-          <ButtonishLink href="/new" full="sm">
+          <ButtonishLink href="/new">
             New Gist
           </ButtonishLink>
 
@@ -107,7 +107,6 @@ export default function Home() {
             }}
             isBusy={permissionPending || gistCreatePending}
             disabled={permanantDisable}
-            full="sm"
           >
             <Button.Icon>
               {permError ? <ExclamationCircleIcon /> : <ClipboardIcon />}
