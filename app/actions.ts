@@ -16,7 +16,7 @@ export async function createGist(text: string) {
     });
 
   await qstash.publishJSON({
-    url: "https://gist-share-production.up.railway.app/api/gen/name",
+    topic: "gen_name",
     body: {
       gistId: gist[0].id,
     },

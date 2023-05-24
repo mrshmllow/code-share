@@ -16,6 +16,16 @@ const AIResponseObject = z.object({
   filename: z.string().nullable(),
 });
 
+async function genDefaultName(id: number) {
+  await db.update(gists).set({
+    name: "default..."
+  });
+
+  return NextResponse.json({
+    ok: true,
+  });
+}
+
 export async function POST(req: NextRequest) {
   // const signature = req.headers.get("upstash-signature");
 
@@ -112,15 +122,13 @@ export async function POST(req: NextRequest) {
   });
 
   if (completion.status !== 200) {
-    // gen default name
-    return;
+    return genDefaultName(gist.id)
   }
 
   const message = completion.data.choices[0].message?.content;
 
   if (message === undefined) {
-    // gen default name
-    return;
+    return genDefaultName(gist.id)
   }
 
   let rawResponse;
@@ -128,8 +136,7 @@ export async function POST(req: NextRequest) {
   try {
     rawResponse = JSON.parse(message);
   } catch {
-    // gen default name
-    return;
+    return genDefaultName(gist.id)
   }
 
   console.log(rawResponse);
@@ -142,18 +149,17 @@ export async function POST(req: NextRequest) {
     aiResponse.data.filename.includes(constant_value) ||
     aiResponse.data.detailed_filename_choice_reasoning.includes(constant_value)
   ) {
-    // gen default name
-    return;
+    return genDefaultName(gist.id)
   }
 
   await db.update(gists).set({
     name: aiResponse.data.filename,
-    aiNameReason: aiResponse.data.detailed_filename_choice_reasoning
-  })
+    aiNameReason: aiResponse.data.detailed_filename_choice_reasoning,
+  });
 
-  revalidatePath(`/${gist.id}`)
+  revalidatePath(`/${gist.id}`);
 
   return NextResponse.json({
-    ok: true
+    ok: true,
   });
 }
