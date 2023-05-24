@@ -3,7 +3,7 @@ import { gists } from "@/db/schema";
 import { receiver } from "@/lib/messaging/receiver";
 import { openai } from "@/lib/openai";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
@@ -173,7 +173,7 @@ export async function POST(req: NextRequest) {
     })
     .where(eq(gists.id, gist.id));
 
-  revalidatePath(`/${gist.id}`)
+  revalidateTag(String(gist.id))
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }
