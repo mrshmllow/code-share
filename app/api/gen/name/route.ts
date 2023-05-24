@@ -50,25 +50,6 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const isValid = receiver.verify({
-    signature,
-    body: await req.text(),
-    // url:
-    //   env.VERCEL_ENV === "development"
-    //     ? undefined
-    //     : new URL("https://gist-share-production.up.railway.app/api/gen/name")
-    //       .href,
-  });
-
-  if (!isValid) {
-    return new NextResponse("Invalid signature", {
-      status: 400,
-      headers: {
-        "Cache-Control": "no-cache",
-      },
-    });
-  }
-
   const requestData = await BodyObject.safeParseAsync(await req.json());
 
   if (!requestData.success) {
@@ -78,6 +59,30 @@ export async function POST(req: NextRequest) {
         "Cache-Control": "no-cache",
       },
     });
+  }
+
+  try {
+    const isValid = receiver.verify({
+      signature,
+      body: await req.text(),
+      // url:
+      //   env.VERCEL_ENV === "development"
+      //     ? undefined
+      //     : new URL("https://gist-share-production.up.railway.app/api/gen/name")
+      //       .href,
+    });
+
+    if (!isValid) {
+      return new NextResponse("Invalid signature", {
+        status: 400,
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      });
+    }
+  } catch {
+    console.error("invalid sig")
+    return genDefaultName(requestData.data.gistId);
   }
 
   const gist = await db.query.gists.findFirst({
