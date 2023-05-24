@@ -1,9 +1,8 @@
-import { env } from "@/app/env.mjs";
 import { db } from "@/db/db";
 import { gists } from "@/db/schema";
-import { receiver } from "@/lib/messaging/receiver";
 import { openai } from "@/lib/openai";
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
@@ -17,34 +16,39 @@ const AIResponseObject = z.object({
   filename: z.string().nullable(),
 });
 
-export async function GET(req: NextRequest) {
-  const signature = req.headers.get("upstash-signature");
+export async function POST(req: NextRequest) {
+  // const signature = req.headers.get("upstash-signature");
 
-  if (!signature) {
-    throw new Error("`Upstash-Signature` header is missing");
-  }
-  if (typeof signature !== "string") {
-    throw new Error("`Upstash-Signature` header is not a string");
-  }
+  // if (!signature) {
+  //   throw new Error("`Upstash-Signature` header is missing");
+  // }
+  // if (typeof signature !== "string") {
+  //   throw new Error("`Upstash-Signature` header is not a string");
+  // }
 
   if (req.headers.get("content-type") != "application/json") {
-    throw new Error("`Content-Type` must be a JSON");
-  }
-
-  const isValid = receiver.verify({
-    signature,
-    body: await req.text(),
-    url: env.VERCEL_ENV === "development" ? undefined : new URL(req.url).href,
-  });
-
-  if (!isValid) {
-    return new NextResponse("Invalid signature", {
+    return new NextResponse("`Content-Type` must be a JSON", {
       status: 400,
       headers: {
         "Cache-Control": "no-cache",
       },
     });
   }
+
+  // const isValid = receiver.verify({
+  //   signature,
+  //   body: await req.text(),
+  //   url: env.VERCEL_ENV === "development" ? undefined : new URL(req.url).href,
+  // });
+
+  // if (!isValid) {
+  //   return new NextResponse("Invalid signature", {
+  //     status: 400,
+  //     headers: {
+  //       "Cache-Control": "no-cache",
+  //     },
+  //   });
+  // }
 
   const requestData = await BodyObject.safeParseAsync(await req.json());
 
@@ -62,8 +66,8 @@ export async function GET(req: NextRequest) {
     columns: {
       id: true,
       text: true,
-      name: true
-    }
+      name: true,
+    },
   });
 
   if (gist === undefined) {
@@ -75,7 +79,7 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  if (gist.name === undefined) {
+  if (gist.name !== null) {
     return new NextResponse(null, {
       status: 200,
       headers: {
@@ -84,27 +88,32 @@ export async function GET(req: NextRequest) {
     });
   }
 
+  const constant_value = "oRWOc4Hv1XfzzG5G";
+
   const completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     temperature: 0,
     messages: [
       {
         role: "system",
-        content: `assign a filename to the following file contents. you must provide detailed reasoning in \`detailed_filename_choice_reasoning\`. Your response MUST be in the following format:
+        content: `assign a filename to the following file snippit. you must write your one-sentence reasoning in \`detailed_filename_choice_reasoning\`. your assigned_const_value is \"${constant_value}\". Your response MUST be in the following format (do not include backticks):
+
 {
   "detailed_filename_choice_reasoning": string,
-  "filename": string | null
+  "filename": string | null,
+  "CONSTANT": assigned_const_value
 }`,
       },
       {
         role: "user",
-        content: gist.text
-      }
+        content: gist.text,
+      },
     ],
   });
 
   if (completion.status !== 200) {
     // gen default name
+    return;
   }
 
   const message = completion.data.choices[0].message?.content;
@@ -123,14 +132,28 @@ export async function GET(req: NextRequest) {
     return;
   }
 
-  const aiData = await AIResponseObject.safeParseAsync(rawResponse);
+  console.log(rawResponse);
 
-  if (!aiData.success || aiData.data.filename === null) {
+  const aiResponse = await AIResponseObject.safeParseAsync(rawResponse);
+
+  if (
+    !aiResponse.success ||
+    aiResponse.data.filename === null ||
+    aiResponse.data.filename.includes(constant_value) ||
+    aiResponse.data.detailed_filename_choice_reasoning.includes(constant_value)
+  ) {
     // gen default name
     return;
   }
 
+  await db.update(gists).set({
+    name: aiResponse.data.filename,
+    aiNameReason: aiResponse.data.detailed_filename_choice_reasoning
+  })
+
+  revalidatePath(`/${gist.id}`)
+
   return NextResponse.json({
-    hello: "string",
+    ok: true
   });
 }
