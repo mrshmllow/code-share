@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1684746388652,
-      "tag": "0000_last_cerise",
-      "breakpoints": false
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1684779859957,
-      "tag": "0001_friendly_vision",
-      "breakpoints": false
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1684832576027,
-      "tag": "0002_bitter_tenebrous",
-      "breakpoints": false
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1684839716825,
-      "tag": "0003_nice_killmonger",
-      "breakpoints": false
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1684887374477,
-      "tag": "0004_white_black_panther",
-      "breakpoints": false
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1684916550737,
-      "tag": "0005_calm_human_fly",
+      "when": 1684918721601,
+      "tag": "0000_shiny_cammi",
       "breakpoints": false
     }
   ]
