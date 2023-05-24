@@ -16,7 +16,7 @@ export async function createGist(text: string) {
     });
 
   await qstash.publishJSON({
-    url: "https://79bf-159-196-152-204.ngrok-free.app/api/gen/name",
+    url: "https://gist-share-production.up.railway.app/api/gen/name",
     body: {
       gistId: gist[0].id,
     },
