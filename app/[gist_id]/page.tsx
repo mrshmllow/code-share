@@ -51,7 +51,11 @@ export default function GistPage({
         </p>
       )}
 
-      <div className="border border-slate-700 p-4 rounded-lg">{gist?.text}</div>
+      <div className="border border-slate-700 p-4 rounded-lg flex flex-col">
+        {gist?.text.split("\n").map((line, i) => (
+          <span key={i}>{line}</span>
+        ))}
+      </div>
     </div>
   );
 }
