@@ -1,6 +1,12 @@
-"use client"
+"use client";
 
 import { Gist } from "@/db/schema";
 import { createContext } from "react";
 
-export const GistContext = createContext<Gist | null>(null)
+type Context = {
+  gist: Gist;
+  updateName: (obj: { name: string; aiNameReason: string }) => void;
+};
+
+// lets just save some time here
+export const GistContext = createContext<Context>({} as Context);
