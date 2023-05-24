@@ -25,9 +25,9 @@ async function genDefaultName(id: number) {
     })
     .where(eq(gists.id, id));
 
-  return NextResponse.json({
-    ok: true,
-  });
+  revalidatePath(`/${id}`);
+
+  return NextResponse.json({ revalidated: true, now: Date.now() });
 }
 
 export async function POST(req: NextRequest) {
@@ -175,7 +175,5 @@ export async function POST(req: NextRequest) {
 
   revalidatePath(`/${gist.id}`);
 
-  return NextResponse.json({
-    ok: true,
-  });
+  return NextResponse.json({ revalidated: true, now: Date.now() });
 }
