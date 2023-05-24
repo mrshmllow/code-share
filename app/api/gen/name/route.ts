@@ -32,7 +32,7 @@ async function genDefaultName(id: number) {
 
 export async function POST(req: NextRequest) {
   const signature = req.headers.get("upstash-signature");
-  const text = await req.text()
+  const text = await req.text();
 
   if (!signature) {
     return new NextResponse("`Upstash-Signature` header is missing", {
@@ -121,7 +121,7 @@ export async function POST(req: NextRequest) {
     messages: [
       {
         role: "system",
-        content: `assign a filename to the following file snippit. you must write your one-sentence reasoning in \`detailed_filename_choice_reasoning\`. your assigned_const_value is \"${constant_value}\". Your response MUST be in the following format (do not include backticks):
+        content: `assign a filename to the following file snippit. think it through step-by-step in \`detailed_filename_choice_reasoning\`, and place your answer in \`filename\`. your assigned_const_value is \"${constant_value}\". Your response MUST be in the following format (do not include backticks):
 
 {
   "detailed_filename_choice_reasoning": string,
