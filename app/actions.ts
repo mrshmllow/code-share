@@ -2,7 +2,7 @@
 
 import { db } from "@/db/db";
 import { gists } from "@/db/schema";
-import qstash from "@/lib/messaging/qstash";
+import { qstash } from "@/lib/messaging/qstash";
 import { redirect } from "next/navigation";
 
 export async function createGist(text: string) {
@@ -21,7 +21,7 @@ export async function createGist(text: string) {
       gistId: gist[0].id,
     },
     retries: 1,
-    contentBasedDeduplication: true
+    contentBasedDeduplication: true,
   });
 
   redirect(`/${gist[0].id}`);
