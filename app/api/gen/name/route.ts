@@ -1,5 +1,7 @@
+import { env } from "@/app/env.mjs";
 import { db } from "@/db/db";
 import { gists } from "@/db/schema";
+import { receiver } from "@/lib/messaging/receiver";
 import { openai } from "@/lib/openai";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -27,14 +29,14 @@ async function genDefaultName(id: number) {
 }
 
 export async function POST(req: NextRequest) {
-  // const signature = req.headers.get("upstash-signature");
+  const signature = req.headers.get("upstash-signature");
 
-  // if (!signature) {
-  //   throw new Error("`Upstash-Signature` header is missing");
-  // }
-  // if (typeof signature !== "string") {
-  //   throw new Error("`Upstash-Signature` header is not a string");
-  // }
+  if (!signature) {
+    throw new Error("`Upstash-Signature` header is missing");
+  }
+  if (typeof signature !== "string") {
+    throw new Error("`Upstash-Signature` header is not a string");
+  }
 
   if (req.headers.get("content-type") != "application/json") {
     return new NextResponse("`Content-Type` must be a JSON", {
@@ -45,20 +47,20 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // const isValid = receiver.verify({
-  //   signature,
-  //   body: await req.text(),
-  //   url: env.VERCEL_ENV === "development" ? undefined : new URL(req.url).href,
-  // });
+  const isValid = receiver.verify({
+    signature,
+    body: await req.text(),
+    url: env.VERCEL_ENV === "development" ? undefined : new URL(req.url).href,
+  });
 
-  // if (!isValid) {
-  //   return new NextResponse("Invalid signature", {
-  //     status: 400,
-  //     headers: {
-  //       "Cache-Control": "no-cache",
-  //     },
-  //   });
-  // }
+  if (!isValid) {
+    return new NextResponse("Invalid signature", {
+      status: 400,
+      headers: {
+        "Cache-Control": "no-cache",
+      },
+    });
+  }
 
   const requestData = await BodyObject.safeParseAsync(await req.json());
 
