@@ -13,6 +13,7 @@ export default function GistPage({
 }) {
   const gist = useContext(GistContext);
   const [name, setName] = useState(gist?.name);
+  const [reason, setReason] = useState(gist?.aiNameReason);
   const [inter, setInter] = useState(false);
 
   useEffect(() => {
@@ -21,19 +22,22 @@ export default function GistPage({
     const interval = setInterval(async () => {
       const res = await fetch(`/api/name/${gist_id}`, {
         next: {
-          tags: [`${gist_id}.name`]
-        }
+          tags: [`${gist_id}.name`],
+          revalidate: 10,
+        },
       });
 
       if (!res.ok) {
         clearInterval(interval);
       }
 
-      const { name } = (await res.json()) as {
+      const { name, aiNameReason } = (await res.json()) as {
         name: string | null;
+        aiNameReason: string;
       };
 
       setName(name);
+      setReason(aiNameReason);
 
       if (name) clearInterval(interval);
     }, 3000);
@@ -57,7 +61,7 @@ export default function GistPage({
           </p>
         </>
       ) : (
-        <p>{name}</p>
+        <p title={reason!}>{name}</p>
       )}
 
       <div className="border border-slate-700 p-4 rounded-lg">{gist?.text}</div>

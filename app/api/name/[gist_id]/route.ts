@@ -3,6 +3,8 @@ import { gists } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
+export const revalidate = Infinity;
+
 export async function GET(
   _: NextRequest,
   {
@@ -17,6 +19,7 @@ export async function GET(
     where: eq(gists.id, Number(gist_id)),
     columns: {
       name: true,
+      aiNameReason: true
     },
   });
 
@@ -24,6 +27,7 @@ export async function GET(
     return NextResponse.json(
       {
         name: null,
+        aiNameReason: null,
         error: "not found",
       },
       {
@@ -32,7 +36,7 @@ export async function GET(
     );
 
   return NextResponse.json({
-    name: gist.name,
-    now: Date.now()
+    ...gist,
+    now: Date.now(),
   });
 }
