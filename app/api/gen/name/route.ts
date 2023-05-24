@@ -1,4 +1,3 @@
-import { env } from "@/app/env.mjs";
 import { db } from "@/db/db";
 import { gists } from "@/db/schema";
 import { receiver } from "@/lib/messaging/receiver";
@@ -31,7 +30,7 @@ async function genDefaultName(id: number) {
   });
 }
 
-export async function POST(req: NextRequest) {
+async function POST(req: NextRequest) {
   const signature = req.headers.get("upstash-signature");
 
   if (!signature) {
@@ -81,8 +80,8 @@ export async function POST(req: NextRequest) {
         },
       });
     }
-  } catch {
-    console.error("invalid sig")
+  } catch (e) {
+    console.error("invalid sig", e)
     return genDefaultName(requestData.data.gistId);
   }
 
