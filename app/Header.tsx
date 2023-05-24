@@ -30,7 +30,7 @@ export default function Header() {
 
   return (
     <nav className="px-4 py-2 flex justify-between">
-      <Link href="/" className="text-lg font-bold sm:text-xl">
+      <Link href="/" className="text-lg font-bold sm:text-xl align-middle">
         Gist Share
       </Link>
 
