@@ -1,1 +1,0 @@
-ALTER TABLE "gists" ALTER COLUMN "ai_name_reason" SET DATA TYPE text;
