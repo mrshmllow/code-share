@@ -1,7 +1,7 @@
 "use client";
 
 import { Gist } from "@/db/schema";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { GistContext } from "./store";
 
 export function Provider({
@@ -11,5 +11,20 @@ export function Provider({
   children: ReactNode;
   gist: Gist;
 }) {
-  return <GistContext.Provider value={gist}>{children}</GistContext.Provider>;
+  const [gistValue, setGist] = useState(gist);
+
+  return (
+    <GistContext.Provider
+      value={{
+        gist: gistValue,
+        updateName: (obj) =>
+          setGist({
+            ...gist,
+            ...obj,
+          }),
+      }}
+    >
+      {children}
+    </GistContext.Provider>
+  );
 }

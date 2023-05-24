@@ -1,8 +1,9 @@
 "use client";
 
 import Spinner from "../design/icons/Spinner";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { GistContext } from "./store";
+import { useInterval } from "usehooks-ts";
 
 export default function GistPage({
   params: { gist_id },
@@ -11,15 +12,10 @@ export default function GistPage({
     gist_id: string;
   };
 }) {
-  const gist = useContext(GistContext);
-  const [name, setName] = useState(gist?.name);
-  const [reason, setReason] = useState(gist?.aiNameReason);
-  const [inter, setInter] = useState(false);
+  const { gist, updateName } = useContext(GistContext);
 
-  useEffect(() => {
-    if (inter || name) return;
-
-    const interval = setInterval(async () => {
+  useInterval(
+    async () => {
       const res = await fetch(`/api/name/${gist_id}`, {
         next: {
           tags: [`${gist_id}.name`],
@@ -28,30 +24,19 @@ export default function GistPage({
       });
 
       if (!res.ok) {
-        clearInterval(interval);
+        return;
       }
 
-      const { name, aiNameReason } = (await res.json()) as {
-        name: string | null;
-        aiNameReason: string;
-      };
-
-      setName(name);
-      setReason(aiNameReason);
-
-      if (name) clearInterval(interval);
-    }, 3000);
-
-    setInter(true);
-
-    return () => clearInterval(interval);
-  }, [gist_id, inter, name]);
+      updateName(await res.json());
+    },
+    gist.name ? null : 3000
+  );
 
   return (
     <div>
       <em className="mb-3">Beta gist-view page</em>
 
-      {!name ? (
+      {!gist.name ? (
         <>
           <p className="flex items-center gap-3">
             <span className="w-3 h-3">
@@ -61,7 +46,9 @@ export default function GistPage({
           </p>
         </>
       ) : (
-        <p title={reason!}>{name}</p>
+        <p title={gist.aiNameReason ? gist.aiNameReason : undefined}>
+          {gist.name}
+        </p>
       )}
 
       <div className="border border-slate-700 p-4 rounded-lg">{gist?.text}</div>
