@@ -30,14 +30,17 @@ async function genDefaultName(id: number) {
   });
 }
 
-async function POST(req: NextRequest) {
+export async function POST(req: NextRequest) {
   const signature = req.headers.get("upstash-signature");
+  const text = await req.text()
 
   if (!signature) {
-    throw new Error("`Upstash-Signature` header is missing");
-  }
-  if (typeof signature !== "string") {
-    throw new Error("`Upstash-Signature` header is not a string");
+    return new NextResponse("`Upstash-Signature` header is missing", {
+      status: 400,
+      headers: {
+        "Cache-Control": "no-cache",
+      },
+    });
   }
 
   if (req.headers.get("content-type") != "application/json") {
@@ -49,7 +52,7 @@ async function POST(req: NextRequest) {
     });
   }
 
-  const requestData = await BodyObject.safeParseAsync(await req.json());
+  const requestData = await BodyObject.safeParseAsync(JSON.parse(text));
 
   if (!requestData.success) {
     return new NextResponse(fromZodError(requestData.error).toString(), {
@@ -61,10 +64,9 @@ async function POST(req: NextRequest) {
   }
 
   try {
-    console.log(signature)
     const isValid = receiver.verify({
       signature,
-      body: await req.text(),
+      body: text,
       // url:
       //   env.VERCEL_ENV === "development"
       //     ? undefined
@@ -81,7 +83,6 @@ async function POST(req: NextRequest) {
       });
     }
   } catch (e) {
-    console.error("invalid sig", e)
     return genDefaultName(requestData.data.gistId);
   }
 
@@ -152,8 +153,6 @@ async function POST(req: NextRequest) {
   } catch {
     return genDefaultName(gist.id);
   }
-
-  console.log(rawResponse);
 
   const aiResponse = await AIResponseObject.safeParseAsync(rawResponse);
 
