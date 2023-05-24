@@ -16,7 +16,7 @@ export async function GET(
   }
 ) {
   const gist = await db.query.gists.findFirst({
-    where: eq(gists.id, Number(gist_id)),
+    where: eq(gists.id, gist_id),
     columns: {
       name: true,
       aiNameReason: true

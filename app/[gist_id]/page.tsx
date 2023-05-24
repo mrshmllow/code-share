@@ -45,7 +45,7 @@ export default function GistPage({
     setInter(true);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [gist_id, inter, name]);
 
   return (
     <div>

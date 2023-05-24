@@ -9,7 +9,7 @@ import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
 const BodyObject = z.object({
-  gistId: z.number(),
+  gistId: z.string(),
 });
 
 const AIResponseObject = z.object({
@@ -17,7 +17,7 @@ const AIResponseObject = z.object({
   filename: z.string().nullable(),
 });
 
-async function genDefaultName(id: number) {
+async function genDefaultName(id: string) {
   await db
     .update(gists)
     .set({

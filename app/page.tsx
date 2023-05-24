@@ -14,7 +14,7 @@ import { createGist } from "./actions";
 export default function Home() {
   const [permissionPending, setLoading] = useState(false);
   const [permError, setPermError] = useState(false);
-  const [permanantDisable, setPermanantDisable] = useState(false);
+  const [permanantDisable] = useState(false);
   const [gistCreatePending, startTransition] = useTransition();
 
   async function localIsPermissionDenied() {

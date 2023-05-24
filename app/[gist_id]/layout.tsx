@@ -15,7 +15,7 @@ export default async function GistLayout({
   children: ReactNode;
 }) {
   const gist = await db.query.gists.findFirst({
-    where: eq(gists.id, Number(gist_id)),
+    where: eq(gists.id, gist_id),
   });
 
   if (gist === undefined) return notFound();
