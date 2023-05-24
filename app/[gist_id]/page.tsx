@@ -13,7 +13,11 @@ export default async function GistPage({
     gist_id: string;
   };
 }) {
-  const nameFetch = await fetch(`http://gist-share-production.up.railway.app/api/${gist_id}/name`);
+  const nameFetch = await fetch(`http://gist-share-production.up.railway.app/api/${gist_id}/name`, {
+    next: {
+      tags: ["name"]
+    }
+  });
   const { name } = (await nameFetch.json()) as {
     name: string | null;
   };
