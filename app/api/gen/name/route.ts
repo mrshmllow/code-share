@@ -19,9 +19,12 @@ const AIResponseObject = z.object({
 });
 
 async function genDefaultName(id: number) {
-  await db.update(gists).set({
-    name: "default..."
-  });
+  await db
+    .update(gists)
+    .set({
+      name: "default...",
+    })
+    .where(eq(gists.id, id));
 
   return NextResponse.json({
     ok: true,
@@ -50,7 +53,11 @@ export async function POST(req: NextRequest) {
   const isValid = receiver.verify({
     signature,
     body: await req.text(),
-    url: env.VERCEL_ENV === "development" ? undefined : new URL(req.url).href,
+    // url:
+    //   env.VERCEL_ENV === "development"
+    //     ? undefined
+    //     : new URL("https://gist-share-production.up.railway.app/api/gen/name")
+    //       .href,
   });
 
   if (!isValid) {
@@ -124,13 +131,13 @@ export async function POST(req: NextRequest) {
   });
 
   if (completion.status !== 200) {
-    return genDefaultName(gist.id)
+    return genDefaultName(gist.id);
   }
 
   const message = completion.data.choices[0].message?.content;
 
   if (message === undefined) {
-    return genDefaultName(gist.id)
+    return genDefaultName(gist.id);
   }
 
   let rawResponse;
@@ -138,7 +145,7 @@ export async function POST(req: NextRequest) {
   try {
     rawResponse = JSON.parse(message);
   } catch {
-    return genDefaultName(gist.id)
+    return genDefaultName(gist.id);
   }
 
   console.log(rawResponse);
@@ -151,13 +158,16 @@ export async function POST(req: NextRequest) {
     aiResponse.data.filename.includes(constant_value) ||
     aiResponse.data.detailed_filename_choice_reasoning.includes(constant_value)
   ) {
-    return genDefaultName(gist.id)
+    return genDefaultName(gist.id);
   }
 
-  await db.update(gists).set({
-    name: aiResponse.data.filename,
-    aiNameReason: aiResponse.data.detailed_filename_choice_reasoning,
-  });
+  await db
+    .update(gists)
+    .set({
+      name: aiResponse.data.filename,
+      aiNameReason: aiResponse.data.detailed_filename_choice_reasoning,
+    })
+    .where(eq(gists.id, gist.id));
 
   revalidatePath(`/${gist.id}`);
 
