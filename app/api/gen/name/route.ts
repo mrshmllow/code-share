@@ -2,6 +2,7 @@ import { db } from "@/db/db";
 import { gists } from "@/db/schema";
 import { receiver } from "@/lib/messaging/receiver";
 import { openai } from "@/lib/openai";
+import { pusher } from "@/lib/pusher";
 import { eq } from "drizzle-orm";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
@@ -168,7 +169,12 @@ export async function POST(req: NextRequest) {
     })
     .where(eq(gists.id, gist.id));
 
-  revalidateTag(`${gist.id}.name`)
+  revalidatePath(`/${gist.id}`);
+
+  pusher.trigger(`gist-update.${gist.id}`, "name", {
+    name: aiResponse.data.filename,
+    aiNameReason: aiResponse.data.detailed_filename_choice_reasoning,
+  });
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }
