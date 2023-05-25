@@ -3,6 +3,7 @@
 import { Gist } from "@/db/schema";
 import { ReactNode, useState } from "react";
 import { GistContext } from "./store";
+import NameUpdater from "./NameUpdater";
 
 export function Provider({
   children,
@@ -24,6 +25,8 @@ export function Provider({
           }),
       }}
     >
+      {gistValue.name === null && <NameUpdater />}
+
       {children}
     </GistContext.Provider>
   );
