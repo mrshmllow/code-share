@@ -15,7 +15,7 @@ export default async function GistLayout({
   };
   children: ReactNode;
 }) {
-  const checkedGistId = await z.string().uuid().safeParseAsync(gist_id)
+  const checkedGistId = await z.string().uuid().safeParseAsync(gist_id);
 
   if (!checkedGistId.success) return notFound();
 

@@ -3,7 +3,7 @@
 import Spinner from "../design/icons/Spinner";
 import { useContext } from "react";
 import { GistContext } from "./store";
-import { useInterval } from "usehooks-ts";
+import { useChannel, useEvent } from "@harelpls/use-pusher";
 
 export default function GistPage({
   params: { gist_id },
@@ -13,24 +13,14 @@ export default function GistPage({
   };
 }) {
   const { gist, updateName } = useContext(GistContext);
+  const channel = useChannel(`gist-update.${gist_id}`);
 
-  useInterval(
-    async () => {
-      const res = await fetch(`/api/name/${gist_id}`, {
-        next: {
-          tags: [`${gist_id}.name`],
-          revalidate: 10,
-        },
-      });
-
-      if (!res.ok) {
-        return;
-      }
-
-      updateName(await res.json());
-    },
-    gist.name ? null : 3000
-  );
+  !gist.name &&
+    useEvent<{ name: string; aiNameReason: string }>(
+      channel,
+      "name",
+      (data) => data && updateName(data)
+    );
 
   return (
     <div>

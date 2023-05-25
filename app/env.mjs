@@ -8,9 +8,11 @@ export const env = createEnv({
     QSTASH_TOKEN: string(),
     QSTASH_CURRENT_SIGNING_KEY: string(),
     QSTASH_NEXT_SIGNING_KEY: string(),
-    VERCEL_ENV: string().optional(),
+    PUSHER_SECRET: string()
   },
   client: {
+    NEXT_PUBLIC_PUSHER_KEY: string(),
+    NEXT_PUBLIC_PUSHER_ID: string(),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
@@ -18,6 +20,8 @@ export const env = createEnv({
     QSTASH_TOKEN: process.env.QSTASH_TOKEN,
     QSTASH_CURRENT_SIGNING_KEY: process.env.QSTASH_CURRENT_SIGNING_KEY,
     QSTASH_NEXT_SIGNING_KEY: process.env.QSTASH_NEXT_SIGNING_KEY,
-    VERCEL_ENV: process.env.VERCEL_ENV
+    NEXT_PUBLIC_PUSHER_KEY: process.env.NEXT_PUBLIC_PUSHER_KEY,
+    NEXT_PUBLIC_PUSHER_ID: process.env.NEXT_PUBLIC_PUSHER_ID,
+    PUSHER_SECRET: process.env.PUSHER_SECRET
   },
 });
