@@ -4,7 +4,7 @@ import { receiver } from "@/lib/messaging/receiver";
 import { openai } from "@/lib/openai";
 import { pusher } from "@/lib/pusher";
 import { eq } from "drizzle-orm";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
@@ -18,6 +18,18 @@ const AIResponseObject = z.object({
   filename: z.string().nullable(),
 });
 
+function revalidate(
+  gist_id: string,
+  data: {
+    name: string;
+    aiNameReason: string | null;
+  }
+) {
+  revalidatePath(`/${gist_id}`);
+
+  pusher.trigger(`gist-update.${gist_id}`, "name", data);
+}
+
 async function genDefaultName(id: string) {
   await db
     .update(gists)
@@ -26,7 +38,10 @@ async function genDefaultName(id: string) {
     })
     .where(eq(gists.id, id));
 
-  revalidatePath(`/${id}`);
+  revalidate(id, {
+    name: "default...",
+    aiNameReason: null,
+  });
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
 }
@@ -169,9 +184,7 @@ export async function POST(req: NextRequest) {
     })
     .where(eq(gists.id, gist.id));
 
-  revalidatePath(`/${gist.id}`);
-
-  pusher.trigger(`gist-update.${gist.id}`, "name", {
+  revalidate(gist.id, {
     name: aiResponse.data.filename,
     aiNameReason: aiResponse.data.detailed_filename_choice_reasoning,
   });
