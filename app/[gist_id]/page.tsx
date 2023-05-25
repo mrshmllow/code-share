@@ -3,24 +3,9 @@
 import Spinner from "../design/icons/Spinner";
 import { useContext } from "react";
 import { GistContext } from "./store";
-import { useChannel, useEvent } from "@harelpls/use-pusher";
 
-export default function GistPage({
-  params: { gist_id },
-}: {
-  params: {
-    gist_id: string;
-  };
-}) {
-  const { gist, updateName } = useContext(GistContext);
-  const channel = useChannel(`gist-update.${gist_id}`);
-
-  !gist.name &&
-    useEvent<{ name: string; aiNameReason: string }>(
-      channel,
-      "name",
-      (data) => data && updateName(data)
-    );
+export default function GistPage() {
+  const { gist } = useContext(GistContext);
 
   return (
     <div>
