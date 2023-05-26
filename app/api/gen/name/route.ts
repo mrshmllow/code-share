@@ -18,7 +18,7 @@ const AIResponseObject = z.object({
   filename: z.string().nullable(),
 });
 
-function revalidate(
+async function revalidate(
   gist_id: string,
   data: {
     name: string;
@@ -27,7 +27,7 @@ function revalidate(
 ) {
   revalidatePath(`/${gist_id}`);
 
-  pusher.trigger(`gist-update.${gist_id}`, "name", data);
+  await pusher.trigger(`gist-update.${gist_id}`, "name", data);
 }
 
 async function genDefaultName(id: string) {
@@ -38,7 +38,7 @@ async function genDefaultName(id: string) {
     })
     .where(eq(gists.id, id));
 
-  revalidate(id, {
+  await revalidate(id, {
     name: "default...",
     aiNameReason: null,
   });
@@ -184,7 +184,7 @@ export async function POST(req: NextRequest) {
     })
     .where(eq(gists.id, gist.id));
 
-  revalidate(gist.id, {
+  await revalidate(gist.id, {
     name: aiResponse.data.filename,
     aiNameReason: aiResponse.data.detailed_filename_choice_reasoning,
   });

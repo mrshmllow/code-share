@@ -1,8 +1,8 @@
 import { InferModel } from "drizzle-orm";
-import { pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text } from "drizzle-orm/pg-core";
 
 export const gists = pgTable("gists", {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: text("id").primaryKey(),
   name: text("name"),
   description: text("description"),
   text: text("text").notNull(),

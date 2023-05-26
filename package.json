@@ -25,6 +25,7 @@
     "eslint-config-next": "13.4.3",
     "framer-motion": "^10.12.12",
     "hotkeys-js": "^3.10.2",
+    "nanoid": "^4.0.2",
     "next": "13.4.4-canary.6",
     "openai": "^3.2.1",
     "postcss": "8.4.23",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.4.3",
+    "dotenv": "^16.0.3",
     "drizzle-kit": "^0.18.0"
   }
 }
