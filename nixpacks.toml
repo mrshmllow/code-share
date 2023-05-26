@@ -1,0 +1,5 @@
+providers = ['...', 'rust']
+
+[phases.build]
+cmds = ['cargo build --manifest-path=wasm/Cargo.toml', '...']
+
