@@ -5,6 +5,7 @@ import { createContext } from "react";
 
 type Context = {
   gist: Gist;
+  html: string,
   updateName: (obj: { name: string; aiNameReason: string | null }) => void;
 };
 

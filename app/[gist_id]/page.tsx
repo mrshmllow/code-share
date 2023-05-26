@@ -5,31 +5,31 @@ import { useContext } from "react";
 import { GistContext } from "./store";
 
 export default function GistPage() {
-  const { gist } = useContext(GistContext);
+  const { gist, html } = useContext(GistContext);
 
   return (
     <div>
-      <em className="mb-3">Beta gist-view page</em>
+      <div className="border border-slate-700 rounded-lg p-2">
+        <button className="inline-flex hover:bg-slate-900 gap-4 px-4 py-2 rounded-lg shrink items-center text-slate-300 hover:text-white font-mono">
+          {!gist.name ? (
+            <>
+              <span>~/generting gist name</span>
 
-      {!gist.name ? (
-        <>
-          <p className="flex items-center gap-3">
-            <span className="w-3 h-3">
-              <Spinner />
-            </span>
-            Generating a Name...
-          </p>
-        </>
-      ) : (
-        <p title={gist.aiNameReason ? gist.aiNameReason : undefined}>
-          {gist.name}
-        </p>
-      )}
+              <span className="w-5 h-5">
+                <Spinner />
+              </span>
+            </>
+          ) : (
+            <span>{gist.name}</span>
+          )}
+        </button>
 
-      <div className="border border-slate-700 p-4 rounded-lg flex flex-col">
-        {gist?.text.split("\n").map((line, i) => (
-          <span key={i}>{line}</span>
-        ))}
+        <div
+          dangerouslySetInnerHTML={{
+            __html: html,
+          }}
+          className="[&>pre]:overflow-x-auto"
+        ></div>
       </div>
     </div>
   );

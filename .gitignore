@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 
+/wasm/target
+
 # testing
 /coverage
 
