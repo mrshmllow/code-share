@@ -1,5 +1,8 @@
 providers = ['...', 'rust']
 
+[phases.setup]
+nixPkgs = ["...", "wasm-pack"]
+
 [phases.build]
-cmds = ['cargo build --manifest-path=wasm/Cargo.toml', '...']
+cmds = ['wasm-pack build wasm', '...']
 
