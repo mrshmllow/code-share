@@ -8,7 +8,7 @@ export const env = createEnv({
     QSTASH_TOKEN: string(),
     QSTASH_CURRENT_SIGNING_KEY: string(),
     QSTASH_NEXT_SIGNING_KEY: string(),
-    PUSHER_SECRET: string()
+    PUSHER_SECRET: string(),
   },
   client: {
     NEXT_PUBLIC_PUSHER_KEY: string(),
@@ -22,6 +22,6 @@ export const env = createEnv({
     QSTASH_NEXT_SIGNING_KEY: process.env.QSTASH_NEXT_SIGNING_KEY,
     NEXT_PUBLIC_PUSHER_KEY: process.env.NEXT_PUBLIC_PUSHER_KEY,
     NEXT_PUBLIC_PUSHER_ID: process.env.NEXT_PUBLIC_PUSHER_ID,
-    PUSHER_SECRET: process.env.PUSHER_SECRET
+    PUSHER_SECRET: process.env.PUSHER_SECRET,
   },
 });

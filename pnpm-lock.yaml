@@ -12,12 +12,14 @@ specifiers:
   '@upstash/qstash': ^0.3.6
   autoprefixer: 10.4.14
   cva: npm:class-variance-authority@^0.6.0
+  dotenv: ^16.0.3
   drizzle-kit: ^0.18.0
   drizzle-orm: ^0.26.0
   eslint: 8.41.0
   eslint-config-next: 13.4.3
   framer-motion: ^10.12.12
   hotkeys-js: ^3.10.2
+  nanoid: ^4.0.2
   next: 13.4.4-canary.6
   openai: ^3.2.1
   postcss: 8.4.23
@@ -49,6 +51,7 @@ dependencies:
   eslint-config-next: 13.4.3_opaykosi7ysrbskpnffskmbrki
   framer-motion: 10.12.12_biqbaboplfbrettd7655fr4n2y
   hotkeys-js: 3.10.2
+  nanoid: 4.0.2
   next: 13.4.4-canary.6_biqbaboplfbrettd7655fr4n2y
   openai: 3.2.1
   postcss: 8.4.23
@@ -66,6 +69,7 @@ dependencies:
 
 devDependencies:
   '@next/bundle-analyzer': 13.4.3
+  dotenv: 16.0.3
   drizzle-kit: 0.18.0
 
 packages:
@@ -1145,6 +1149,11 @@ packages:
     dependencies:
       esutils: 2.0.3
     dev: false
+
+  /dotenv/16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+    engines: {node: '>=12'}
+    dev: true
 
   /dreamopt/0.8.0:
     resolution: {integrity: sha512-vyJTp8+mC+G+5dfgsY+r3ckxlz+QMX40VjPQsZc5gxVAxLmi64TBoVkP54A/pRAXMXsbu2GMMBrZPxNv23waMg==}
@@ -2774,6 +2783,12 @@ packages:
   /nanoid/3.3.6:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+    dev: false
+
+  /nanoid/4.0.2:
+    resolution: {integrity: sha512-7ZtY5KTCNheRGfEFxnedV5zFiORN1+Y1N6zvPTnHQd8ENUvfaDBeuJDZb2bN/oXwXxu3qkTXDzy57W5vAmDTBw==}
+    engines: {node: ^14 || ^16 || >=18}
     hasBin: true
     dev: false
 
