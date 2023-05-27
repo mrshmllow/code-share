@@ -10,12 +10,6 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-  cleanDistDir: false,
-  webpack: (config) => {
-    config.experiments.asyncWebAssembly = true;
-
-    return config;
-  },
 };
 
 export default withBundleAnalyzer(nextConfig);
