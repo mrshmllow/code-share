@@ -30,12 +30,14 @@ export default function Header() {
 
   return (
     <nav className="px-4 py-2 flex justify-between">
-      <Link href="/" className="text-lg font-bold sm:text-xl align-middle">
+      <Link href="/" className="text-lg font-bold sm:text-xl inline-flex items-center">
         Gist Share
       </Link>
 
       <div className="flex items-center text-slate-200 gap-4">
-        <p className="text-slate-200 font-normal select-none hidden sm:block">ctrl+v</p>
+        <p className="text-slate-200 font-normal select-none hidden sm:block">
+          ctrl+v
+        </p>
 
         <Menu as="div" className="relative inline-block text-left">
           <div>

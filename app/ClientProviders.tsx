@@ -13,7 +13,7 @@ const config = {
   cluster: "us3",
 };
 
-export default function Providers({ children }: { children: ReactNode }) {
+export default function ClientProviders({ children }: { children: ReactNode }) {
   return (
     <LazyMotion features={loadFeatures} strict>
       <PusherProvider {...config}>{children}</PusherProvider>

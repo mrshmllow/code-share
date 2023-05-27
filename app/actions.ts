@@ -12,6 +12,7 @@ export async function createGist(text: string) {
     .values({
       id: await nanoid(),
       text,
+      owner: userId,
     })
     .returning({
       id: gists.id,
