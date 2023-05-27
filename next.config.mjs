@@ -9,7 +9,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig = {
   experimental: {
     serverActions: true,
-  },
+  }
 };
 
 export default withBundleAnalyzer(nextConfig);
