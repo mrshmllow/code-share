@@ -10,7 +10,7 @@ import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
 const BodyObject = z.object({
-  gistId: z.string().uuid(),
+  gistId: z.string(),
 });
 
 const AIResponseObject = z.object({

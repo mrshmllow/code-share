@@ -41,7 +41,7 @@ export default function Header() {
           <div>
             <Menu.Button as={Button}>New Gist</Menu.Button>
           </div>
-          <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-slate-900 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10 p-2">
+          <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-slate-900 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10 p-2">
             <Menu.Item>
               {({ active }) => (
                 <Link
