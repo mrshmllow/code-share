@@ -15,6 +15,13 @@
       "when": 1685102593710,
       "tag": "0001_greedy_vengeance",
       "breakpoints": false
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1685168749020,
+      "tag": "0002_pretty_freak",
+      "breakpoints": false
     }
   ]
 }
