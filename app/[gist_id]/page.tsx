@@ -7,6 +7,7 @@ import TextInput from "../design/form/TextInput";
 import Button from "../design/button/Button";
 import { experimental_useOptimistic as useOptimistic } from 'react'
 import { updateName } from "./actions";
+import { ClipboardIcon } from "@heroicons/react/24/outline";
 
 export default function GistPage() {
   const { gist, html } = useContext(GistContext);
@@ -21,24 +22,34 @@ export default function GistPage() {
   return (
     <div>
       <div className="border border-slate-700 rounded-lg">
-        <div className="border-b border-slate-700 p-2">
+        <div className="border-b border-slate-700 p-2 flex justify-between">
           {!editing ?
-            <button className="inline-flex hover:bg-slate-900 gap-4 px-4 py-2 rounded-lg shrink items-center text-slate-300 hover:text-white font-mono" onClick={() => {
-              setEditing(true)
-            }}>
-              {!optimisticName ? (
-                <>
-                  <span>~/generting gist name</span>
+            <>
+              <span aria-hidden="true" className="sr-only">{optimisticName}</span>
 
-                  <span className="w-5 h-5">
-                    <Spinner />
-                  </span>
-                </>
-              ) : (
-                <span>{optimisticName}</span>
-              )}
-            </button> :
-            <div className="flex gap-2">
+              <button className="inline-flex hover:bg-slate-900 gap-4 px-4 py-2 rounded-lg shrink items-center text-slate-300 hover:text-white font-mono" aria-label="Edit gist title" onClick={() => {
+                setEditing(true)
+              }}>
+                {!optimisticName ? (
+                  <>
+                    <span>~/generting gist name</span>
+
+                    <span className="w-5 h-5">
+                      <Spinner />
+                    </span>
+                  </>
+                ) : (
+                  <span>{optimisticName}</span>
+                )}
+              </button>
+
+              <Button aria-label="Copy gist to clipboard">
+                <Button.Icon>
+                  <ClipboardIcon />
+                </Button.Icon>
+              </Button>
+            </> :
+            <div className="flex gap-2 w-full">
               <TextInput placeholder="eg. main.py" full ref={text} defaultValue={optimisticName ? optimisticName : ""} />
 
               <Button intent="secondary" onClick={() => setEditing(false)}>
