@@ -4,6 +4,8 @@ import { LazyMotion } from "framer-motion";
 import { ReactNode } from "react";
 import { PusherProvider } from "@harelpls/use-pusher";
 import { env } from "./env.mjs";
+import { Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
 
 const loadFeatures = () =>
   import("../lib/motionFeatures").then((res) => res.default);
@@ -13,10 +15,12 @@ const config = {
   cluster: "us3",
 };
 
-export default function ClientProviders({ children }: { children: ReactNode }) {
+export default function ClientProviders({ children, session }: { children: ReactNode; session: Session | null }) {
   return (
-    <LazyMotion features={loadFeatures} strict>
-      <PusherProvider {...config}>{children}</PusherProvider>
-    </LazyMotion>
+    <SessionProvider session={session}>
+      <LazyMotion features={loadFeatures} strict>
+        <PusherProvider {...config}>{children}</PusherProvider>
+      </LazyMotion>
+    </SessionProvider>
   );
 }

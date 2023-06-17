@@ -1,1 +1,0 @@
-ALTER TABLE "gists" ADD COLUMN "visible" boolean DEFAULT false NOT NULL;
