@@ -16,6 +16,7 @@ export async function createGist(text: string) {
     .values({
       id: await nanoid(),
       text,
+      visible: true,
       // owner: session?.user.id
     })
     .returning({
