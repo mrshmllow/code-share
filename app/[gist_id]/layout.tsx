@@ -33,7 +33,9 @@ export default async function GistLayout({
 
   return (
     <Provider gist={gist} html={html}>
-      {children}
+      <div className="px-4">
+        {children}
+      </div>
     </Provider>
   );
 }
