@@ -22,12 +22,12 @@ export default function GistPage() {
   return (
     <div>
       <div className="border border-slate-700 rounded-lg">
-        <div className="border-b border-slate-700 p-2 flex justify-between">
+        <div className="border-b border-slate-700 p-2 flex justify-between font-mono">
           {!editing ?
             <>
               <span aria-hidden="true" className="sr-only">{optimisticName}</span>
 
-              <button className="inline-flex hover:bg-slate-900 gap-4 px-4 py-2 rounded-lg shrink items-center text-slate-300 hover:text-white font-mono" aria-label="Edit gist title" onClick={() => {
+              <button className="inline-flex hover:bg-slate-900 gap-4 px-4 py-2 rounded-lg shrink items-center text-slate-300 hover:text-white" aria-label="Edit gist title" onClick={() => {
                 setEditing(true)
               }}>
                 {!optimisticName ? (
