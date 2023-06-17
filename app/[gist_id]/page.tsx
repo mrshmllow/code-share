@@ -43,7 +43,9 @@ export default function GistPage() {
                 )}
               </button>
 
-              <Button aria-label="Copy gist to clipboard">
+              <Button aria-label="Copy gist to clipboard" onClick={async () => {
+                await navigator.clipboard.writeText(gist.text);
+              }}>
                 <Button.Icon>
                   <ClipboardIcon />
                 </Button.Icon>
