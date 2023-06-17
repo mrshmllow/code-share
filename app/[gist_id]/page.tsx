@@ -50,7 +50,7 @@ export default function GistPage() {
               </Button>
             </> :
             <div className="flex gap-2 w-full">
-              <TextInput placeholder="eg. main.py" full ref={text} defaultValue={optimisticName ? optimisticName : ""} />
+              <TextInput autoFocus placeholder="eg. main.py" full ref={text} defaultValue={optimisticName ? optimisticName : ""} />
 
               <Button intent="secondary" onClick={() => setEditing(false)}>
                 <Button.Text>Cancel</Button.Text>
