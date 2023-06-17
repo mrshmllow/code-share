@@ -8,7 +8,7 @@ import ButtonIcon from "./ButtonIcon";
 import { button } from "./button.cva";
 
 interface ButtonProps
-  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "disabled">,
+  extends Omit<React.ComponentProps<typeof m.button>, "disabled">,
   VariantProps<typeof button> {
   children: ReactNode;
   animate?: boolean;
@@ -34,6 +34,7 @@ function Button({
       }}
     >
       <m.button
+        {...extra}
         className={button({ intent, isBusy, disabled: disabled ?? isBusy, full })}
         whileTap={{
           scale: disabled || isBusy || animate === false ? 1 : 0.9,
