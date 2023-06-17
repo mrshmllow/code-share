@@ -17,7 +17,7 @@ export default function Home() {
   const [permanantDisable] = useState(false);
   const [gistCreatePending, startTransition] = useTransition();
 
-  async function localIsPermissionDenied() {
+  async function checkClipboardDenied() {
     const has = await isPermissionDenied();
 
     if (has) {
@@ -36,11 +36,11 @@ export default function Home() {
   async function createGistFromClipboard() {
     const text = await navigator.clipboard.readText();
 
-    startTransition(() => createGist(text));
+    startTransition(() => createGist(text))
   }
 
   useEffect(() => {
-    localIsPermissionDenied();
+    checkClipboardDenied();
     // setPermanantDisable(true);
 
     async function handleKeyDown(ev: KeyboardEvent) {
@@ -48,7 +48,7 @@ export default function Home() {
         return;
       }
 
-      if (await localIsPermissionDenied()) {
+      if (await checkClipboardDenied()) {
         return showPermError();
       }
 
@@ -56,7 +56,7 @@ export default function Home() {
 
       try {
         await createGistFromClipboard();
-      } catch {
+      } catch (e) {
         showPermError();
       }
 
@@ -87,7 +87,7 @@ export default function Home() {
 
           <Button
             onClick={async () => {
-              if (await localIsPermissionDenied()) {
+              if (await checkClipboardDenied()) {
                 return showPermError();
               }
 
@@ -95,7 +95,8 @@ export default function Home() {
 
               try {
                 await createGistFromClipboard();
-              } catch {
+              } catch (e) {
+                console.log(e);
                 showPermError();
               }
 
