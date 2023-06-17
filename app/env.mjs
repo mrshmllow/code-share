@@ -9,10 +9,12 @@ export const env = createEnv({
     QSTASH_CURRENT_SIGNING_KEY: string(),
     QSTASH_NEXT_SIGNING_KEY: string(),
     PUSHER_SECRET: string(),
+    GITHUB_SECRET: string()
   },
   client: {
     NEXT_PUBLIC_PUSHER_KEY: string(),
     NEXT_PUBLIC_PUSHER_ID: string(),
+    NEXT_PUBLIC_GITHUB_ID: string()
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
@@ -23,5 +25,7 @@ export const env = createEnv({
     QSTASH_CURRENT_SIGNING_KEY: process.env.QSTASH_CURRENT_SIGNING_KEY,
     QSTASH_NEXT_SIGNING_KEY: process.env.QSTASH_NEXT_SIGNING_KEY,
     QSTASH_TOKEN: process.env.QSTASH_TOKEN,
+    GITHUB_SECRET: process.env.GITHUB_SECRET,
+    NEXT_PUBLIC_GITHUB_ID: process.env.NEXT_PUBLIC_GITHUB_ID
   },
 });

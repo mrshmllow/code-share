@@ -5,57 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1684918721601,
-      "tag": "0000_shiny_cammi",
-      "breakpoints": false
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1685102593710,
-      "tag": "0001_greedy_vengeance",
-      "breakpoints": false
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1685168749020,
-      "tag": "0002_pretty_freak",
-      "breakpoints": false
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1685185168177,
-      "tag": "0003_silky_echo",
-      "breakpoints": false
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1685186554414,
-      "tag": "0004_square_harpoon",
-      "breakpoints": false
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1685186749723,
-      "tag": "0005_overrated_mentallo",
-      "breakpoints": false
-    },
-    {
-      "idx": 6,
-      "version": "5",
-      "when": 1685187093663,
-      "tag": "0006_tan_hiroim",
-      "breakpoints": false
-    },
-    {
-      "idx": 7,
-      "version": "5",
-      "when": 1685187310647,
-      "tag": "0007_salty_typhoid_mary",
+      "when": 1686654079244,
+      "tag": "0000_burly_mercury",
       "breakpoints": false
     }
   ]

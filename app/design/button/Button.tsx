@@ -34,7 +34,7 @@ function Button({
       }}
     >
       <m.button
-        className={button({ intent, isBusy, disabled, full })}
+        className={button({ intent, isBusy, disabled: disabled ?? isBusy, full })}
         whileTap={{
           scale: disabled || isBusy || animate === false ? 1 : 0.9,
         }}
