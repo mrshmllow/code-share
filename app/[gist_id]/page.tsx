@@ -22,12 +22,12 @@ export default function GistPage() {
   return (
     <div>
       <div className="border border-slate-700 rounded-lg">
-        <div className="border-b border-slate-700 p-2 flex justify-between font-mono">
+        <div className="border-b border-slate-700 p-2 flex justify-between">
           {!editing ?
             <>
               <span aria-hidden="true" className="sr-only">{optimisticName}</span>
 
-              <button className="inline-flex hover:bg-slate-900 gap-4 px-4 py-2 rounded-lg shrink items-center text-slate-300 hover:text-white" aria-label="Edit gist title" onClick={() => {
+              <button className="inline-flex font-mono hover:bg-slate-900 gap-4 px-4 py-2 rounded-lg shrink items-center text-slate-300 hover:text-white" aria-label="Edit gist title" onClick={() => {
                 setEditing(true)
               }}>
                 {!optimisticName ? (
@@ -52,7 +52,7 @@ export default function GistPage() {
               </Button>
             </> :
             <div className="flex gap-2 w-full">
-              <TextInput autoFocus placeholder="eg. main.py" full ref={text} defaultValue={optimisticName ? optimisticName : ""} />
+              <TextInput className="font-mono" autoFocus placeholder="eg. main.py" full ref={text} defaultValue={optimisticName ? optimisticName : ""} />
 
               <Button intent="secondary" onClick={() => setEditing(false)}>
                 <Button.Text>Cancel</Button.Text>

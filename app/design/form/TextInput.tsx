@@ -31,10 +31,11 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(function({
   disabled,
   icon,
   full,
+  className,
   ...extra
 }, ref) {
   return (
-    <div className={textInput({ disabled, full })}>
+    <div className={textInput({ disabled, full, className })}>
       {icon !== undefined && (
         <span className="w-6 h-6 inline-flex items-center">{icon}</span>
       )}
