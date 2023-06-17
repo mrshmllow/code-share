@@ -3,20 +3,20 @@
 import { db } from "@/db/db";
 import { gists } from "@/db/schema";
 import { qstash } from "@/lib/messaging/qstash";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { nanoid } from "nanoid/async";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 
 export async function createGist(text: string) {
-  const session = await getServerSession(authOptions)
+  // const session = await getServerSession(authOptions)
 
   const gist = await db
     .insert(gists)
     .values({
       id: await nanoid(),
       text,
-      name: session?.user.id
+      // owner: session?.user.id
     })
     .returning({
       id: gists.id,

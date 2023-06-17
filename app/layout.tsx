@@ -4,7 +4,7 @@ import "./globals.css";
 import { Atkinson_Hyperlegible } from "next/font/google";
 import Header from "./Header";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route"
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 const ak = Atkinson_Hyperlegible({
   weight: ["400", "700"],

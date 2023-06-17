@@ -1,10 +1,10 @@
 import { env } from "@/app/env.mjs";
 import NextAuth, { AuthOptions } from "next-auth"
-import GitHubProvider from "next-auth/providers/github";
+import GithubProvider from "next-auth/providers/github"
 
 export const authOptions: AuthOptions = {
   providers: [
-    GitHubProvider({
+    GithubProvider({
       clientId: env.NEXT_PUBLIC_GITHUB_ID,
       clientSecret: env.GITHUB_SECRET
     })
@@ -19,6 +19,6 @@ export const authOptions: AuthOptions = {
   },
 }
 
-const handler = NextAuth(authOptions)
+export default NextAuth(authOptions)
 
-export { handler as GET, handler as POST }
+
