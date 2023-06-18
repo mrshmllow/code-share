@@ -2,14 +2,13 @@
 
 import { db } from "@/db/db";
 import { gists } from "@/db/schema";
+import { getServerActionSession } from "@/lib/getServerActionSession";
 import { qstash } from "@/lib/messaging/qstash";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { nanoid } from "nanoid/async";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export async function createGist(text: string) {
-  // const session = await getServerSession(authOptions)
+  const session = await getServerActionSession();
 
   const gist = await db
     .insert(gists)
@@ -17,7 +16,7 @@ export async function createGist(text: string) {
       id: await nanoid(),
       text,
       visible: true,
-      // owner: session?.user.id
+      owner: session?.user?.id
     })
     .returning({
       id: gists.id,
