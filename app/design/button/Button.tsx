@@ -25,6 +25,7 @@ function Button({
   disabled,
   full,
   animate,
+  className,
   ...extra
 }: ButtonProps) {
   return (
@@ -35,7 +36,7 @@ function Button({
     >
       <m.button
         {...extra}
-        className={button({ intent, isBusy, disabled: disabled ?? isBusy, full })}
+        className={button({ intent, isBusy, disabled: disabled ?? isBusy, full, className })}
         whileTap={{
           scale: disabled || isBusy || animate === false ? 1 : 0.9,
         }}
