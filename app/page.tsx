@@ -6,10 +6,22 @@ import {
   ClipboardIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
-import { isPermissionDenied } from "./clipboard";
+import { hasClipboardReadPermission } from "./clipboard";
 import ButtonishLink from "./design/button/ButtonishLink";
 import { Balancer } from "react-wrap-balancer";
 import { createGist } from "./actions";
+
+const useKeyboardHandler = (
+  handler: (this: HTMLElement, ev: KeyboardEvent) => any
+) => {
+  useEffect(() => {
+    document.body.addEventListener("keydown", handler);
+
+    return () => {
+      document.body.removeEventListener("keydown", handler);
+    };
+  }, [handler]);
+};
 
 export default function Home() {
   const [permissionPending, setLoading] = useState(false);
@@ -17,58 +29,29 @@ export default function Home() {
   const [permanantDisable] = useState(false);
   const [gistCreatePending, startTransition] = useTransition();
 
-  async function checkClipboardDenied() {
-    const has = await isPermissionDenied();
+  async function createGistFromClipboard() {
+    if (!(await hasClipboardReadPermission())) {
+      return setPermError(true);
+    }
 
-    if (has) {
+    try {
+      const text = await navigator.clipboard.readText();
+
+      startTransition(() => createGist(text));
+    } catch (e) {
       setPermError(true);
     }
-
-    return has;
   }
 
-  function showPermError() {
-    setPermError(true);
-
-    console.log("perm error");
-  }
-
-  async function createGistFromClipboard() {
-    const text = await navigator.clipboard.readText();
-
-    startTransition(() => createGist(text))
-  }
-
-  useEffect(() => {
-    checkClipboardDenied();
-    // setPermanantDisable(true);
-
-    async function handleKeyDown(ev: KeyboardEvent) {
-      if (!(ev.key === "v" && ev.ctrlKey)) {
-        return;
-      }
-
-      if (await checkClipboardDenied()) {
-        return showPermError();
-      }
-
-      setLoading(true);
-
-      try {
-        await createGistFromClipboard();
-      } catch (e) {
-        showPermError();
-      }
-
-      setLoading(false);
+  useKeyboardHandler(async (ev) => {
+    if (!(ev.key === "v" && ev.ctrlKey)) {
+      return;
     }
 
-    document.body.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+    setLoading(true);
+    await createGistFromClipboard();
+    setLoading(false);
+  });
 
   return (
     <main className="relative">
@@ -87,19 +70,8 @@ export default function Home() {
 
           <Button
             onClick={async () => {
-              if (await checkClipboardDenied()) {
-                return showPermError();
-              }
-
               setLoading(true);
-
-              try {
-                await createGistFromClipboard();
-              } catch (e) {
-                console.log(e);
-                showPermError();
-              }
-
+              await createGistFromClipboard();
               setLoading(false);
             }}
             isBusy={permissionPending || gistCreatePending}
