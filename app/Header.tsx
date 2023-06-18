@@ -9,13 +9,13 @@ import {
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
-import { isPermissionDenied } from "./clipboard";
+import { hasClipboardReadPermission } from "./clipboard";
 
 export default function Header() {
   const [permError, setPermError] = useState(false);
 
   async function localIsPermissionDenied() {
-    const has = await isPermissionDenied();
+    const has = await hasClipboardReadPermission();
 
     if (has) {
       setPermError(true);
