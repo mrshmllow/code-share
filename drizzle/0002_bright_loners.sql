@@ -1,1 +1,0 @@
-ALTER TABLE "gists" ALTER COLUMN "owner" SET NOT NULL;
