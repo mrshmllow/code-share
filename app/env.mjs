@@ -11,6 +11,7 @@ export const env = createEnv({
     PUSHER_SECRET: string(),
     GITHUB_SECRET: string(),
     NEXTAUTH_SECRET: string(),
+    NEXTAUTH_URL: string().url()
   },
   client: {
     NEXT_PUBLIC_PUSHER_KEY: string(),
@@ -28,6 +29,7 @@ export const env = createEnv({
     QSTASH_TOKEN: process.env.QSTASH_TOKEN,
     GITHUB_SECRET: process.env.GITHUB_SECRET,
     NEXT_PUBLIC_GITHUB_ID: process.env.NEXT_PUBLIC_GITHUB_ID,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL
   },
 });
