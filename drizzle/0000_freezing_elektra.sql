@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS "gists" (
 	"description" text,
 	"text" text NOT NULL,
 	"ai_name_reason" text,
-	"visible" boolean DEFAULT false NOT NULL
+	"visible" boolean DEFAULT false NOT NULL,
+	"owner" text NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "users" (

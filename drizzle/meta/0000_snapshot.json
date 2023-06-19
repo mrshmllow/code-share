@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "6767346b-e50d-4dc7-ab16-221d1aac8c18",
+  "id": "9bcb511e-682a-4087-ad8d-f4ef3d4e6241",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "gists": {
@@ -44,6 +44,12 @@
           "primaryKey": false,
           "notNull": true,
           "default": false
+        },
+        "owner": {
+          "name": "owner",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
