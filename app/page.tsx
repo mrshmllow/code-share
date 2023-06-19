@@ -33,7 +33,7 @@ export default function Home() {
 
   async function createGistFromClipboard() {
     if (session.status === "unauthenticated") {
-      signIn();
+      return signIn();
     }
 
     if (!(await hasClipboardReadPermission())) {
