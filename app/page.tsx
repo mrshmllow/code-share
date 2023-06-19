@@ -32,6 +32,7 @@ export default function Home() {
   const session = useSession();
 
   async function createGistFromClipboard() {
+    setLoading(true);
     if (session.status === "unauthenticated") {
       return signIn();
     }
@@ -46,6 +47,8 @@ export default function Home() {
       startTransition(() => createGist(text));
     } catch (e) {
       setPermError(true);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -54,9 +57,7 @@ export default function Home() {
       return;
     }
 
-    setLoading(true);
     await createGistFromClipboard();
-    setLoading(false);
   });
 
   return (
@@ -76,9 +77,7 @@ export default function Home() {
 
           <Button
             onClick={async () => {
-              setLoading(true);
               await createGistFromClipboard();
-              setLoading(false);
             }}
             isBusy={permissionPending || gistCreatePending}
             disabled={permanantDisable}
