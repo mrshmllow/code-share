@@ -13,7 +13,7 @@ export const gists = pgTable("gists", {
   text: text("text").notNull(),
   aiNameReason: text("ai_name_reason"),
   visible: boolean("visible").default(false).notNull(),
-  owner: text("owner")
+  owner: text("owner").notNull()
 });
 
 export const users = pgTable("users", {
