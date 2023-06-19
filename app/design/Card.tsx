@@ -22,21 +22,20 @@ function Card({ children, size }: CardType) {
   return <div className={card({ size })}>{children}</div>;
 }
 
-function CardHeader({
-  children,
-  subtitle,
-}: {
-  children: ReactNode;
-  subtitle?: string;
-}) {
-  return (
-    <div className="mb-4 space-y-1">
-      <header className="font-bold text-lg">{children}</header>
-      {subtitle && <p className="text-slate-300">{subtitle}</p>}
-    </div>
-  );
+function CardHeader({ children }: { children: ReactNode }) {
+  return <div className="mb-4 space-y-1">{children}</div>;
 }
 
+function CardTitle({ children }: { children: ReactNode }) {
+  return <header className="font-bold text-lg">{children}</header>;
+}
+
+function CardSubtitle({ children }: { children: ReactNode }) {
+  return <p className="text-slate-300">{children}</p>;
+}
+
+Card.Title = CardTitle;
 Card.Header = CardHeader;
+Card.Subtitle = CardSubtitle;
 
 export default Card;
