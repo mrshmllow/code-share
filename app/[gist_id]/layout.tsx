@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 import { Provider } from "./Provider";
 import { getHighlighter } from "shiki";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 
 export default async function GistLayout({
   params: { gist_id },
@@ -16,18 +18,18 @@ export default async function GistLayout({
   };
   children: ReactNode;
 }) {
-  const gist = await db.query.gists.findFirst({
-    where: eq(gists.id, gist_id),
-  });
+  const [gist, session] = await Promise.all([
+    db.query.gists.findFirst({
+      where: eq(gists.id, gist_id),
+    }),
+    getServerSession(authOptions),
+  ]);
 
   if (gist === undefined || gist.visible === false) return notFound();
 
   const highlighter = await getHighlighter({
     theme: "css-variables",
-    langs: [
-      "typescript",
-      "python"
-    ]
+    langs: ["typescript", "python"],
   });
 
   const html = highlighter.codeToHtml(sanitize(gist.text), {
@@ -35,10 +37,8 @@ export default async function GistLayout({
   });
 
   return (
-    <Provider gist={gist} html={html}>
-      <div className="px-4">
-        {children}
-      </div>
+    <Provider gist={gist} html={html} session={session}>
+      <div className="px-4">{children}</div>
     </Provider>
   );
 }

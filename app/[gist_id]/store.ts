@@ -6,6 +6,7 @@ import { createContext } from "react";
 type Context = {
   gist: Gist;
   html: string,
+  isOwner: boolean,
   updateName: (obj: { name: string; aiNameReason: string | null }) => void;
 };
 

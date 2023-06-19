@@ -8,16 +8,35 @@ import Button from "../design/button/Button";
 import { experimental_useOptimistic as useOptimistic } from "react";
 import { updateName } from "./actions";
 import { ClipboardIcon } from "@heroicons/react/24/outline";
+import { useSession } from "next-auth/react";
+
+function NameContent({ name }: { name: string | null }) {
+  return (
+    <>
+      {!name ? (
+        <>
+          <span>~/generting gist name</span>
+
+          <span className="w-5 h-5">
+            <Spinner />
+          </span>
+        </>
+      ) : (
+        <span>{name}</span>
+      )}
+    </>
+  );
+}
 
 export default function GistPage() {
-  const { gist, html } = useContext(GistContext);
+  const { gist, isOwner, html } = useContext(GistContext);
   const [editing, setEditing] = useState(false);
   const [optimisticName, optimisticUpdateName] = useOptimistic<
     string | null,
     string | null
   >(gist.name, (_, name) => name);
-
   const text = useRef<HTMLInputElement>(null);
+  const session = useSession();
 
   return (
     <div>
@@ -29,25 +48,21 @@ export default function GistPage() {
                 {optimisticName}
               </span>
 
-              <button
-                className="inline-flex font-mono hover:bg-slate-900 gap-4 px-4 py-2 rounded-lg shrink items-center text-slate-300 hover:text-white"
-                aria-label="Edit gist title"
-                onClick={() => {
-                  setEditing(true);
-                }}
-              >
-                {!optimisticName ? (
-                  <>
-                    <span>~/generting gist name</span>
-
-                    <span className="w-5 h-5">
-                      <Spinner />
-                    </span>
-                  </>
-                ) : (
-                  <span>{optimisticName}</span>
-                )}
-              </button>
+              {isOwner ? (
+                <button
+                  className="inline-flex font-mono hover:bg-slate-900 gap-4 px-4 py-2 rounded-lg shrink items-center text-slate-300 hover:text-white"
+                  aria-label="Edit gist title"
+                  onClick={() => {
+                    setEditing(true);
+                  }}
+                >
+                  <NameContent name={optimisticName} />
+                </button>
+              ) : (
+                <p className="inline-flex items-center gap-4 px-4 py-2 font-mono text-slate-300">
+                  <NameContent name={optimisticName} />
+                </p>
+              )}
 
               <Button
                 aria-label="Copy gist to clipboard"
@@ -95,7 +110,7 @@ export default function GistPage() {
           )}
         </div>
 
-        <div className="flex flex-row p-2">
+        <div className="flex flex-row p-2 overflow-auto">
           <div className="flex flex-col font-mono px-2">
             {[...Array((gist.text.match(/\n/g) || "").length + 1)].map(
               (_, i) => (
