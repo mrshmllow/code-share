@@ -10,6 +10,7 @@ import { hasClipboardReadPermission } from "./clipboard";
 import ButtonishLink from "./design/button/ButtonishLink";
 import { Balancer } from "react-wrap-balancer";
 import { createGist } from "./actions";
+import { signIn, useSession } from "next-auth/react";
 
 const useKeyboardHandler = (
   handler: (this: HTMLElement, ev: KeyboardEvent) => any
@@ -28,8 +29,13 @@ export default function Home() {
   const [permError, setPermError] = useState(false);
   const [permanantDisable] = useState(false);
   const [gistCreatePending, startTransition] = useTransition();
+  const session = useSession();
 
   async function createGistFromClipboard() {
+    if (session.status === "unauthenticated") {
+      signIn();
+    }
+
     if (!(await hasClipboardReadPermission())) {
       return setPermError(true);
     }

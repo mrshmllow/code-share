@@ -11,13 +11,15 @@ import { env } from "./env.mjs";
 export async function createGist(text: string) {
   const session = await getServerActionSession();
 
+  if (!session?.user?.id) return;
+
   const gist = await db
     .insert(gists)
     .values({
       id: await nanoid(),
       text,
       visible: true,
-      owner: session?.user?.id,
+      owner: session.user.id,
     })
     .returning({
       id: gists.id,

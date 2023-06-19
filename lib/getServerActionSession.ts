@@ -1,6 +1,6 @@
 import { cookies, headers } from "next/headers";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { authOptions } from "./authOptions";
 
 // https://github.com/nextauthjs/next-auth/issues/7523#issuecomment-1594416675
 // TODO: Remove in the future

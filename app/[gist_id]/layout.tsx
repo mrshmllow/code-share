@@ -24,11 +24,14 @@ export default async function GistLayout({
 
   const highlighter = await getHighlighter({
     theme: "css-variables",
+    langs: [
+      "typescript",
+      "python"
+    ]
   });
 
   const html = highlighter.codeToHtml(sanitize(gist.text), {
     theme: "css-variables",
-    lang: "typescript",
   });
 
   return (

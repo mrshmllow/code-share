@@ -15,6 +15,13 @@
       "when": 1686964643077,
       "tag": "0001_good_turbo",
       "breakpoints": false
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1687165492755,
+      "tag": "0002_bright_loners",
+      "breakpoints": false
     }
   ]
 }

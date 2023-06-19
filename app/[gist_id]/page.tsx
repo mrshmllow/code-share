@@ -95,12 +95,24 @@ export default function GistPage() {
           )}
         </div>
 
-        <div
-          dangerouslySetInnerHTML={{
-            __html: html,
-          }}
-          className="[&>pre]:overflow-x-auto p-2"
-        ></div>
+        <div className="flex flex-row p-2">
+          <div className="flex flex-col font-mono px-2">
+            {[...Array((gist.text.match(/\n/g) || "").length + 1)].map(
+              (_, i) => (
+                <a href={`#L${i + 1}`} key={i} className="" id={`L${i + 1}`}>
+                  {i + 1}
+                </a>
+              )
+            )}
+          </div>
+
+          <div
+            dangerouslySetInnerHTML={{
+              __html: html,
+            }}
+            className="[&>pre]:overflow-x-auto"
+          ></div>
+        </div>
       </div>
     </div>
   );
