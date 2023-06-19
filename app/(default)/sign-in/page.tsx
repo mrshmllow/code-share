@@ -14,7 +14,10 @@ export default function SignUpPage() {
 
   return (
     <Card size="md">
-      <Card.Header subtitle="to share gists">Create an account</Card.Header>
+      <Card.Header>
+        <Card.Title>Create an account</Card.Title>
+        <Card.Subtitle>to share code</Card.Subtitle>
+      </Card.Header>
 
       <Button
         full
