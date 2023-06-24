@@ -181,6 +181,7 @@ export async function POST(req: NextRequest) {
     .set({
       name: aiResponse.data.filename,
       aiNameReason: aiResponse.data.detailed_filename_choice_reasoning,
+      aiCompleted: true,
     })
     .where(eq(gists.id, gist.id));
 

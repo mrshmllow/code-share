@@ -7,7 +7,7 @@ type Context = {
   gist: Gist;
   html: string,
   isOwner: boolean,
-  updateName: (obj: { name: string; aiNameReason: string | null }) => void;
+  updateName: (obj: { name: string; aiNameReason: string | null; aiCompleted: boolean }) => void;
 };
 
 // lets just save some time here
