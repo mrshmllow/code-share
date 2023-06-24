@@ -8,6 +8,13 @@
       "when": 1687171065330,
       "tag": "0000_freezing_elektra",
       "breakpoints": false
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1687574186526,
+      "tag": "0001_light_forgotten_one",
+      "breakpoints": false
     }
   ]
 }

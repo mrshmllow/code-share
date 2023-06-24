@@ -20,6 +20,7 @@ export async function createGist(text: string) {
       text,
       visible: true,
       owner: session.user.id,
+      aiCompleted: process.env.NODE_ENV !== "production"
     })
     .returning({
       id: gists.id,

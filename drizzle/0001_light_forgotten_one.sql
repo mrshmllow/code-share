@@ -1,0 +1,1 @@
+ALTER TABLE "gists" ADD COLUMN "ai_completed" boolean DEFAULT false NOT NULL;

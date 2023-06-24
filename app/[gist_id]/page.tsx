@@ -8,12 +8,17 @@ import Button from "../design/button/Button";
 import { experimental_useOptimistic as useOptimistic } from "react";
 import { updateName } from "./actions";
 import { ClipboardIcon } from "@heroicons/react/24/outline";
-import { useSession } from "next-auth/react";
 
-function NameContent({ name }: { name: string | null }) {
+function NameContent({
+  name,
+  aiCompleted,
+}: {
+  name: string | null;
+  aiCompleted: boolean;
+}) {
   return (
     <>
-      {!name ? (
+      {!name && !aiCompleted ? (
         <>
           <span>~/generting gist name</span>
 
@@ -21,6 +26,8 @@ function NameContent({ name }: { name: string | null }) {
             <Spinner />
           </span>
         </>
+      ) : !name ? (
+        <em>untitled gist</em>
       ) : (
         <span>{name}</span>
       )}
@@ -36,7 +43,6 @@ export default function GistPage() {
     string | null
   >(gist.name, (_, name) => name);
   const text = useRef<HTMLInputElement>(null);
-  const session = useSession();
 
   return (
     <div>
@@ -56,11 +62,11 @@ export default function GistPage() {
                     setEditing(true);
                   }}
                 >
-                  <NameContent name={optimisticName} />
+                  <NameContent aiCompleted={gist.aiCompleted} name={optimisticName} />
                 </button>
               ) : (
                 <p className="inline-flex items-center gap-4 px-4 py-2 font-mono text-slate-300">
-                  <NameContent name={optimisticName} />
+                  <NameContent aiCompleted={gist.aiCompleted} name={optimisticName} />
                 </p>
               )}
 
@@ -111,7 +117,7 @@ export default function GistPage() {
         </div>
 
         <div className="flex flex-row p-2 overflow-auto">
-          <div className="flex flex-col font-mono px-2">
+          <div className="flex flex-col font-mono px-4">
             {[...Array((gist.text.match(/\n/g) || "").length + 1)].map(
               (_, i) => (
                 <a href={`#L${i + 1}`} key={i} className="" id={`L${i + 1}`}>
