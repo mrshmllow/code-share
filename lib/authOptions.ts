@@ -23,8 +23,8 @@ export const authOptions: AuthOptions = {
   pages: {
     signIn: "/sign-in",
     // error: "/",
-    // newUser: "/",
-    // signOut: "/",
+    newUser: "/new",
+    signOut: "/sign-out",
     // verifyRequest: "/"
   },
 };
