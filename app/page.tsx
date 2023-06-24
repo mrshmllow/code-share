@@ -64,16 +64,16 @@ export default function Home() {
     <main className="relative">
       {/*<div className="pattern-wavy pattern-slate-800 pattern-bg-white pattern-size-8 pattern-opacity-20 absolute -top-24 left-0 w-full h-[calc(100%+6rem)] -z-10" />*/}
 
-      <div className="px-4 pb-10 flex flex-col items-center">
+      <div className="px-4 pb-10 flex flex-col sm:items-center">
         <Balancer
           as="h1"
-          className="text-4xl sm:text-5xl lg:text-6xl my-5 mb-7"
+          className="text-4xl sm:text-6xl lg:text-7xl text-center my-8 sm:my-12 font-bold tracking-tight mx-auto"
         >
           Easily Share Code
         </Balancer>
 
         <div className="flex items-center gap-3 flex-wrap mb-2">
-          <ButtonishLink href="/new">New Gist</ButtonishLink>
+          <ButtonishLink href="/new" className="w-full sm:w-fit">New Gist</ButtonishLink>
 
           <Button
             onClick={async () => {
@@ -81,6 +81,7 @@ export default function Home() {
             }}
             isBusy={permissionPending || gistCreatePending}
             disabled={permanantDisable}
+            className="w-full sm:w-fit"
           >
             <Button.Icon>
               {permError ? <ExclamationCircleIcon /> : <ClipboardIcon />}
