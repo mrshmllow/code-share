@@ -20,6 +20,7 @@ export default function ButtonishLink({
   full,
   children,
   animate,
+  className,
   ...linkProps
 }: ButtonishLinkProps) {
   return (
@@ -29,6 +30,7 @@ export default function ButtonishLink({
         intent,
         disabled,
         full,
+        className,
       })}
       whileTap={{
         scale: disabled || isBusy || animate === false ? 1 : 0.9,
