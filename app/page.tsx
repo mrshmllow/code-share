@@ -37,12 +37,8 @@ export default function Home() {
       return signIn();
     }
 
-    if (!(await hasClipboardReadPermission())) {
-      return setPermError(true);
-    }
-
     try {
-      const text = await navigator.clipboard.readText();
+      let text = await navigator.clipboard.readText();
 
       startTransition(() => createGist(text));
     } catch (e) {
@@ -73,7 +69,11 @@ export default function Home() {
         </Balancer>
 
         <div className="flex items-center gap-3 flex-wrap mb-2">
-          <ButtonishLink href="/new" className="w-full sm:w-fit" intent="secondary">
+          <ButtonishLink
+            href="/new"
+            className="w-full sm:w-fit"
+            intent="secondary"
+          >
             New Snippet
           </ButtonishLink>
 
