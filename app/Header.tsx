@@ -31,7 +31,7 @@ export default function Header() {
   return (
     <nav className="px-4 py-2 flex justify-between">
       <Link href="/" className="text-lg font-bold sm:text-xl inline-flex items-center">
-        Gist Share
+        Snippet Share
       </Link>
 
       <div className="flex items-center text-gray-800 gap-4">
@@ -41,7 +41,7 @@ export default function Header() {
 
         <Menu as="div" className="relative inline-block text-left">
           <div>
-            <Menu.Button as={Button}>New Gist</Menu.Button>
+            <Menu.Button as={Button}>New Snippet</Menu.Button>
           </div>
           <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10 p-2">
             <Menu.Item>
@@ -53,7 +53,7 @@ export default function Header() {
                   )}
                   href="/new"
                 >
-                  New Gist
+                  New Snippet
                 </Link>
               )}
             </Menu.Item>

@@ -21,14 +21,14 @@ function NameContent({
     <>
       {!name && !aiCompleted ? (
         <>
-          <span>~/generting gist name</span>
+          <span>~/generting snippet name</span>
 
           <span className="w-5 h-5">
             <Spinner />
           </span>
         </>
       ) : !name ? (
-        <em>untitled gist</em>
+        <em>untitled snippet</em>
       ) : (
         <span>{name}</span>
       )}
@@ -58,7 +58,7 @@ export default function GistPage() {
               {isOwner ? (
                 <button
                   className="inline-flex font-mono hover:bg-gray-100 gap-4 px-4 py-2 rounded-lg shrink items-center text-gray-700"
-                  aria-label="Edit gist title"
+                  aria-label="Edit snippet title"
                   onClick={() => {
                     setEditing(true);
                   }}
@@ -72,7 +72,7 @@ export default function GistPage() {
               )}
 
               <Button
-                aria-label="Copy gist to clipboard"
+                aria-label="Copy snippet to clipboard"
                 onClick={async () => {
                   await navigator.clipboard.writeText(gist.text);
                 }}

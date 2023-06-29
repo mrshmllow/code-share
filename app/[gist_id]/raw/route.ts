@@ -10,7 +10,7 @@ export async function GET(_: Request,
   });
 
   if (gist === undefined) {
-    return new Response("Gist not found", { status: 404 });
+    return new Response("Snippet not found", { status: 404 });
   }
 
   return new Response(gist.text);

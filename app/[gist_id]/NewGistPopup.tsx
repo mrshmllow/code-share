@@ -73,7 +73,7 @@ export default function NewGistPopup() {
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    New gists are private by default. You can change this
+                    New snippets are private by default. You can change this
                     behaviour in the account settings.
                   </p>
                 </div>

@@ -74,7 +74,7 @@ export default function Home() {
 
         <div className="flex items-center gap-3 flex-wrap mb-2">
           <ButtonishLink href="/new" className="w-full sm:w-fit" intent="secondary">
-            New Gist
+            New Snippet
           </ButtonishLink>
 
           <Button
