@@ -1,7 +1,7 @@
 import { VariantProps, cva } from "cva";
 import { ReactNode } from "react";
 
-const card = cva("bg-slate-900 p-4 rounded-lg border border-slate-700 w-full", {
+const card = cva("shadow-lg sm:shadow-xl p-4 rounded-lg border border-gray-300 w-full", {
   variants: {
     size: {
       fit: "",
@@ -31,7 +31,7 @@ function CardTitle({ children }: { children: ReactNode }) {
 }
 
 function CardSubtitle({ children }: { children: ReactNode }) {
-  return <p className="text-slate-300">{children}</p>;
+  return <p className="text-gray-700">{children}</p>;
 }
 
 Card.Title = CardTitle;

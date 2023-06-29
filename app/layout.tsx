@@ -25,7 +25,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={cx(ak.className, "text-slate-50 bg-slate-950 min-h-screen")}>
+      <body className={cx(ak.className, "text-black bg-white min-h-screen")}>
         <ClientProviders session={session}>
           <Header />
 

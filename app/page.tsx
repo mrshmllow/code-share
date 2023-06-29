@@ -73,7 +73,9 @@ export default function Home() {
         </Balancer>
 
         <div className="flex items-center gap-3 flex-wrap mb-2">
-          <ButtonishLink href="/new" className="w-full sm:w-fit">New Gist</ButtonishLink>
+          <ButtonishLink href="/new" className="w-full sm:w-fit" intent="secondary">
+            New Gist
+          </ButtonishLink>
 
           <Button
             onClick={async () => {
@@ -91,7 +93,7 @@ export default function Home() {
           </Button>
         </div>
 
-        <p className="text-slate-200 select-none hidden sm:block">
+        <p className="text-gray-800 select-none hidden sm:block">
           Try hitting <strong>ctrl+v</strong>!
         </p>
       </div>

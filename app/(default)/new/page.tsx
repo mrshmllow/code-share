@@ -15,7 +15,7 @@ export default function NewGistPage() {
         <textarea
           placeholder={'console.log("Hello World!")'}
           name="content"
-          className="rounded-lg outline-none ring-offset-slate-950 focus-visible:ring-2 ring-offset-2 border-slate-700 border text-slate-50 p-2 h-40 bg-inherit w-full"
+          className="rounded-lg outline-none border-gray-300 border text-black focus-visible:border-indigo-500 p-2 h-40 bg-inherit w-full"
         ></textarea>
 
         <Button className="w-full" type="submit">

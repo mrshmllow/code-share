@@ -34,8 +34,8 @@ export default function Header() {
         Gist Share
       </Link>
 
-      <div className="flex items-center text-slate-200 gap-4">
-        <p className="text-slate-200 font-normal select-none hidden sm:block">
+      <div className="flex items-center text-gray-800 gap-4">
+        <p className="font-normal select-none hidden sm:block">
           ctrl+v
         </p>
 
@@ -43,13 +43,13 @@ export default function Header() {
           <div>
             <Menu.Button as={Button}>New Gist</Menu.Button>
           </div>
-          <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-slate-900 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10 p-2">
+          <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10 p-2">
             <Menu.Item>
               {({ active }) => (
                 <Link
                   className={cx(
                     "px-4 py-2 rounded-lg text-left",
-                    active && "bg-slate-800"
+                    active && "bg-gray-200"
                   )}
                   href="/new"
                 >
@@ -61,8 +61,8 @@ export default function Header() {
               {({ active }) => (
                 <button
                   className={cx(
-                    "px-4 py-2 rounded-lg text-left flex items-center gap-2 disabled:text-slate-400",
-                    active && "bg-slate-800"
+                    "px-4 py-2 rounded-lg text-left flex items-center gap-2 disabled:text-gray-600",
+                    active && "bg-gray-200"
                   )}
                   onClick={async () => {
                     if (await localIsPermissionDenied()) {

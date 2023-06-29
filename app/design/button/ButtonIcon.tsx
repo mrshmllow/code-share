@@ -10,7 +10,7 @@ export default function ButtonIcon({
   children,
   busyIcon,
 }: {
-  children: ReactNode;
+  children?: ReactNode;
   busyIcon?: ReactNode;
 }) {
   const { busy } = useContext(ButtonContext);
@@ -19,7 +19,7 @@ export default function ButtonIcon({
     <m.span
       className={span()}
       initial={{
-        scale: .5,
+        scale: 0.5,
       }}
       animate={{
         scale: 1,
@@ -28,6 +28,6 @@ export default function ButtonIcon({
       {busyIcon !== undefined ? busyIcon : <Spinner />}
     </m.span>
   ) : (
-    <span className={span()}>{children}</span>
+    <>{children && <span className={span()}>{children}</span>}</>
   );
 }
