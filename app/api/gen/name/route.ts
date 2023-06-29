@@ -21,7 +21,7 @@ const AIResponseObject = z.object({
 async function revalidate(
   gist_id: string,
   data: {
-    name: string;
+    name: string | null;
     aiNameReason: string | null;
   }
 ) {
@@ -34,12 +34,12 @@ async function genDefaultName(id: string) {
   await db
     .update(gists)
     .set({
-      name: "default...",
+      aiCompleted: true
     })
     .where(eq(gists.id, id));
 
   await revalidate(id, {
-    name: "default...",
+    name: null,
     aiNameReason: null,
   });
 
