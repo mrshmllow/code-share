@@ -80,6 +80,15 @@ export default function NewGistPopup() {
 
                 <div className="mt-4 flex gap-2 w-full flex-col sm:flex-row">
                   <Button
+                    full
+                    disabled={isBusy}
+                    onClick={() => setIsOpen(false)}
+                    className="order-last"
+                  >
+                    <Button.Text>Keep Private</Button.Text>
+                  </Button>
+
+                  <Button
                     intent="secondary"
                     full
                     onClick={() => {
@@ -97,15 +106,6 @@ export default function NewGistPopup() {
                     <Button.Text busyText={["Mak", "ing Public"]}>
                       Make Public
                     </Button.Text>
-                  </Button>
-
-                  <Button
-                    full
-                    disabled={isBusy}
-                    onClick={() => setIsOpen(false)}
-                    tabIndex={1}
-                  >
-                    <Button.Text>Keep Private</Button.Text>
                   </Button>
                 </div>
               </Dialog.Panel>
