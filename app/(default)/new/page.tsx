@@ -9,7 +9,7 @@ export default function NewGistPage() {
     <Card size="lg">
       <form action={createGistFromForm}>
         <Card.Header>
-          <Card.Title>New Gist</Card.Title>
+          <Card.Title>New Snippet</Card.Title>
         </Card.Header>
 
         <textarea
@@ -19,7 +19,7 @@ export default function NewGistPage() {
         ></textarea>
 
         <Button className="w-full" type="submit">
-          <Button.Text>Create Gist</Button.Text>
+          <Button.Text>Create Snippet</Button.Text>
         </Button>
       </form>
     </Card>

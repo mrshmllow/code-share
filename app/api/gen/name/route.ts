@@ -132,7 +132,7 @@ export async function POST(req: NextRequest) {
     messages: [
       {
         role: "system",
-        content: `assign a filename to the following file snippit. think it through step-by-step in \`detailed_filename_choice_reasoning\`, and place your answer in \`filename\`. your assigned_const_value is \"${constant_value}\". Your response MUST be in the following format (do not include backticks):
+        content: `assign a filename to the following file snippet. think it through step-by-step in \`detailed_filename_choice_reasoning\`, and place your answer in \`filename\`. your assigned_const_value is \"${constant_value}\". Your response MUST be in the following format (do not include backticks):
 
 {
   "detailed_filename_choice_reasoning": string,

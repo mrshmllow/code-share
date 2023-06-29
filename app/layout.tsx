@@ -12,7 +12,7 @@ const ak = Atkinson_Hyperlegible({
 });
 
 export const metadata = {
-  title: "Gist Share",
+  title: "Snippet Share",
   description: "",
 };
 
