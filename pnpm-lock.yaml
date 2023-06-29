@@ -1,7 +1,7 @@
 lockfileVersion: '6.0'
 
 settings:
-  autoInstallPeers: false
+  autoInstallPeers: true
   excludeLinksFromLockfile: false
 
 dependencies:
@@ -89,6 +89,9 @@ dependencies:
   shiki:
     specifier: ^0.14.2
     version: 0.14.2
+  tailwind-merge:
+    specifier: ^1.13.2
+    version: 1.13.2
   tailwindcss:
     specifier: 3.3.2
     version: 3.3.2
@@ -3912,6 +3915,10 @@ packages:
     dependencies:
       '@pkgr/utils': 2.4.1
       tslib: 2.5.3
+    dev: false
+
+  /tailwind-merge@1.13.2:
+    resolution: {integrity: sha512-R2/nULkdg1VR/EL4RXg4dEohdoxNUJGLMnWIQnPKL+O9Twu7Cn3Rxi4dlXkDzZrEGtR+G+psSXFouWlpTyLhCQ==}
     dev: false
 
   /tailwindcss-bg-patterns@0.2.0(autoprefixer@10.4.14)(postcss@8.4.23):

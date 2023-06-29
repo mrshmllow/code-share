@@ -16,6 +16,7 @@ function NameContent({
   name: string | null;
   aiCompleted: boolean;
 }) {
+  
   return (
     <>
       {!name && !aiCompleted ? (
@@ -46,8 +47,8 @@ export default function GistPage() {
 
   return (
     <div>
-      <div className="border border-slate-700 rounded-lg">
-        <div className="border-b border-slate-700 p-2 flex justify-between">
+      <div className="border border-gray-300 rounded-lg">
+        <div className="border-b border-gray-300 p-2 flex justify-between">
           {!editing ? (
             <>
               <span aria-hidden="true" className="sr-only">
@@ -56,7 +57,7 @@ export default function GistPage() {
 
               {isOwner ? (
                 <button
-                  className="inline-flex font-mono hover:bg-slate-900 gap-4 px-4 py-2 rounded-lg shrink items-center text-slate-300 hover:text-white"
+                  className="inline-flex font-mono hover:bg-gray-100 gap-4 px-4 py-2 rounded-lg shrink items-center text-gray-700"
                   aria-label="Edit gist title"
                   onClick={() => {
                     setEditing(true);
@@ -65,7 +66,7 @@ export default function GistPage() {
                   <NameContent aiCompleted={gist.aiCompleted} name={optimisticName} />
                 </button>
               ) : (
-                <p className="inline-flex items-center gap-4 px-4 py-2 font-mono text-slate-300">
+                <p className="inline-flex items-center gap-4 px-4 py-2 font-mono text-gray-700">
                   <NameContent aiCompleted={gist.aiCompleted} name={optimisticName} />
                 </p>
               )}

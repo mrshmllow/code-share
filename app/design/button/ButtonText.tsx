@@ -47,13 +47,16 @@ export default function ButtonText({
         >
           <span>{busyText[0]}</span>
 
-          {busyText[1].split("").map((letter, index) => (
+          {busyText[1].split("").map((letter, index, array) => (
             <m.span
               key={index}
               variants={{
                 hidden: { opacity: 0 },
                 show: { opacity: 1 },
               }}
+              className={
+                array[index + 1] === " " ? "pr-1" : undefined
+              }
             >
               {letter}
             </m.span>

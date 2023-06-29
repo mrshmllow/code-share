@@ -18,7 +18,7 @@ export async function createGist(text: string) {
     .values({
       id: await nanoid(),
       text,
-      visible: true,
+      visible: false,
       owner: session.user.id,
       aiCompleted: process.env.NODE_ENV !== "production"
     })
@@ -42,5 +42,5 @@ export async function createGist(text: string) {
     });
   }
 
-  redirect(`/${gist[0].id}`);
+  redirect(`/${gist[0].id}?new=true`);
 }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { button } from "./button.cva";
 import { ReactNode } from "react";
 import { m } from "framer-motion";
+import { twMerge } from "tailwind-merge";
 
 const MotionLink = m(Link);
 
@@ -15,7 +16,6 @@ interface ButtonishLinkProps extends LinkProps, VariantProps<typeof button> {
 
 export default function ButtonishLink({
   intent,
-  isBusy,
   disabled,
   full,
   children,
@@ -25,15 +25,14 @@ export default function ButtonishLink({
 }: ButtonishLinkProps) {
   return (
     <MotionLink
-      className={button({
-        isBusy,
+      className={twMerge(button({
         intent,
         disabled,
         full,
         className,
-      })}
+      }))}
       whileTap={{
-        scale: disabled || isBusy || animate === false ? 1 : 0.9,
+        scale: disabled || animate === false ? 1 : 0.9,
       }}
       transition={{
         duration: 0.1,

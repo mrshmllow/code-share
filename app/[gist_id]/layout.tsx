@@ -8,6 +8,7 @@ import { Provider } from "./Provider";
 import { getHighlighter } from "shiki";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import NewGistPopup from "./NewGistPopup";
 
 export default async function GistLayout({
   params: { gist_id },
@@ -25,7 +26,10 @@ export default async function GistLayout({
     getServerSession(authOptions),
   ]);
 
-  if (gist === undefined || gist.visible === false) return notFound();
+  const owns = gist?.owner === session?.user?.id;
+
+  // you must be owner OR the gist must be visible
+  if (gist === undefined || (!owns && !gist.visible)) return notFound();
 
   const highlighter = await getHighlighter({
     theme: "css-variables",
@@ -38,6 +42,7 @@ export default async function GistLayout({
 
   return (
     <Provider gist={gist} html={html} session={session}>
+      <NewGistPopup />
       <div className="px-4">{children}</div>
     </Provider>
   );

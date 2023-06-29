@@ -2,27 +2,21 @@ import { VariantProps, cva } from "cva";
 import { ReactNode, forwardRef } from "react";
 
 const textInput = cva(
-  "px-4 min-h-[2.5rem] rounded-lg inline-flex items-center gap-3 outline-none ring-offset-slate-950 focus-visible:ring-2 ring-offset-2 border-slate-700 border text-slate-300 [&:has(:focus)]:border-blue-500",
+  "px-4 min-h-[2.5rem] rounded-lg inline-flex items-center gap-3 outline-none ring-offset-white focus-visible:ring-2 ring-offset-2 border-gray-300 border text-gray-900 [&:has(:focus)]:border-indigo-500 from-gray-100 to-gray-200 bg-gradient-to-br focus-visible:bg-white disabled:opacity-90",
   {
     variants: {
-      disabled: {
-        true: "bg-slate-800",
-        false:
-          "hover:brightness-95 hover:text-slate-50 from-slate-900 to-slate-800 bg-gradient-to-br",
-      },
       full: {
         true: "w-full"
       }
     },
     defaultVariants: {
-      disabled: false,
       full: false,
     },
   }
 );
 
 interface TextInputProps
-  extends Omit<React.ComponentPropsWithoutRef<'input'>, "disabled">,
+  extends React.ComponentPropsWithoutRef<'input'>,
   VariantProps<typeof textInput> {
   icon?: ReactNode;
 }
@@ -35,7 +29,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(function({
   ...extra
 }, ref) {
   return (
-    <div className={textInput({ disabled, full, className })}>
+    <div className={textInput({ full, className })}>
       {icon !== undefined && (
         <span className="w-6 h-6 inline-flex items-center">{icon}</span>
       )}
@@ -43,7 +37,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(function({
       <input
         type="text"
         ref={ref}
-        className="bg-inherit outline-none placeholder:text-slate-400 w-full"
+        className="bg-inherit outline-none placeholder:text-gray-400 w-full"
         disabled={disabled !== null ? disabled : undefined}
         {...extra}
       />

@@ -6,12 +6,14 @@ import { ReactNode, createContext } from "react";
 import ButtonText from "./ButtonText";
 import ButtonIcon from "./ButtonIcon";
 import { button } from "./button.cva";
+import { twMerge } from "tailwind-merge";
 
 interface ButtonProps
   extends Omit<React.ComponentProps<typeof m.button>, "disabled">,
   VariantProps<typeof button> {
   children: ReactNode;
   animate?: boolean;
+  isBusy?: boolean
 }
 
 export const ButtonContext = createContext({
@@ -31,12 +33,12 @@ function Button({
   return (
     <ButtonContext.Provider
       value={{
-        busy: typeof isBusy === "boolean" ? isBusy : false,
+        busy: isBusy !== undefined ? isBusy : false,
       }}
     >
       <m.button
         {...extra}
-        className={button({ intent, isBusy, disabled: disabled ?? isBusy, full, className })}
+        className={twMerge(button({ intent, disabled: disabled ?? isBusy, full, className }))}
         whileTap={{
           scale: disabled || isBusy || animate === false ? 1 : 0.9,
         }}
