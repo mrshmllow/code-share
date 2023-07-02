@@ -2,6 +2,7 @@
 
 import { db } from "@/db/db";
 import { gists } from "@/db/schema";
+import { index } from "@/lib/algolia";
 import { getServerActionSession } from "@/lib/getServerActionSession";
 import { eq, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
@@ -12,27 +13,69 @@ export async function updateName({ id, name }: { id: string; name: string }) {
 
   if (!session?.user?.id) return;
 
-  await db
+  const gist = await db
     .update(gists)
     .set({
       name,
+      aiCompleted: true,
     })
-    .where(and(eq(gists.owner, session.user.id), eq(gists.id, id)));
+    .where(and(eq(gists.owner, session.user.id), eq(gists.id, id)))
+    .returning({
+      name: gists.name,
+      visible: gists.visible,
+    });
 
-  revalidatePath(`/${id}`)
+  if (gist[0].visible) {
+    await index.partialUpdateObject({
+      objectID: id,
+      name: name,
+    });
+  }
+
+  revalidatePath(`/${id}`);
 }
 
-export async function changeVisibilty({ id, visibilty }: { id: string; visibilty: boolean }) {
+export async function changeVisibilty({
+  id,
+  visibilty,
+}: {
+  id: string;
+  visibilty: boolean;
+}) {
   const session = await getServerActionSession();
 
   if (!session?.user?.id) return;
 
-  await db
+  const gist = await db
     .update(gists)
     .set({
-      visible: visibilty
+      visible: visibilty,
     })
-    .where(and(eq(gists.owner, session.user.id), eq(gists.id, id)));
+    .where(and(eq(gists.owner, session.user.id), eq(gists.id, id)))
+    .returning({
+      name: gists.name,
+      visible: gists.visible,
+      text: gists.text,
+      tags: gists.aiTags
+    });
 
-  redirect(`/${id}`)
+  if (visibilty) {
+    const text = gist[0].text.split("\n").slice(0, 5).join("\n")
+    
+    console.log("text", text)
+
+    // Add a newly visible gist
+    await index.saveObject({
+      objectID: id,
+      name: gist[0].name,
+      owner: session.user.id,
+      tags: gist[0].tags && gist[0].tags.split(","),
+      text
+    });
+  } else {
+    // Remove newly invisible gist from search results
+    await index.deleteObject(id);
+  }
+
+  redirect(`/${id}`);
 }

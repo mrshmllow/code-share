@@ -1,25 +1,36 @@
 import { VariantProps, cva } from "cva";
 import { ReactNode } from "react";
+import { twMerge } from "tailwind-merge";
 
-const card = cva("shadow-lg sm:shadow-xl p-4 rounded-lg border border-gray-300 w-full", {
-  variants: {
-    size: {
-      fit: "",
-      md: "max-w-md",
-      lg: "max-w-lg",
+const card = cva(
+  "p-4 rounded-lg border border-gray-300 w-full",
+  {
+    variants: {
+      size: {
+        fit: "",
+        full: "w-full",
+        md: "max-w-md",
+        lg: "max-w-lg",
+        xl: "max-w-xl",
+      },
+      shadow: {
+        true: "shadow-lg sm:shadow-xl",
+        false: ""
+      }
     },
-  },
-  defaultVariants: {
-    size: "fit",
-  },
-});
+    defaultVariants: {
+      size: "full",
+      shadow: true
+    },
+  }
+);
 
 interface CardType extends VariantProps<typeof card> {
   children: ReactNode;
 }
 
-function Card({ children, size }: CardType) {
-  return <div className={card({ size })}>{children}</div>;
+function Card({ children, shadow, size }: CardType) {
+  return <div className={twMerge(card({ size, shadow }))}>{children}</div>;
 }
 
 function CardHeader({ children }: { children: ReactNode }) {

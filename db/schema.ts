@@ -14,6 +14,7 @@ export const gists = pgTable("gists", {
   aiNameReason: text("ai_name_reason"),
   visible: boolean("visible").default(false).notNull(),
   aiCompleted: boolean("ai_completed").default(false).notNull(),
+  aiTags: text("ai_tags"),
   owner: text("owner").notNull()
 });
 

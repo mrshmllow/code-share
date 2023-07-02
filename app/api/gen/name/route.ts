@@ -16,6 +16,7 @@ const BodyObject = z.object({
 const AIResponseObject = z.object({
   detailed_filename_choice_reasoning: z.string(),
   filename: z.string().nullable(),
+  search_tags: z.array(z.string()).nullable()
 });
 
 async function revalidate(
@@ -132,11 +133,12 @@ export async function POST(req: NextRequest) {
     messages: [
       {
         role: "system",
-        content: `assign a filename to the following file snippet. think it through step-by-step in \`detailed_filename_choice_reasoning\`, and place your answer in \`filename\`. your assigned_const_value is \"${constant_value}\". Your response MUST be in the following format (do not include backticks):
+        content: `assign a filename to the following file snippet. think it through step-by-step in \`detailed_filename_choice_reasoning\`, and place your answer in \`filename\`. Generate search tags to allow users to find this snippet easier, including specific topics like the language, libraries, without mentioning unneeded tags like "file snippet" etc in \`search_tags\`. your assigned_const_value is \"${constant_value}\". Your response MUST be in the following format (do not include backticks):
 
 {
   "detailed_filename_choice_reasoning": string,
   "filename": string | null,
+  "search_tags": string[] | null,
   "CONSTANT": assigned_const_value
 }`,
       },
@@ -182,6 +184,7 @@ export async function POST(req: NextRequest) {
       name: aiResponse.data.filename,
       aiNameReason: aiResponse.data.detailed_filename_choice_reasoning,
       aiCompleted: true,
+      aiTags: aiResponse.data.search_tags && aiResponse.data.search_tags.join(",")
     })
     .where(eq(gists.id, gist.id));
 
