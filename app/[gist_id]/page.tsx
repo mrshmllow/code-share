@@ -118,7 +118,7 @@ export default function GistPage() {
         </div>
 
         <div className="flex flex-row p-2 overflow-auto">
-          <div className="flex flex-col font-mono px-4">
+          <pre className="flex flex-col font-mono px-4">
             {[...Array((gist.text.match(/\n/g) || "").length + 1)].map(
               (_, i) => (
                 <a href={`#L${i + 1}`} key={i} className="" id={`L${i + 1}`}>
@@ -126,7 +126,7 @@ export default function GistPage() {
                 </a>
               )
             )}
-          </div>
+          </pre>
 
           <div
             dangerouslySetInnerHTML={{

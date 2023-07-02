@@ -15,6 +15,13 @@
       "when": 1687574186526,
       "tag": "0001_light_forgotten_one",
       "breakpoints": false
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1688289943705,
+      "tag": "0002_overconfident_nightshade",
+      "breakpoints": false
     }
   ]
 }
