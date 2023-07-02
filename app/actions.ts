@@ -8,7 +8,7 @@ import { nanoid } from "nanoid/async";
 import { redirect } from "next/navigation";
 import { env } from "./env.mjs";
 
-const IS_DEV = process.env.NODE_ENV == "production"
+const IS_PROD = process.env.NODE_ENV == "production";
 
 export async function createGist(text: string) {
   const session = await getServerActionSession();
@@ -22,13 +22,13 @@ export async function createGist(text: string) {
       text,
       visible: false,
       owner: session.user.id,
-      aiCompleted: IS_DEV
+      aiCompleted: !IS_PROD,
     })
     .returning({
       id: gists.id,
     });
 
-  if (!IS_DEV) {
+  if (!IS_PROD) {
     console.log("Skipping qstash publish in dev mode");
   } else {
     const url = new URL(env.NEXTAUTH_URL);
