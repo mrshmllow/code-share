@@ -5,6 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@catppuccin/highlightjs':
+    specifier: ^0.1.2
+    version: 0.1.2
+  '@catppuccin/palette':
+    specifier: ^0.1.8
+    version: 0.1.8
   '@harelpls/use-pusher':
     specifier: ^7.2.1
     version: 7.2.1(react@18.2.0)
@@ -53,6 +59,9 @@ dependencies:
   framer-motion:
     specifier: ^10.12.17
     version: 10.12.17(react-dom@18.2.0)(react@18.2.0)
+  highlight.js:
+    specifier: ^11.8.0
+    version: 11.8.0
   hotkeys-js:
     specifier: ^3.10.2
     version: 3.10.2
@@ -67,7 +76,7 @@ dependencies:
     version: 4.0.2
   next:
     specifier: ^13.4.7
-    version: 13.4.7(react-dom@18.2.0)(react@18.2.0)
+    version: 13.4.7(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
   next-auth:
     specifier: ^4.22.1
     version: 4.22.1(next@13.4.7)(react-dom@18.2.0)(react@18.2.0)
@@ -95,6 +104,9 @@ dependencies:
   react-wrap-balancer:
     specifier: ^0.5.0
     version: 0.5.0(react@18.2.0)
+  sass:
+    specifier: ^1.63.6
+    version: 1.63.6
   shiki:
     specifier: ^0.14.2
     version: 0.14.2
@@ -254,6 +266,14 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
+    dev: false
+
+  /@catppuccin/highlightjs@0.1.2:
+    resolution: {integrity: sha512-QbNIkD6fI7ZLY4f6GRUX3DK8HxiuwSkIIYFqAjLu9XKIA11yWtHkWGKUbfLueYeguUQovq1+wufQ3+8iILepzQ==}
+    dev: false
+
+  /@catppuccin/palette@0.1.8:
+    resolution: {integrity: sha512-41quIj08vgPMy8kQxQb0+VqxuTlo2xfNYGSgOuiJXNojWnGuhLxBc61jgu2jiZYGNXVqgVNGWwmWEUf6s32jiA==}
     dev: false
 
   /@deno/shim-crypto@0.3.1:
@@ -2575,6 +2595,11 @@ packages:
     resolution: {integrity: sha512-2bsegYkkHO+h/9MGbn6KWcE45cHZgPANo5LXF7EvWdT0yT2EguSVO1nDgU5c8+ZOPwp2vMNa7YFsJhVcDR9Sdg==}
     dev: true
 
+  /highlight.js@11.8.0:
+    resolution: {integrity: sha512-MedQhoqVdr0U6SSnWPzfiadUcDHfN/Wzq25AkXiQv9oiOO/sG0S7XkvpFIqWBl9Yq1UYyYOOVORs5UW2XlPyzg==}
+    engines: {node: '>=12.0.0'}
+    dev: false
+
   /hogan.js@3.0.2:
     resolution: {integrity: sha512-RqGs4wavGYJWE07t35JQccByczmNUXQT0E12ZYV1VKYu5UiAU9lsos/yBAcf840+zrUQQxgVduCR5/B8nNtibg==}
     hasBin: true
@@ -2644,6 +2669,10 @@ packages:
   /ignore@5.2.4:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==}
     engines: {node: '>= 4'}
+    dev: false
+
+  /immutable@4.3.0:
+    resolution: {integrity: sha512-0AOCmOip+xgJwEVTQj1EfiDDOkPmuyllDuTuEX+DDXUgapLAsBIfkg3sxCYyCEA8mQqZrrxPUGjcOQ2JS3WLkg==}
     dev: false
 
   /import-fresh@3.3.0:
@@ -3230,7 +3259,7 @@ packages:
       '@panva/hkdf': 1.1.1
       cookie: 0.5.0
       jose: 4.14.4
-      next: 13.4.7(react-dom@18.2.0)(react@18.2.0)
+      next: 13.4.7(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6)
       oauth: 0.9.15
       openid-client: 5.4.2
       preact: 10.15.1
@@ -3244,7 +3273,7 @@ packages:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}
     dev: true
 
-  /next@13.4.7(react-dom@18.2.0)(react@18.2.0):
+  /next@13.4.7(react-dom@18.2.0)(react@18.2.0)(sass@1.63.6):
     resolution: {integrity: sha512-M8z3k9VmG51SRT6v5uDKdJXcAqLzP3C+vaKfLIAM0Mhx1um1G7MDnO63+m52qPdZfrTFzMZNzfsgvm3ghuVHIQ==}
     engines: {node: '>=16.8.0'}
     hasBin: true
@@ -3269,6 +3298,7 @@ packages:
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+      sass: 1.63.6
       styled-jsx: 5.1.1(react@18.2.0)
       watchpack: 2.4.0
       zod: 3.21.4
@@ -3937,6 +3967,16 @@ packages:
 
   /safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
+    dev: false
+
+  /sass@1.63.6:
+    resolution: {integrity: sha512-MJuxGMHzaOW7ipp+1KdELtqKbfAWbH7OLIdoSMnVe3EXPMTmxTmlaZDCTsgIpPCs3w99lLo9/zDKkOrJuT5byw==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.3
+      immutable: 4.3.0
+      source-map-js: 1.0.2
     dev: false
 
   /saxes@6.0.0:

@@ -10,12 +10,14 @@ export function Provider({
   children,
   gist,
   html,
+  language,
   session,
 }: {
   children: ReactNode;
   gist: Gist;
   html: string;
   session: Session | null;
+  language: string | null;
 }) {
   const [gistValue, setGist] = useState(gist);
 
@@ -25,6 +27,7 @@ export function Provider({
         html,
         gist: gistValue,
         isOwner: session?.user?.id === gistValue.owner,
+        language,
         updateName: (obj) =>
           setGist({
             ...gist,

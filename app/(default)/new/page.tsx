@@ -6,7 +6,7 @@ import { createGistFromForm } from "./actions";
 
 export default function NewGistPage() {
   return (
-    <Card size="lg">
+    <Card size="xl">
       <form action={createGistFromForm}>
         <Card.Header>
           <Card.Title>New Snippet</Card.Title>

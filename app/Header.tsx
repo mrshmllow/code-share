@@ -7,6 +7,7 @@ import { cx } from "cva";
 import {
   ClipboardIcon,
   ExclamationCircleIcon,
+  MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { hasClipboardReadPermission } from "./clipboard";
@@ -30,19 +31,26 @@ export default function Header() {
 
   return (
     <nav className="px-4 py-2 flex justify-between">
-      <Link href="/" className="text-lg font-bold sm:text-xl inline-flex items-center">
+      <Link
+        href="/"
+        className="text-lg font-bold sm:text-xl inline-flex items-center"
+      >
         Snippet Share
       </Link>
 
       <div className="flex items-center text-gray-800 gap-4">
-        <p className="font-normal select-none hidden sm:block">
-          ctrl+v
-        </p>
+        <p className="font-normal select-none hidden sm:block">ctrl+v</p>
+
+        <Link
+          href="/search"
+          aria-label="Search Snippets"
+          className="hover:bg-gray-100 rounded-lg text-black px-2 min-h-[2.5rem] inline-flex items-center justify-center outline-none ring-offset-white focus-visible:ring-2 ring-offset-2 ring-indigo-500/50 "
+        >
+          <MagnifyingGlassIcon className="w-6 h-6" />
+        </Link>
 
         <Menu as="div" className="relative inline-block text-left">
-          <div>
-            <Menu.Button as={Button}>New Snippet</Menu.Button>
-          </div>
+          <Menu.Button as={Button}>New Snippet</Menu.Button>
           <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10 p-2">
             <Menu.Item>
               {({ active }) => (
@@ -72,7 +80,7 @@ export default function Header() {
                       const text = await navigator.clipboard.readText();
 
                       console.log(text);
-                    } catch { }
+                    } catch {}
                   }}
                   disabled={permError}
                 >

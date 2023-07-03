@@ -7,6 +7,7 @@ import { qstash } from "@/lib/messaging/qstash";
 import { nanoid } from "nanoid/async";
 import { redirect } from "next/navigation";
 import { env } from "./env.mjs";
+import hljs from "highlight.js";
 
 const IS_PROD = process.env.NODE_ENV == "production";
 
@@ -14,6 +15,8 @@ export async function createGist(text: string) {
   const session = await getServerActionSession();
 
   if (!session?.user?.id) return;
+
+  const { language } = hljs.highlightAuto(text);
 
   const gist = await db
     .insert(gists)
@@ -23,6 +26,7 @@ export async function createGist(text: string) {
       visible: false,
       owner: session.user.id,
       aiCompleted: !IS_PROD,
+      language
     })
     .returning({
       id: gists.id,

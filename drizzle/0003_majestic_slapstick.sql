@@ -1,0 +1,1 @@
+ALTER TABLE "gists" ADD COLUMN "language" text;

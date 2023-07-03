@@ -15,7 +15,8 @@ export const gists = pgTable("gists", {
   visible: boolean("visible").default(false).notNull(),
   aiCompleted: boolean("ai_completed").default(false).notNull(),
   aiTags: text("ai_tags"),
-  owner: text("owner").notNull()
+  owner: text("owner").notNull(),
+  language: text("language")
 });
 
 export const users = pgTable("users", {
