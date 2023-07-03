@@ -7,7 +7,7 @@ import { env } from "../../env.mjs";
 
 const searchClient = algoliasearch(
   env.NEXT_PUBLIC_ALGOLIA_ID,
-  "2b64a02ac721d2a4e2fc9663344f65b7"
+  env.NEXT_PUBLIC_ALGOLIA_KEY
 );
 const IS_PROD = process.env.NODE_ENV == "production";
 
