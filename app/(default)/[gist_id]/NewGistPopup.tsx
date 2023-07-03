@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Dialog, Transition } from "@headlessui/react";
-import Button from "../design/button/Button";
+import Button from "../../design/button/Button";
 import { EyeSlashIcon } from "@heroicons/react/24/outline";
 import { changeVisibilty } from "./actions";
 import { GistContext } from "./store";
