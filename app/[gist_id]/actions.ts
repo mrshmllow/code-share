@@ -56,20 +56,20 @@ export async function changeVisibilty({
       name: gists.name,
       visible: gists.visible,
       text: gists.text,
-      tags: gists.aiTags
+      tags: gists.aiTags,
+      language: gists.language
     });
 
   if (visibilty) {
     const text = gist[0].text.split("\n").slice(0, 5).join("\n")
     
-    console.log("text", text)
-
     // Add a newly visible gist
     await index.saveObject({
       objectID: id,
       name: gist[0].name,
       owner: session.user.id,
       tags: gist[0].tags && gist[0].tags.split(","),
+      language: gist[0].language,
       text
     });
   } else {

@@ -8,6 +8,7 @@ import Button from "../design/button/Button";
 import { experimental_useOptimistic as useOptimistic } from "react";
 import { updateName } from "./actions";
 import { ClipboardIcon } from "@heroicons/react/24/outline";
+import "@catppuccin/highlightjs/sass/catppuccin-latte.scss";
 
 function NameContent({
   name,
@@ -16,7 +17,6 @@ function NameContent({
   name: string | null;
   aiCompleted: boolean;
 }) {
-  
   return (
     <>
       {!name && !aiCompleted ? (
@@ -37,7 +37,7 @@ function NameContent({
 }
 
 export default function GistPage() {
-  const { gist, isOwner, html } = useContext(GistContext);
+  const { gist, language, isOwner, html } = useContext(GistContext);
   const [editing, setEditing] = useState(false);
   const [optimisticName, optimisticUpdateName] = useOptimistic<
     string | null,
@@ -63,11 +63,17 @@ export default function GistPage() {
                     setEditing(true);
                   }}
                 >
-                  <NameContent aiCompleted={gist.aiCompleted} name={optimisticName} />
+                  <NameContent
+                    aiCompleted={gist.aiCompleted}
+                    name={optimisticName}
+                  />
                 </button>
               ) : (
                 <p className="inline-flex items-center gap-4 px-4 py-2 font-mono text-gray-700">
-                  <NameContent aiCompleted={gist.aiCompleted} name={optimisticName} />
+                  <NameContent
+                    aiCompleted={gist.aiCompleted}
+                    name={optimisticName}
+                  />
                 </p>
               )}
 
@@ -128,12 +134,17 @@ export default function GistPage() {
             )}
           </pre>
 
-          <div
-            dangerouslySetInnerHTML={{
-              __html: html,
-            }}
-            className="[&>pre]:overflow-x-auto"
-          ></div>
+          <pre className="[&>pre]:overflow-x-auto">
+            <code
+              dangerouslySetInnerHTML={{
+                __html: html,
+              }}
+            ></code>
+          </pre>
+        </div>
+
+        <div className="border-t border-gray-300 bg-gray-100 p-2 flex justify-end">
+          {language && <p>{language}</p>}
         </div>
       </div>
     </div>

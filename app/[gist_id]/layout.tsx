@@ -8,6 +8,7 @@ import { Provider } from "./Provider";
 import { getHighlighter } from "shiki";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import hljs from "highlight.js";
 import NewGistPopup from "./NewGistPopup";
 
 export default async function GistLayout({
@@ -31,17 +32,20 @@ export default async function GistLayout({
   // you must be owner OR the gist must be visible
   if (gist === undefined || (!owns && !gist.visible)) return notFound();
 
-  const highlighter = await getHighlighter({
-    theme: "css-variables",
-    langs: ["typescript", "python"],
-  });
+  const highlight = hljs.highlightAuto(
+    sanitize(gist.text),
+    gist.language ? [gist.language] : undefined
+  );
 
-  const html = highlighter.codeToHtml(sanitize(gist.text), {
-    theme: "css-variables",
-  });
+  const lang = highlight.language ? highlight.language : gist.language
 
   return (
-    <Provider gist={gist} html={html} session={session}>
+    <Provider
+      language={lang}
+      gist={gist}
+      html={highlight.value}
+      session={session}
+    >
       <NewGistPopup />
       <div className="px-4">{children}</div>
     </Provider>
