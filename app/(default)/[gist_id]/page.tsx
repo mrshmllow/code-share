@@ -1,10 +1,10 @@
 "use client";
 
-import Spinner from "../design/icons/Spinner";
+import Spinner from "../../design/icons/Spinner";
 import { useContext, useRef, useState } from "react";
 import { GistContext } from "./store";
-import TextInput from "../design/form/TextInput";
-import Button from "../design/button/Button";
+import TextInput from "../../design/form/TextInput";
+import Button from "../../design/button/Button";
 import { experimental_useOptimistic as useOptimistic } from "react";
 import { updateName } from "./actions";
 import { ClipboardIcon } from "@heroicons/react/24/outline";
@@ -46,7 +46,7 @@ export default function GistPage() {
   const text = useRef<HTMLInputElement>(null);
 
   return (
-    <div>
+    <>
       <div className="border border-gray-300 rounded-lg">
         <div className="border-b border-gray-300 p-2 flex justify-between">
           {!editing ? (
@@ -134,7 +134,7 @@ export default function GistPage() {
             )}
           </pre>
 
-          <pre className="[&>pre]:overflow-x-auto">
+          <pre className="overflow-x-auto break-all whitespace-pre-wrap">
             <code
               dangerouslySetInnerHTML={{
                 __html: html,
@@ -147,6 +147,6 @@ export default function GistPage() {
           {language && <p>{language}</p>}
         </div>
       </div>
-    </div>
+    </>
   );
 }

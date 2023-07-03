@@ -47,7 +47,7 @@ export default async function GistLayout({
       session={session}
     >
       <NewGistPopup />
-      <div className="px-4">{children}</div>
+      <div className="max-w-4xl w-full">{children}</div>
     </Provider>
   );
 }
