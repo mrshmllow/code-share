@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1687171065330,
-      "tag": "0000_freezing_elektra",
-      "breakpoints": false
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1687574186526,
-      "tag": "0001_light_forgotten_one",
-      "breakpoints": false
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1688289943705,
-      "tag": "0002_overconfident_nightshade",
-      "breakpoints": false
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1688346658145,
-      "tag": "0003_majestic_slapstick",
+      "when": 1688529600126,
+      "tag": "0000_sharp_paladin",
       "breakpoints": false
     }
   ]

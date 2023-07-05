@@ -1,4 +1,5 @@
 import { env } from "@/app/env.mjs";
+import SnippetsDrizzleAdapter from "@/db/adapter";
 import { AuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 
@@ -9,16 +10,18 @@ export const authOptions: AuthOptions = {
       clientSecret: env.GITHUB_SECRET,
     }),
   ],
+  adapter: SnippetsDrizzleAdapter(null, {}),
   callbacks: {
-    session({ session, token }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
+    session({ session, token, user }) {
+      if (session.user) {
+        session.user.id = user.id;
       }
+
       return session;
     },
-    async jwt({ token }) {
-      return token
-    }
+    // async jwt({ token }) {
+    //   return token
+    // }
   },
   pages: {
     signIn: "/sign-in",
@@ -28,4 +31,3 @@ export const authOptions: AuthOptions = {
     // verifyRequest: "/"
   },
 };
-
