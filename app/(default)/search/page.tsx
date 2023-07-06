@@ -113,7 +113,7 @@ export default function SearchPage() {
               hitComponent={({ hit }) => (
                 <Link
                   className="rounded-lg border border-gray-300 mt-5 flex flex-col overflow-clip"
-                  href={`/${hit.objectID}`}
+                  href={`/${hit.owner}/${hit.objectID}`}
                 >
                   <pre className="border-b p-4 flex flex-col break-all whitespace-pre-wrap max-h-40 gradient-mask-b-80">
                     <code className="">

@@ -26,11 +26,15 @@ export async function createGist(text: string) {
       visible: false,
       owner: session.user.id,
       aiCompleted: !IS_PROD,
-      language
+      language,
     })
     .returning({
       id: gists.id,
     });
+
+  if (!gist[0]) {
+    throw new Error("Unable to create gist")
+  }
 
   if (!IS_PROD) {
     console.log("Skipping qstash publish in dev mode");
@@ -48,5 +52,5 @@ export async function createGist(text: string) {
     });
   }
 
-  redirect(`/${gist[0].id}?new=true`);
+  redirect(`/${session.user.id}/${gist[0].id}?new=true`);
 }

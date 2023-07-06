@@ -1,33 +1,88 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import Button from "./design/button/Button";
 import { Menu } from "@headlessui/react";
 import { cx } from "cva";
 import {
+  ChevronDownIcon,
   ClipboardIcon,
   ExclamationCircleIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
-import { hasClipboardReadPermission } from "./clipboard";
+import { useState, useTransition } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { createGist } from "./actions";
+import Spinner from "./design/icons/Spinner";
 
-export default function Header() {
+function CreateGistGroup({
+  session,
+}: {
+  session: ReturnType<typeof useSession>;
+}) {
+  const [isLoading, startTransition] = useTransition();
   const [permError, setPermError] = useState(false);
 
-  async function localIsPermissionDenied() {
-    const has = await hasClipboardReadPermission();
+  return (
+    <>
+      <Menu.Item>
+        {({ active }) => (
+          <Link
+            className={cx(
+              "px-4 py-2 rounded-lg text-left block",
+              active && "bg-gray-200"
+            )}
+            href="/new"
+          >
+            New Snippet
+          </Link>
+        )}
+      </Menu.Item>
+      <Menu.Item disabled={permError}>
+        {({ active }) => (
+          <button
+            className={cx(
+              "px-4 py-2 rounded-lg text-left flex items-center gap-2 disabled:text-gray-600 w-full",
+              active && "bg-gray-200"
+            )}
+            onClick={async (e) => {
+              e.preventDefault();
 
-    if (has) {
-      setPermError(true);
-    }
+              if (session.status === "unauthenticated") {
+                return signIn();
+              }
 
-    return has;
-  }
+              try {
+                let text = await navigator.clipboard.readText();
 
-  useEffect(() => {
-    localIsPermissionDenied();
-  }, []);
+                startTransition(() => createGist(text));
+              } catch (e) {
+                setPermError(true);
+              }
+            }}
+            disabled={permError}
+          >
+            <span className="w-5 h-5">
+              {permError ? (
+                <ExclamationCircleIcon />
+              ) : isLoading ? (
+                <Spinner />
+              ) : (
+                <ClipboardIcon />
+              )}
+            </span>
+
+            <span>From Clipboard</span>
+          </button>
+        )}
+      </Menu.Item>
+    </>
+  );
+}
+
+export default function Header() {
+  const session = useSession();
 
   return (
     <nav className="px-4 py-2 flex justify-between">
@@ -49,51 +104,81 @@ export default function Header() {
           <MagnifyingGlassIcon className="w-6 h-6" />
         </Link>
 
-        <Menu as="div" className="relative inline-block text-left">
-          <Menu.Button as={Button}>New Snippet</Menu.Button>
-          <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10 p-2">
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  className={cx(
-                    "px-4 py-2 rounded-lg text-left",
-                    active && "bg-gray-200"
+        {session.status === "unauthenticated" ? (
+          <Menu as="div" className="relative inline-block text-left">
+            <Menu.Button as={Button}>New Snippet</Menu.Button>
+            <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10 p-2">
+              <CreateGistGroup session={session} />
+            </Menu.Items>
+          </Menu>
+        ) : (
+          <Menu as="div" className="relative inline-block text-left">
+            <Menu.Button className="relative min-h-[2.5rem] inline-flex flex-row items-center gap-3">
+              <Image
+                src={session.data?.user?.image ?? "unknown"}
+                className="rounded-full"
+                alt={session.data?.user?.email ?? "unknown"}
+                width={30}
+                height={30}
+              />
+
+              <ChevronDownIcon className="w-5 h-5" />
+            </Menu.Button>
+            <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-200 rounded-xl bg-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10">
+              <div className="px-2 py-2">
+                <CreateGistGroup session={session} />
+              </div>
+              <div className="px-2 py-2">
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link
+                      className={cx(
+                        "px-4 py-2 rounded-lg text-left block",
+                        active && "bg-gray-200"
+                      )}
+                      href={`/${session?.data?.user?.id}`}
+                    >
+                      Profile
+                    </Link>
                   )}
-                  href="/new"
-                >
-                  New Snippet
-                </Link>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  className={cx(
-                    "px-4 py-2 rounded-lg text-left flex items-center gap-2 disabled:text-gray-600",
-                    active && "bg-gray-200"
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link
+                      className={cx(
+                        "px-4 py-2 rounded-lg text-left block",
+                        active && "bg-gray-200"
+                      )}
+                      href="/settings"
+                    >
+                      Account Settings
+                    </Link>
                   )}
-                  onClick={async () => {
-                    if (await localIsPermissionDenied()) {
-                    }
-
-                    try {
-                      const text = await navigator.clipboard.readText();
-
-                      console.log(text);
-                    } catch {}
-                  }}
-                  disabled={permError}
-                >
-                  <span className="w-5 h-5">
-                    {permError ? <ExclamationCircleIcon /> : <ClipboardIcon />}
-                  </span>
-
-                  <span>From Clipboard</span>
-                </button>
-              )}
-            </Menu.Item>
-          </Menu.Items>
-        </Menu>
+                </Menu.Item>
+              </div>
+              <div className="p-2">
+                <Menu.Item>
+                  {({ active }) => (
+                    <button
+                      className={cx(
+                        "px-4 py-2 rounded-lg text-left block w-full text-red-500",
+                        active && "bg-gray-200"
+                      )}
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        await signOut({
+                          redirect: true,
+                        });
+                      }}
+                    >
+                      Log Out
+                    </button>
+                  )}
+                </Menu.Item>
+              </div>
+            </Menu.Items>
+          </Menu>
+        )}
       </div>
     </nav>
   );
