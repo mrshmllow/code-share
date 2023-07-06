@@ -9,7 +9,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function updateName({ id, name }: { id: string; name: string }) {
-  console.log("UDPATE NAME WAS CALLED")
   const session = await getServerActionSession();
 
   if (!session?.user?.id) return;
@@ -43,7 +42,6 @@ export async function changeVisibilty({
   id: string;
   visibilty: boolean;
 }) {
-  console.log("CHANGE VIS WAS CALLED")
   const session = await getServerActionSession();
 
   if (!session?.user?.id) return;
