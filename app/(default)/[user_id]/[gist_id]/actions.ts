@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function updateName({ id, name }: { id: string; name: string }) {
+  console.log("UDPATE NAME WAS CALLED")
   const session = await getServerActionSession();
 
   if (!session?.user?.id) return;
@@ -25,14 +26,14 @@ export async function updateName({ id, name }: { id: string; name: string }) {
       visible: gists.visible,
     });
 
-  if (gist[0].visible) {
+  if (gist[0]?.visible) {
     await index.partialUpdateObject({
       objectID: id,
       name: name,
     });
   }
 
-  revalidatePath(`/${id}`);
+  revalidatePath(`/${session.user.id}/${id}`);
 }
 
 export async function changeVisibilty({
@@ -42,6 +43,7 @@ export async function changeVisibilty({
   id: string;
   visibilty: boolean;
 }) {
+  console.log("CHANGE VIS WAS CALLED")
   const session = await getServerActionSession();
 
   if (!session?.user?.id) return;
@@ -57,12 +59,12 @@ export async function changeVisibilty({
       visible: gists.visible,
       text: gists.text,
       tags: gists.aiTags,
-      language: gists.language
+      language: gists.language,
     });
 
-  if (visibilty) {
-    const text = gist[0].text.split("\n").slice(0, 5).join("\n")
-    
+  if (visibilty && gist[0]) {
+    const text = gist[0].text.split("\n").slice(0, 10).join("\n");
+
     // Add a newly visible gist
     await index.saveObject({
       objectID: id,
@@ -70,12 +72,12 @@ export async function changeVisibilty({
       owner: session.user.id,
       tags: gist[0].tags && gist[0].tags.split(","),
       language: gist[0].language,
-      text
+      text,
     });
   } else {
     // Remove newly invisible gist from search results
     await index.deleteObject(id);
   }
 
-  redirect(`/${id}`);
+  redirect(`/${session.user.id}/${id}`);
 }

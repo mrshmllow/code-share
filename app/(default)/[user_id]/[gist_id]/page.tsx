@@ -1,10 +1,10 @@
 "use client";
 
-import Spinner from "../../design/icons/Spinner";
+import Spinner from "@/app/design/icons/Spinner";
 import { useContext, useRef, useState } from "react";
 import { GistContext } from "./store";
-import TextInput from "../../design/form/TextInput";
-import Button from "../../design/button/Button";
+import TextInput from "@/app/design/form/TextInput";
+import Button from "@/app/design/button/Button";
 import { experimental_useOptimistic as useOptimistic } from "react";
 import { updateName } from "./actions";
 import { ClipboardIcon } from "@heroicons/react/24/outline";

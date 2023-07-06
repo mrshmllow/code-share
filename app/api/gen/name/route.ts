@@ -153,7 +153,7 @@ export async function POST(req: NextRequest) {
     return genDefaultName(gist.id);
   }
 
-  const message = completion.data.choices[0].message?.content;
+  const message = completion.data.choices[0]?.message?.content;
 
   if (message === undefined) {
     return genDefaultName(gist.id);

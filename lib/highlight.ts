@@ -1,2 +1,0 @@
-import { getHighlighter } from "shiki";
-

@@ -5,7 +5,6 @@ import { sanitize } from "isomorphic-dompurify";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 import { Provider } from "./Provider";
-import { getHighlighter } from "shiki";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import hljs from "highlight.js";

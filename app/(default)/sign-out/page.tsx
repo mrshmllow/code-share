@@ -5,11 +5,9 @@ import Button from "@/app/design/button/Button";
 import ButtonText from "@/app/design/button/ButtonText";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
   const [isBusy, setIsBusy] = useState(false);
-  const router = useRouter();
 
   return (
     <Card size="md">
@@ -26,9 +24,8 @@ export default function SignUpPage() {
 
           setIsBusy(true);
           await signOut({
-            redirect: false,
+            redirect: true,
           });
-          router.push("/sign-in");
         }}
       >
         <ButtonText>Sign Out</ButtonText>
