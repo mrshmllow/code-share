@@ -1,6 +1,6 @@
 import { db } from "@/db/db";
 import { gists } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { sanitize } from "isomorphic-dompurify";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
@@ -11,17 +11,18 @@ import hljs from "highlight.js";
 import NewGistPopup from "./NewGistPopup";
 
 export default async function GistLayout({
-  params: { gist_id },
+  params: { gist_id, user_id },
   children,
 }: {
   params: {
     gist_id: string;
+    user_id: string;
   };
   children: ReactNode;
 }) {
   const [gist, session] = await Promise.all([
     db.query.gists.findFirst({
-      where: eq(gists.id, gist_id),
+      where: and(eq(gists.id, gist_id), eq(gists.owner, user_id))
     }),
     getServerSession(authOptions),
   ]);
