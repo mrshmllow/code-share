@@ -55,8 +55,6 @@ export default function Home() {
     <main className="relative">
       {/*<div className="pattern-wavy pattern-slate-800 pattern-bg-white pattern-size-8 pattern-opacity-20 absolute -top-24 left-0 w-full h-[calc(100%+6rem)] -z-10" />*/}
 
-      <Palette />
-
       <div className="px-4 pb-10 flex flex-col sm:items-center">
         <Balancer
           as="h1"

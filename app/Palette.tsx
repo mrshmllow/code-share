@@ -27,7 +27,7 @@ type LinkItem = {
 
 type Item = Base | LinkItem | ActionItem;
 
-export default function Palette() {
+export default function Palette({ onClose }: { onClose?: () => void }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const session = useSession();
@@ -105,8 +105,9 @@ export default function Palette() {
 
                       if ("href" in item) {
                         router.push(item.href);
-                        return;
                       }
+
+                      onClose && onClose();
                     }}
                   >
                     <div className="flex items-center gap-2 pl-4 border-b border-b-gray-100 p-4">
