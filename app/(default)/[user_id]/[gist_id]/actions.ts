@@ -35,6 +35,38 @@ export async function updateName({ id, name }: { id: string; name: string }) {
   revalidatePath(`/${session.user.id}/${id}`);
 }
 
+export async function updateLanguage({
+  id,
+  language,
+}: {
+  id: string;
+  language: string;
+}) {
+  const session = await getServerActionSession();
+
+  if (!session?.user?.id) return;
+
+  const gist = await db
+    .update(gists)
+    .set({
+      language,
+    })
+    .where(and(eq(gists.owner, session.user.id), eq(gists.id, id)))
+    .returning({
+      name: gists.name,
+      visible: gists.visible,
+    });
+
+  if (gist[0]?.visible) {
+    await index.partialUpdateObject({
+      objectID: id,
+      language,
+    });
+  }
+
+  revalidatePath(`/${session.user.id}/${id}`);
+}
+
 export async function changeVisibilty({
   id,
   visibilty,

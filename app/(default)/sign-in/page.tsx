@@ -25,7 +25,9 @@ export default function SignUpPage() {
           e.preventDefault();
 
           setIsBusy(true);
-          await signIn("github");
+          await signIn("github", {
+            callbackUrl: "/new"
+          });
         }}
       >
         <ButtonText>Github</ButtonText>

@@ -43,13 +43,6 @@ export default function SearchPage() {
     refine: langRefine,
     canRefine: canLangRefine,
     items,
-    sendEvent,
-    isFromSearch,
-    isShowingMore,
-    searchForItems,
-    toggleShowMore,
-    canToggleShowMore,
-    hasExhaustiveItems,
   } = useRefinementList({
     attribute: "language",
   });
@@ -58,7 +51,7 @@ export default function SearchPage() {
     <>
       <Configure hitsPerPage={10} />
 
-      <div className="sm:min-w-[48rem]">
+      <div className="sm:min-w-[48rem] mb-8">
         <Card size="full" shadow={false}>
           <Card.Header>
             <Card.Title>Search Snippets</Card.Title>

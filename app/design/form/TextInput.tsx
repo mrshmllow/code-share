@@ -1,7 +1,7 @@
 import { VariantProps, cva } from "cva";
 import { ReactNode, forwardRef } from "react";
 
-const textInput = cva(
+export const textInput = cva(
   "px-4 min-h-[2.5rem] rounded-lg inline-flex items-center gap-3 outline-none ring-offset-white focus-visible:ring-2 ring-offset-2 border-gray-300 border text-gray-900 [&:has(:focus)]:border-indigo-500 from-gray-100 to-gray-200 bg-gradient-to-br focus-visible:bg-white disabled:opacity-90",
   {
     variants: {
