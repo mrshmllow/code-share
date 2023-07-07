@@ -1,19 +1,14 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import Button from "./design/button/Button";
-import {
-  ClipboardIcon,
-  ExclamationCircleIcon,
-} from "@heroicons/react/24/outline";
-import ButtonishLink from "./design/button/ButtonishLink";
 import { Balancer } from "react-wrap-balancer";
 import { createGist } from "./actions";
 import { signIn, useSession } from "next-auth/react";
 import NewGistPage from "./(default)/new/page";
+import Palette from "./Palette";
 
 const useKeyboardHandler = (
-  handler: (this: HTMLElement, ev: KeyboardEvent) => any,
+  handler: (this: HTMLElement, ev: KeyboardEvent) => any
 ) => {
   useEffect(() => {
     document.body.addEventListener("keydown", handler);
@@ -59,6 +54,8 @@ export default function Home() {
   return (
     <main className="relative">
       {/*<div className="pattern-wavy pattern-slate-800 pattern-bg-white pattern-size-8 pattern-opacity-20 absolute -top-24 left-0 w-full h-[calc(100%+6rem)] -z-10" />*/}
+
+      <Palette />
 
       <div className="px-4 pb-10 flex flex-col sm:items-center">
         <Balancer
