@@ -107,8 +107,25 @@ export default function Header() {
         {session.status === "unauthenticated" ? (
           <Menu as="div" className="relative inline-block text-left">
             <Menu.Button as={Button}>New Snippet</Menu.Button>
-            <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right rounded-xl bg-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10 p-2">
-              <CreateGistGroup session={session} />
+            <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-200 rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10">
+              <div className="px-2 py-2">
+                <CreateGistGroup session={session} />
+              </div>
+              <div className="px-2 py-2">
+                <Menu.Item>
+                  {({ active }) => (
+                    <Link
+                      className={cx(
+                        "px-4 py-2 rounded-lg text-left block",
+                        active && "bg-gray-100"
+                      )}
+                      href="/sign-in"
+                    >
+                      Sign In
+                    </Link>
+                  )}
+                </Menu.Item>
+              </div>
             </Menu.Items>
           </Menu>
         ) : (
