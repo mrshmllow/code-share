@@ -14,9 +14,8 @@ const BodyObject = z.object({
 });
 
 const AIResponseObject = z.object({
-  detailed_filename_choice_reasoning: z.string(),
+  reasoning: z.string(),
   filename: z.string().nullable(),
-  search_tags: z.array(z.string()).nullable()
 });
 
 async function revalidate(
@@ -35,7 +34,7 @@ async function genDefaultName(id: string) {
   await db
     .update(gists)
     .set({
-      aiCompleted: true
+      aiCompleted: true,
     })
     .where(eq(gists.id, id));
 
@@ -128,23 +127,46 @@ export async function POST(req: NextRequest) {
   const constant_value = "oRWOc4Hv1XfzzG5G";
 
   const completion = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
+    model: "gpt-3.5-turbo-0613",
     temperature: 0,
+    frequency_penalty: 1,
     messages: [
       {
         role: "system",
-        content: `assign a filename to the following file snippet. think it through step-by-step in \`detailed_filename_choice_reasoning\`, and place your answer in \`filename\`. Generate search tags to allow users to find this snippet easier, including specific topics like the language, libraries, without mentioning unneeded tags like "file snippet" etc in \`search_tags\`. your assigned_const_value is \"${constant_value}\". Your response MUST be in the following format (do not include backticks):
-
-{
-  "detailed_filename_choice_reasoning": string,
-  "filename": string | null,
-  "search_tags": string[] | null,
-  "CONSTANT": assigned_const_value
-}`,
+        content: `Request ID: ${constant_value}`,
+      },
+      {
+        role: "system",
+        content:
+          "assign a filename to the following file snippet. think it through step-by-step.",
       },
       {
         role: "user",
         content: gist.text,
+      },
+    ],
+    function_call: {
+      name: "updateSnippetName",
+    },
+    functions: [
+      {
+        name: "updateSnippetName",
+        description: "Update snippet name",
+        parameters: {
+          type: "object",
+          properties: {
+            reasoning: {
+              type: "string",
+              description:
+                "Detailed step-by-step reasoning for filename choice",
+            },
+            filename: {
+              type: ["string", "null"],
+              description: "The name of the snippet",
+            },
+          },
+          required: ["reasoning", "filename"],
+        },
       },
     ],
   });
@@ -153,16 +175,20 @@ export async function POST(req: NextRequest) {
     return genDefaultName(gist.id);
   }
 
-  const message = completion.data.choices[0]?.message?.content;
+  const message = completion.data.choices[0]?.message?.function_call;
 
-  if (message === undefined) {
+  if (
+    message?.name === undefined ||
+    message.name !== "updateSnippetName" ||
+    message.arguments === undefined
+  ) {
     return genDefaultName(gist.id);
   }
 
   let rawResponse;
 
   try {
-    rawResponse = JSON.parse(message);
+    rawResponse = JSON.parse(message.arguments);
   } catch {
     return genDefaultName(gist.id);
   }
@@ -173,7 +199,7 @@ export async function POST(req: NextRequest) {
     !aiResponse.success ||
     aiResponse.data.filename === null ||
     aiResponse.data.filename.includes(constant_value) ||
-    aiResponse.data.detailed_filename_choice_reasoning.includes(constant_value)
+    aiResponse.data.reasoning.includes(constant_value)
   ) {
     return genDefaultName(gist.id);
   }
@@ -182,15 +208,14 @@ export async function POST(req: NextRequest) {
     .update(gists)
     .set({
       name: aiResponse.data.filename,
-      aiNameReason: aiResponse.data.detailed_filename_choice_reasoning,
+      aiNameReason: aiResponse.data.reasoning,
       aiCompleted: true,
-      aiTags: aiResponse.data.search_tags && aiResponse.data.search_tags.join(",")
     })
     .where(eq(gists.id, gist.id));
 
   await revalidate(gist.id, {
     name: aiResponse.data.filename,
-    aiNameReason: aiResponse.data.detailed_filename_choice_reasoning,
+    aiNameReason: aiResponse.data.reasoning,
   });
 
   return NextResponse.json({ revalidated: true, now: Date.now() });
