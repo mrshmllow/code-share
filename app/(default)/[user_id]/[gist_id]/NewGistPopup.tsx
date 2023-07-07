@@ -71,12 +71,13 @@ export default function NewGistPopup() {
                 >
                   Keep Private?
                 </Dialog.Title>
-                <div className="mt-2">
+
+                <Dialog.Description className="mt-2">
                   <p className="text-sm text-gray-500">
                     New snippets are private by default. You can change this
                     behaviour in the account settings.
                   </p>
-                </div>
+                </Dialog.Description>
 
                 <div className="mt-4 flex gap-2 w-full flex-col sm:flex-row">
                   <Button

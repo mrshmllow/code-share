@@ -1,14 +1,15 @@
 "use client";
 
 import Spinner from "@/app/design/icons/Spinner";
-import { useContext, useRef, useState } from "react";
+import { startTransition, useContext, useRef, useState } from "react";
 import { GistContext } from "./store";
 import TextInput from "@/app/design/form/TextInput";
 import Button from "@/app/design/button/Button";
 import { experimental_useOptimistic as useOptimistic } from "react";
-import { updateName } from "./actions";
+import { updateLanguage, updateName } from "./actions";
 import { ClipboardIcon } from "@heroicons/react/24/outline";
 import "@catppuccin/highlightjs/sass/catppuccin-latte.scss";
+import ChooseLanguagePopup from "@/app/design/ChooseLanguagePopup";
 
 function NameContent({
   name,
@@ -38,7 +39,7 @@ function NameContent({
 
 export default function GistPage() {
   const { gist, language, isOwner, html } = useContext(GistContext);
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState<"name" | "lang" | null>(null);
   const [optimisticName, optimisticUpdateName] = useOptimistic<
     string | null,
     string | null
@@ -49,7 +50,7 @@ export default function GistPage() {
     <>
       <div className="border border-gray-300 rounded-lg">
         <div className="border-b border-gray-300 p-2 flex justify-between">
-          {!editing ? (
+          {editing !== "name" ? (
             <>
               <span aria-hidden="true" className="sr-only">
                 {optimisticName}
@@ -60,7 +61,7 @@ export default function GistPage() {
                   className="inline-flex font-mono hover:bg-gray-100 gap-4 px-4 py-2 rounded-lg shrink items-center text-gray-700"
                   aria-label="Edit snippet title"
                   onClick={() => {
-                    setEditing(true);
+                    setEditing("name");
                   }}
                 >
                   <NameContent
@@ -95,7 +96,7 @@ export default function GistPage() {
                 if (text.current === null) return;
 
                 optimisticUpdateName(text.current.value);
-                setEditing(false);
+                setEditing(null);
 
                 await updateName({
                   id: gist.id,
@@ -116,7 +117,7 @@ export default function GistPage() {
                 <Button.Text>Save</Button.Text>
               </Button>
 
-              <Button intent="secondary" onClick={() => setEditing(false)}>
+              <Button intent="secondary" onClick={() => setEditing(null)}>
                 <Button.Text>Cancel</Button.Text>
               </Button>
             </form>
@@ -144,7 +145,29 @@ export default function GistPage() {
         </div>
 
         <div className="border-t border-gray-300 bg-gray-100 p-2 flex justify-end">
-          {language && <p>{language}</p>}
+          {isOwner ? (
+            <button
+              className="inline-flex font-mono hover:bg-gray-200 gap-4 px-4 py-2 rounded-lg shrink items-center text-gray-700"
+              aria-label="Edit snippet title"
+              onClick={() => setEditing("lang")}
+            >
+              <span>{language}</span>
+              
+              <ChooseLanguagePopup
+                isOpen={editing === "lang"}
+                initalLanguage={gist.language}
+                onPickLanguage={async (language) => {
+                  await updateLanguage({
+                    id: gist.id,
+                    language
+                  })
+                  setEditing(null)
+                }}
+              />
+            </button>
+          ) : (
+            <>{language && <p>{language}</p>}</>
+          )}
         </div>
       </div>
     </>

@@ -6,11 +6,11 @@ import {
   ClipboardIcon,
   ExclamationCircleIcon,
 } from "@heroicons/react/24/outline";
-import { hasClipboardReadPermission } from "./clipboard";
 import ButtonishLink from "./design/button/ButtonishLink";
 import { Balancer } from "react-wrap-balancer";
 import { createGist } from "./actions";
 import { signIn, useSession } from "next-auth/react";
+import NewGistPage from "./(default)/new/page";
 
 const useKeyboardHandler = (
   handler: (this: HTMLElement, ev: KeyboardEvent) => any
@@ -68,34 +68,7 @@ export default function Home() {
           Easily Share Code
         </Balancer>
 
-        <div className="flex items-center gap-3 flex-wrap mb-2">
-          <ButtonishLink
-            href="/new"
-            className="w-full sm:w-fit"
-            intent="secondary"
-          >
-            New Snippet
-          </ButtonishLink>
-
-          <Button
-            onClick={async () => {
-              await createGistFromClipboard();
-            }}
-            isBusy={permissionPending || gistCreatePending}
-            disabled={permanantDisable}
-            className="w-full sm:w-fit"
-          >
-            <Button.Icon>
-              {permError ? <ExclamationCircleIcon /> : <ClipboardIcon />}
-            </Button.Icon>
-
-            <Button.Text>From Clipboard</Button.Text>
-          </Button>
-        </div>
-
-        <p className="text-gray-800 select-none hidden sm:block">
-          Try hitting <strong>ctrl+v</strong>!
-        </p>
+        <NewGistPage />
       </div>
     </main>
   );
