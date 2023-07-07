@@ -138,10 +138,11 @@ export default function ChooseLanguagePopup({
 
                   <Button
                     full
-                    disabled={isBusy}
+                    isBusy={isBusy}
                     onClick={async () => await pickLanguage()}
                   >
-                    <Button.Text>Choose</Button.Text>
+                    <Button.Icon />
+                    <Button.Text busyText={["Updat", "ing"]}>Update</Button.Text>
                   </Button>
                 </div>
               </Dialog.Panel>
