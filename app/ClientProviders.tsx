@@ -15,7 +15,13 @@ const config = {
   cluster: "us3",
 };
 
-export default function ClientProviders({ children, session }: { children: ReactNode; session: Session | null }) {
+export default function ClientProviders({
+  children,
+  session,
+}: {
+  children: ReactNode;
+  session: Session | null;
+}) {
   return (
     <SessionProvider session={session}>
       <LazyMotion features={loadFeatures} strict>

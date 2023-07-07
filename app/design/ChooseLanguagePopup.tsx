@@ -21,7 +21,7 @@ export default function ChooseLanguagePopup({
   const [isBusy, setIsBusy] = useState(false);
 
   const [selectedLanguage, setSelectedLanguage] = useState(
-    initalLanguage ? initalLanguage : languages[0]
+    initalLanguage ? initalLanguage : languages[0],
   );
 
   const [query, setQuery] = useState("");

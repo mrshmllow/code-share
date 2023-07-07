@@ -145,7 +145,7 @@ export default function SearchPage() {
                   aria-label="go to first page"
                   className={cx(
                     "w-10 h-10 p-2 hover:bg-gray-100 rounded-full hidden sm:block",
-                    isFirstPage && "invisible"
+                    isFirstPage && "invisible",
                   )}
                   aria-hidden={isFirstPage}
                 >
@@ -161,7 +161,7 @@ export default function SearchPage() {
                   aria-label="go to previous page"
                   className={cx(
                     "w-10 h-10 p-2 hover:bg-gray-100 rounded-full",
-                    isFirstPage && "invisible"
+                    isFirstPage && "invisible",
                   )}
                   aria-hidden={isFirstPage}
                 >
@@ -181,7 +181,7 @@ export default function SearchPage() {
                           "w-10 h-10 rounded-full inline-flex items-center justify-center",
                           currentRefinement === page
                             ? "bg-indigo-500 text-white hover:bg-indigo-600"
-                            : "hover:bg-gray-100"
+                            : "hover:bg-gray-100",
                         )}
                       >
                         {page + 1}
@@ -199,7 +199,7 @@ export default function SearchPage() {
                   aria-label="go to next page"
                   className={cx(
                     "w-10 h-10 p-2 hover:bg-gray-100 rounded-full",
-                    isLastPage && "invisible"
+                    isLastPage && "invisible",
                   )}
                   aria-hidden={isLastPage}
                 >
@@ -215,7 +215,7 @@ export default function SearchPage() {
                   aria-label="go to last page"
                   className={cx(
                     "w-10 h-10 p-2 hover:bg-gray-100 rounded-full hidden sm:block",
-                    isLastPage && "invisible"
+                    isLastPage && "invisible",
                   )}
                   aria-hidden={isLastPage}
                 >

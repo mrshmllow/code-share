@@ -5,10 +5,14 @@ import { createContext } from "react";
 
 type Context = {
   gist: Gist;
-  html: string,
-  isOwner: boolean,
+  html: string;
+  isOwner: boolean;
   language: string | null;
-  updateName: (obj: { name: string; aiNameReason: string | null; aiCompleted: boolean }) => void;
+  updateName: (obj: {
+    name: string;
+    aiNameReason: string | null;
+    aiCompleted: boolean;
+  }) => void;
 };
 
 // lets just save some time here

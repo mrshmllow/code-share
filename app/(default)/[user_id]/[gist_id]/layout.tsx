@@ -22,7 +22,7 @@ export default async function GistLayout({
 }) {
   const [gist, session] = await Promise.all([
     db.query.gists.findFirst({
-      where: and(eq(gists.id, gist_id), eq(gists.owner, user_id))
+      where: and(eq(gists.id, gist_id), eq(gists.owner, user_id)),
     }),
     getServerSession(authOptions),
   ]);
@@ -33,17 +33,17 @@ export default async function GistLayout({
   if (gist === undefined || (!owns && !gist.visible)) return notFound();
 
   const highlight = hljs.highlightAuto(
-    sanitize(gist.text),
-    gist.language ? [gist.language] : undefined
+    gist.text,
+    gist.language ? [gist.language] : undefined,
   );
 
-  const lang = highlight.language ? highlight.language : gist.language
+  const lang = highlight.language ? highlight.language : gist.language;
 
   return (
     <Provider
       language={lang}
       gist={gist}
-      html={highlight.value}
+      html={sanitize(highlight.value)}
       session={session}
     >
       <NewGistPopup />

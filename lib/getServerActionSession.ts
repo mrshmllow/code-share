@@ -10,7 +10,7 @@ export const getServerActionSession = () => {
     cookies: Object.fromEntries(
       cookies()
         .getAll()
-        .map(c => [c.name, c.value]),
+        .map((c) => [c.name, c.value]),
     ),
   } as any;
   const res = {
@@ -25,5 +25,4 @@ export const getServerActionSession = () => {
     },
   } as any;
   return getServerSession(req, res, authOptions);
-}
-
+};

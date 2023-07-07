@@ -58,7 +58,7 @@ export const accounts = pgTable(
     return {
       pk: primaryKey(table.provider, table.providerAccountId),
     };
-  }
+  },
 );
 
 export const verificationTokens = pgTable(
@@ -73,7 +73,7 @@ export const verificationTokens = pgTable(
     return {
       pk: primaryKey(table.identifier, table.token),
     };
-  }
+  },
 );
 
 export const usersRelations = relations(users, ({ many }) => ({

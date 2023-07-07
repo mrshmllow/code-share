@@ -9,10 +9,12 @@ export default function NameUpdater() {
   useEvent<{ name: string; aiNameReason: string | null }>(
     channel,
     "name",
-    (data) => data && updateName({
-      ...data,
-      aiCompleted: true
-    })
+    (data) =>
+      data &&
+      updateName({
+        ...data,
+        aiCompleted: true,
+      }),
   );
 
   return <></>;

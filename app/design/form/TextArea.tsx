@@ -13,12 +13,12 @@ const textArea = cva(
     defaultVariants: {
       disabled: false,
     },
-  }
+  },
 );
 
 interface TextAreaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "disabled">,
-  VariantProps<typeof textArea> { }
+    VariantProps<typeof textArea> {}
 
 export default function TextArea({ disabled, ...extra }: TextAreaProps) {
   return (

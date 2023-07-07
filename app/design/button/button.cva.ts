@@ -5,8 +5,10 @@ export const button = cva(
   {
     variants: {
       intent: {
-        secondary: "border-indigo-300 text-indigo-800 hover:text-indigo-800 from-indigo-100 to-indigo-200 bg-gradient-to-br border",
-        primary: "border-indigo-700 text-white from-indigo-500 to-indigo-600 bg-gradient-to-br border",
+        secondary:
+          "border-indigo-300 text-indigo-800 hover:text-indigo-800 from-indigo-100 to-indigo-200 bg-gradient-to-br border",
+        primary:
+          "border-indigo-700 text-white from-indigo-500 to-indigo-600 bg-gradient-to-br border",
       },
       disabled: {
         true: "opacity-90 border-none",
@@ -36,5 +38,5 @@ export const button = cva(
       disabled: false,
       full: false,
     },
-  }
+  },
 );

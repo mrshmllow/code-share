@@ -12,14 +12,14 @@ export const env = createEnv({
     GITHUB_SECRET: string(),
     NEXTAUTH_SECRET: string(),
     NEXTAUTH_URL: string().url(),
-    ALGOLIA_KEY: string()
+    ALGOLIA_KEY: string(),
   },
   client: {
     NEXT_PUBLIC_PUSHER_KEY: string(),
     NEXT_PUBLIC_PUSHER_ID: string(),
     NEXT_PUBLIC_GITHUB_ID: string(),
     NEXT_PUBLIC_ALGOLIA_ID: string(),
-    NEXT_PUBLIC_ALGOLIA_KEY: string()
+    NEXT_PUBLIC_ALGOLIA_KEY: string(),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
@@ -36,6 +36,6 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     ALGOLIA_KEY: process.env.ALGOLIA_KEY,
     NEXT_PUBLIC_ALGOLIA_ID: process.env.NEXT_PUBLIC_ALGOLIA_ID,
-    NEXT_PUBLIC_ALGOLIA_KEY: process.env.NEXT_PUBLIC_ALGOLIA_KEY
+    NEXT_PUBLIC_ALGOLIA_KEY: process.env.NEXT_PUBLIC_ALGOLIA_KEY,
   },
 });

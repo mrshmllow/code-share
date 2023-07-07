@@ -6,28 +6,25 @@ export const textInput = cva(
   {
     variants: {
       full: {
-        true: "w-full"
-      }
+        true: "w-full",
+      },
     },
     defaultVariants: {
       full: false,
     },
-  }
+  },
 );
 
 interface TextInputProps
-  extends React.ComponentPropsWithoutRef<'input'>,
-  VariantProps<typeof textInput> {
+  extends React.ComponentPropsWithoutRef<"input">,
+    VariantProps<typeof textInput> {
   icon?: ReactNode;
 }
 
-const TextInput = forwardRef<HTMLInputElement, TextInputProps>(function({
-  disabled,
-  icon,
-  full,
-  className,
-  ...extra
-}, ref) {
+const TextInput = forwardRef<HTMLInputElement, TextInputProps>(function (
+  { disabled, icon, full, className, ...extra },
+  ref,
+) {
   return (
     <div className={textInput({ full, className })}>
       {icon !== undefined && (

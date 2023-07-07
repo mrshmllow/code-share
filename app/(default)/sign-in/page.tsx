@@ -26,7 +26,7 @@ export default function SignUpPage() {
 
           setIsBusy(true);
           await signIn("github", {
-            callbackUrl: "/new"
+            callbackUrl: "/new",
           });
         }}
       >

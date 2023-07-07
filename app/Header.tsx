@@ -31,7 +31,7 @@ function CreateGistGroup({
           <Link
             className={cx(
               "px-4 py-2 rounded-lg text-left block",
-              active && "bg-gray-100"
+              active && "bg-gray-100",
             )}
             href="/new"
           >
@@ -44,7 +44,7 @@ function CreateGistGroup({
           <button
             className={cx(
               "px-4 py-2 rounded-lg text-left flex items-center gap-2 disabled:text-gray-600 w-full",
-              active && "bg-gray-100"
+              active && "bg-gray-100",
             )}
             onClick={async (e) => {
               e.preventDefault();
@@ -117,7 +117,7 @@ export default function Header() {
                     <Link
                       className={cx(
                         "px-4 py-2 rounded-lg text-left block",
-                        active && "bg-gray-100"
+                        active && "bg-gray-100",
                       )}
                       href="/sign-in"
                     >
@@ -151,7 +151,7 @@ export default function Header() {
                     <Link
                       className={cx(
                         "px-4 py-2 rounded-lg text-left block",
-                        active && "bg-gray-100"
+                        active && "bg-gray-100",
                       )}
                       href={`/${session?.data?.user?.id}`}
                     >
@@ -164,7 +164,7 @@ export default function Header() {
                     <Link
                       className={cx(
                         "px-4 py-2 rounded-lg text-left block",
-                        active && "bg-gray-100"
+                        active && "bg-gray-100",
                       )}
                       href="/settings"
                     >
@@ -179,7 +179,7 @@ export default function Header() {
                     <button
                       className={cx(
                         "px-4 py-2 rounded-lg text-left block w-full text-red-500",
-                        active && "bg-gray-100"
+                        active && "bg-gray-100",
                       )}
                       onClick={async (e) => {
                         e.preventDefault();

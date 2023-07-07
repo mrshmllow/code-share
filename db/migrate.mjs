@@ -5,7 +5,7 @@ import { migrate } from "drizzle-orm/postgres-js/migrator";
 
 const migrationClient = postgres(env.DATABASE_URL, { max: 1 });
 
-export default function() {
+export default function () {
   migrate(drizzle(migrationClient), {
     migrationsFolder: "./drizzle",
   }).then(() => console.log("Migrations complete!"));

@@ -17,16 +17,16 @@ import { GistContext } from "./store";
 export default function NewGistPopup() {
   const searchParams = useSearchParams();
   const gist = useContext(GistContext);
-  const router = useRouter()
+  const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(searchParams.get("new") === "true");
   const [isBusy, startTransition] = useTransition();
 
   useEffect(() => {
     if (isOpen === false) {
-      router.push(`/${gist.gist.owner}/${gist.gist.id}`)
+      router.push(`/${gist.gist.owner}/${gist.gist.id}`);
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -97,7 +97,7 @@ export default function NewGistPopup() {
                         changeVisibilty({
                           id: gist.gist.id,
                           visibilty: true,
-                        })
+                        }),
                       );
                     }}
                     isBusy={isBusy}

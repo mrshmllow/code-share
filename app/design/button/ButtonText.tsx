@@ -22,7 +22,7 @@ export default function ButtonText({
             : "opacity-100",
           busyText !== undefined
             ? "transition-[opacity,transform] transform-gpu inline-flex justify-center items-center inset-0 absolute"
-            : "w-full"
+            : "w-full",
         )}
       >
         {children}
@@ -32,7 +32,7 @@ export default function ButtonText({
         <m.span
           className={cx(
             "transition-[opacity,transform] transform-gpu inline-flex justify-center items-center",
-            busy ? "opacity-100" : "opacity-0 translate-x-[1.1rem]"
+            busy ? "opacity-100" : "opacity-0 translate-x-[1.1rem]",
           )}
           {...(busy ? { role: "progressbar" } : {})}
           aria-label="Loading Indicator"
@@ -54,9 +54,7 @@ export default function ButtonText({
                 hidden: { opacity: 0 },
                 show: { opacity: 1 },
               }}
-              className={
-                array[index + 1] === " " ? "pr-1" : undefined
-              }
+              className={array[index + 1] === " " ? "pr-1" : undefined}
             >
               {letter}
             </m.span>

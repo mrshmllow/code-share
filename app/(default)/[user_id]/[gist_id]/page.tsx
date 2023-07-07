@@ -131,7 +131,7 @@ export default function GistPage() {
                 <a href={`#L${i + 1}`} key={i} className="" id={`L${i + 1}`}>
                   {i + 1}
                 </a>
-              )
+              ),
             )}
           </pre>
 
@@ -152,15 +152,15 @@ export default function GistPage() {
               onClick={() => setEditing("lang")}
             >
               <span>{language}</span>
-              
+
               <ChooseLanguagePopup
                 isOpen={editing === "lang"}
                 initalLanguage={gist.language}
                 onPickLanguage={async (language) => {
                   await updateLanguage({
                     id: gist.id,
-                    language
-                  })
+                    language,
+                  });
                 }}
                 thenFinally={() => setEditing(null)}
               />

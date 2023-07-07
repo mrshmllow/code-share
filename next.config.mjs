@@ -27,9 +27,9 @@ const nextConfig = {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
         port: "",
-      }
-    ]
-  }
+      },
+    ],
+  },
 };
 
 export default withBundleAnalyzer(nextConfig);

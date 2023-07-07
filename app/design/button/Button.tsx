@@ -10,10 +10,10 @@ import { twMerge } from "tailwind-merge";
 
 interface ButtonProps
   extends Omit<React.ComponentProps<typeof m.button>, "disabled">,
-  VariantProps<typeof button> {
+    VariantProps<typeof button> {
   children: ReactNode;
   animate?: boolean;
-  isBusy?: boolean
+  isBusy?: boolean;
 }
 
 export const ButtonContext = createContext({
@@ -38,7 +38,9 @@ function Button({
     >
       <m.button
         {...extra}
-        className={twMerge(button({ intent, disabled: disabled ?? isBusy, full, className }))}
+        className={twMerge(
+          button({ intent, disabled: disabled ?? isBusy, full, className }),
+        )}
         whileTap={{
           scale: disabled || isBusy || animate === false ? 1 : 0.9,
         }}

@@ -6,7 +6,7 @@ import { nanoid } from "nanoid/async";
 
 export default function SnippetsDrizzleAdapter(
   client: any,
-  options = {}
+  options = {},
 ): Adapter {
   return {
     async createUser(user) {
@@ -27,15 +27,15 @@ export default function SnippetsDrizzleAdapter(
     },
     async getUser(id) {
       const dbUser = await db.query.users.findFirst({
-        where: eq(users.id, id)
-      })
+        where: eq(users.id, id),
+      });
 
       return dbUser ?? null;
     },
     async getUserByEmail(email) {
       const dbUser = await db.query.users.findFirst({
-        where: eq(users.email, email)
-      })
+        where: eq(users.email, email),
+      });
 
       return dbUser ?? null;
     },
@@ -53,7 +53,7 @@ export default function SnippetsDrizzleAdapter(
         columns: {},
         where: and(
           eq(accounts.providerAccountId, providerAccountId),
-          eq(accounts.provider, provider)
+          eq(accounts.provider, provider),
         ),
       });
 
@@ -73,7 +73,7 @@ export default function SnippetsDrizzleAdapter(
       await db.delete(users).where(eq(users.id, userId));
     },
     async linkAccount(account) {
-      await db.insert(accounts).values(account)
+      await db.insert(accounts).values(account);
 
       return account;
     },
@@ -128,8 +128,8 @@ export default function SnippetsDrizzleAdapter(
         .where(
           and(
             eq(verificationTokens.identifier, identifier),
-            eq(verificationTokens.token, token)
-          )
+            eq(verificationTokens.token, token),
+          ),
         )
         .returning();
 

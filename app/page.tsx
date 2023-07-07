@@ -13,7 +13,7 @@ import { signIn, useSession } from "next-auth/react";
 import NewGistPage from "./(default)/new/page";
 
 const useKeyboardHandler = (
-  handler: (this: HTMLElement, ev: KeyboardEvent) => any
+  handler: (this: HTMLElement, ev: KeyboardEvent) => any,
 ) => {
   useEffect(() => {
     document.body.addEventListener("keydown", handler);

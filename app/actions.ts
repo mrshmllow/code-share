@@ -33,7 +33,7 @@ export async function createGist(text: string) {
     });
 
   if (!gist[0]) {
-    throw new Error("Unable to create gist")
+    throw new Error("Unable to create gist");
   }
 
   if (!IS_PROD) {

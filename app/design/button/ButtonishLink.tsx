@@ -25,12 +25,14 @@ export default function ButtonishLink({
 }: ButtonishLinkProps) {
   return (
     <MotionLink
-      className={twMerge(button({
-        intent,
-        disabled,
-        full,
-        className,
-      }))}
+      className={twMerge(
+        button({
+          intent,
+          disabled,
+          full,
+          className,
+        }),
+      )}
       whileTap={{
         scale: disabled || animate === false ? 1 : 0.9,
       }}

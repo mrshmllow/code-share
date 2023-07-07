@@ -4,6 +4,7 @@ import { receiver } from "@/lib/messaging/receiver";
 import { openai } from "@/lib/openai";
 import { pusher } from "@/lib/pusher";
 import { eq } from "drizzle-orm";
+import { nanoid } from "nanoid/async";
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -23,7 +24,7 @@ async function revalidate(
   data: {
     name: string | null;
     aiNameReason: string | null;
-  }
+  },
 ) {
   revalidatePath(`/${gist_id}`);
 
@@ -124,7 +125,7 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const constant_value = "oRWOc4Hv1XfzzG5G";
+  const constant_value = await nanoid();
 
   const completion = await openai.createChatCompletion({
     model: "gpt-3.5-turbo-0613",
