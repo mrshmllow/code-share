@@ -5,6 +5,7 @@ import { gists } from "@/db/schema";
 import { index } from "@/lib/algolia";
 import { getServerActionSession } from "@/lib/getServerActionSession";
 import { eq, and } from "drizzle-orm";
+import hljs from "highlight.js";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -45,6 +46,8 @@ export async function updateLanguage({
   const session = await getServerActionSession();
 
   if (!session?.user?.id) return;
+
+  if (!hljs.listLanguages().includes(language)) return;
 
   const gist = await db
     .update(gists)
