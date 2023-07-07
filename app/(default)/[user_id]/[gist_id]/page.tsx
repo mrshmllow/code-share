@@ -131,11 +131,11 @@ export default function GistPage() {
                 <a href={`#L${i + 1}`} key={i} className="" id={`L${i + 1}`}>
                   {i + 1}
                 </a>
-              ),
+              )
             )}
           </pre>
 
-          <pre className="overflow-x-auto break-all whitespace-pre-wrap">
+          <pre className="overflow-x-auto break-all">
             <code
               dangerouslySetInnerHTML={{
                 __html: html,
