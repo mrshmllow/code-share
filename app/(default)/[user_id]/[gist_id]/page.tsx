@@ -161,8 +161,8 @@ export default function GistPage() {
                     id: gist.id,
                     language
                   })
-                  setEditing(null)
                 }}
+                thenFinally={() => setEditing(null)}
               />
             </button>
           ) : (

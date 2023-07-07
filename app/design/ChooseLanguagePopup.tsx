@@ -10,10 +10,12 @@ const languages = hljs.listLanguages();
 export default function ChooseLanguagePopup({
   initalLanguage,
   isOpen,
+  thenFinally,
   onPickLanguage,
 }: {
   initalLanguage: string | null;
   isOpen: boolean;
+  thenFinally: () => void;
   onPickLanguage: (language: string) => Promise<void>;
 }) {
   const [isBusy, setIsBusy] = useState(false);
@@ -28,8 +30,8 @@ export default function ChooseLanguagePopup({
     query === ""
       ? languages
       : languages.filter((lang) => {
-        return lang.toLowerCase().includes(query.toLowerCase());
-      });
+          return lang.toLowerCase().includes(query.toLowerCase());
+        });
 
   const pickLanguage = async () => {
     if (selectedLanguage !== undefined) {
@@ -37,15 +39,12 @@ export default function ChooseLanguagePopup({
       await onPickLanguage(selectedLanguage);
       setIsBusy(false);
     }
+    thenFinally();
   };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-10"
-        onClose={async () => await pickLanguage()}
-      >
+      <Dialog as="div" className="relative z-10" onClose={() => thenFinally()}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -100,26 +99,29 @@ export default function ChooseLanguagePopup({
                               key={language}
                               value={language}
                               className={({ active }) =>
-                                `relative cursor-default select-none py-2 pl-10 pr-4 text-left ${active
-                                  ? "bg-indigo-500 text-white"
-                                  : "text-gray-900"
+                                `relative cursor-default select-none py-2 pl-10 pr-4 text-left ${
+                                  active
+                                    ? "bg-indigo-500 text-white"
+                                    : "text-gray-900"
                                 }`
                               }
                             >
                               {({ active, selected }) => (
                                 <>
                                   <span
-                                    className={`block truncate ${selected ? "font-medium" : "font-normal"
-                                      }`}
+                                    className={`block truncate ${
+                                      selected ? "font-medium" : "font-normal"
+                                    }`}
                                   >
                                     {language}
                                   </span>
                                   {selected ? (
                                     <span
-                                      className={`absolute inset-y-0 left-0 flex items-center pl-3 ${active
+                                      className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                        active
                                           ? "text-white"
                                           : "text-indigo-500"
-                                        }`}
+                                      }`}
                                     >
                                       <CheckIcon
                                         className="h-5 w-5"
@@ -142,7 +144,9 @@ export default function ChooseLanguagePopup({
                     onClick={async () => await pickLanguage()}
                   >
                     <Button.Icon />
-                    <Button.Text busyText={["Updat", "ing"]}>Update</Button.Text>
+                    <Button.Text busyText={["Updat", "ing"]}>
+                      Update
+                    </Button.Text>
                   </Button>
                 </div>
               </Dialog.Panel>
