@@ -34,7 +34,7 @@ export default async function GistLayout({
 
   const highlight = hljs.highlightAuto(
     gist.text,
-    gist.language ? [gist.language] : undefined,
+    gist.language ? [gist.language] : undefined
   );
 
   const lang = highlight.language ? highlight.language : gist.language;

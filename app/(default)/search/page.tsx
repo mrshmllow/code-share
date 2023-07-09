@@ -108,11 +108,13 @@ export default function SearchPage() {
                   className="rounded-lg border border-gray-300 mt-5 flex flex-col overflow-clip"
                   href={`/${hit.owner}/${hit.objectID}`}
                 >
-                  <pre className="border-b p-4 flex flex-col break-all whitespace-pre-wrap max-h-40 gradient-mask-b-80">
-                    <code className="">
-                      <Snippet hit={hit} attribute={"text"}></Snippet>
-                    </code>
-                  </pre>
+                  {hit["text"] ? (
+                    <pre className="border-b p-4 flex flex-col break-all whitespace-pre-wrap max-h-40 gradient-mask-b-80">
+                      <code className="">
+                        <Snippet hit={hit} attribute={"text"}></Snippet>
+                      </code>
+                    </pre>
+                  ) : null}
 
                   <div className="px-4 py-2 bg-gray-100 flex justify-between">
                     <h2 className="font-mono">
@@ -145,7 +147,7 @@ export default function SearchPage() {
                   aria-label="go to first page"
                   className={cx(
                     "w-10 h-10 p-2 hover:bg-gray-100 rounded-full hidden sm:block",
-                    isFirstPage && "invisible",
+                    isFirstPage && "invisible"
                   )}
                   aria-hidden={isFirstPage}
                 >
@@ -161,7 +163,7 @@ export default function SearchPage() {
                   aria-label="go to previous page"
                   className={cx(
                     "w-10 h-10 p-2 hover:bg-gray-100 rounded-full",
-                    isFirstPage && "invisible",
+                    isFirstPage && "invisible"
                   )}
                   aria-hidden={isFirstPage}
                 >
@@ -181,7 +183,7 @@ export default function SearchPage() {
                           "w-10 h-10 rounded-full inline-flex items-center justify-center",
                           currentRefinement === page
                             ? "bg-indigo-500 text-white hover:bg-indigo-600"
-                            : "hover:bg-gray-100",
+                            : "hover:bg-gray-100"
                         )}
                       >
                         {page + 1}
@@ -199,7 +201,7 @@ export default function SearchPage() {
                   aria-label="go to next page"
                   className={cx(
                     "w-10 h-10 p-2 hover:bg-gray-100 rounded-full",
-                    isLastPage && "invisible",
+                    isLastPage && "invisible"
                   )}
                   aria-hidden={isLastPage}
                 >
@@ -215,7 +217,7 @@ export default function SearchPage() {
                   aria-label="go to last page"
                   className={cx(
                     "w-10 h-10 p-2 hover:bg-gray-100 rounded-full hidden sm:block",
-                    isLastPage && "invisible",
+                    isLastPage && "invisible"
                   )}
                   aria-hidden={isLastPage}
                 >

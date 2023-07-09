@@ -1,7 +1,7 @@
 "use client";
 
 import Spinner from "@/app/design/icons/Spinner";
-import { startTransition, useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { GistContext } from "./store";
 import TextInput from "@/app/design/form/TextInput";
 import Button from "@/app/design/button/Button";
@@ -107,7 +107,7 @@ export default function GistPage() {
               <TextInput
                 className="font-mono"
                 autoFocus
-                placeholder="eg. main.py"
+                placeholder="main.py"
                 full
                 ref={text}
                 defaultValue={optimisticName ? optimisticName : ""}

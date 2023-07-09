@@ -3,11 +3,11 @@
 import algoliasearch from "algoliasearch/lite";
 import { ReactNode } from "react";
 import { InstantSearch } from "react-instantsearch-hooks-web";
-import { env } from "../../env.mjs";
+import { env } from "./env.mjs";
 
 const searchClient = algoliasearch(
   env.NEXT_PUBLIC_ALGOLIA_ID,
-  env.NEXT_PUBLIC_ALGOLIA_KEY,
+  env.NEXT_PUBLIC_ALGOLIA_KEY
 );
 const IS_PROD = process.env.NODE_ENV == "production";
 
