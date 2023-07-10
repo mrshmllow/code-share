@@ -1,5 +1,7 @@
+"use client";
+
 import { Combobox, Dialog, Transition } from "@headlessui/react";
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useMemo, useRef, useState } from "react";
 import {
   CheckIcon,
   Cog6ToothIcon,
@@ -14,6 +16,7 @@ import {
   useHits,
   useSearchBox,
 } from "react-instantsearch-hooks-web";
+import { useEventListener } from "usehooks-ts";
 
 type Base = {
   label: string;
@@ -34,12 +37,14 @@ type LinkItem = {
 
 type Item = Base | LinkItem | ActionItem;
 
-export default function Palette({ onClose }: { onClose?: () => void }) {
+export default function Palette() {
   const router = useRouter();
   const [query, setQuery] = useState("");
+  const [isOpen, setOpen] = useState(false);
   const session = useSession();
   const hits = useHits();
   const search = useSearchBox();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const items = useMemo<(ActionItem | LinkItem)[]>(() => {
     let items: (ActionItem | LinkItem)[] = [
@@ -76,7 +81,7 @@ export default function Palette({ onClose }: { onClose?: () => void }) {
       ...hits.hits.map(
         (hit) =>
           ({
-            label: (hit["name"] as string | undefined) ?? "Unknown Gist",
+            label: (hit["name"] as string | undefined) ?? "Untitled Gist",
             id: hit.objectID,
             type: "search",
             href: `/${hit["owner"]}/${hit.objectID}`,
@@ -87,30 +92,53 @@ export default function Palette({ onClose }: { onClose?: () => void }) {
     return items;
   }, [session, hits]);
 
-  const filteredItems =
-    query === ""
-      ? items.filter((item) => !(item.type === "action"))
-      : items.filter((item) => {
-          if (item.type === "search") {
-            return !query.startsWith(">");
-          }
+  useEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setOpen(false);
+      return;
+    }
 
-          if (item.type === "action") {
-            if (!query.startsWith(">")) {
-              return false;
+    if (event.key === "k" && (event.metaKey || event.ctrlKey)) {
+      event.preventDefault();
+      setOpen(true);
+    }
+  });
+
+  const filteredItems = useMemo(
+    () =>
+      query === ""
+        ? items.filter((item) => !(item.type === "action"))
+        : items.filter((item) => {
+            if (item.type === "search") {
+              return !query.startsWith(">");
             }
 
-            return item.label
-              .toLowerCase()
-              .includes(query.toLowerCase().substring(1));
-          }
+            if (item.type === "action") {
+              if (!query.startsWith(">")) {
+                return false;
+              }
 
-          return item.label.toLowerCase().includes(query.toLowerCase());
-        });
+              return item.label
+                .toLowerCase()
+                .includes(query.toLowerCase().substring(1));
+            }
+
+            return item.label.toLowerCase().includes(query.toLowerCase());
+          }),
+    [query, items]
+  );
 
   return (
-    <Transition appear show={true} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={() => {}}>
+    <Transition appear show={isOpen} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => {
+          setOpen(false);
+        }}
+        open={isOpen}
+      >
         <Configure hitsPerPage={5} />
 
         <Transition.Child
@@ -140,16 +168,13 @@ export default function Palette({ onClose }: { onClose?: () => void }) {
                 <div className="flex w-full flex-col">
                   <Combobox
                     onChange={(item: Item) => {
-                      if (!item) {
-                        return;
-                      }
-
                       if ("href" in item) {
                         router.push(item.href);
                       }
 
-                      onClose && onClose();
+                      setOpen(false);
                     }}
+                    defaultValue={items[0]}
                   >
                     <div className="flex items-center gap-2 pl-5 border-b border-b-gray-100 p-4">
                       <MagnifyingGlassIcon className="w-5 h-5" />
@@ -161,6 +186,8 @@ export default function Palette({ onClose }: { onClose?: () => void }) {
                           if (!event.target.value.startsWith(">"))
                             search.refine(event.target.value);
                         }}
+                        ref={inputRef}
+                        autoFocus={true}
                         className="w-full outline-none"
                         placeholder="Search or jump to..."
                         autoComplete="off"

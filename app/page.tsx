@@ -5,7 +5,6 @@ import { Balancer } from "react-wrap-balancer";
 import { createGist } from "./actions";
 import { signIn, useSession } from "next-auth/react";
 import NewGistPage from "./(default)/new/page";
-import Palette from "./Palette";
 
 const useKeyboardHandler = (
   handler: (this: HTMLElement, ev: KeyboardEvent) => any
