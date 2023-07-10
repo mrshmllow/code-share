@@ -3,6 +3,8 @@ import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
+import StoreInitalizer from "./StoreInitalize";
+import { useProfileStore } from "./store";
 
 export default async function ProfileLayout({
   params: { user_id },
@@ -13,11 +15,21 @@ export default async function ProfileLayout({
 }) {
   const profile = await db.query.users.findFirst({
     where: eq(users.id, user_id),
+    columns: {
+      email: false,
+      emailVerified: false,
+    },
   });
 
   if (!profile) {
     return notFound();
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <StoreInitalizer state={profile} store={useProfileStore} />
+
+      {children}
+    </>
+  );
 }

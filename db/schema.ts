@@ -105,3 +105,6 @@ export const sessionsRelations = relations(sessions, ({ one }) => ({
 }));
 
 export type Gist = InferModel<typeof gists>;
+
+// TODO: Use views. Blocked.
+export type Profile = Omit<InferModel<typeof users>, "emailVerified" | "email">;
