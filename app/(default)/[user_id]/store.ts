@@ -7,17 +7,10 @@ export type NonNullableFields<T> = {
   [P in keyof T]: NonNullable<T[P]>;
 };
 
-type ProfileState = {
-  // updateProfile: (profile: Profile) => void;
-} & NonNullableFields<Profile>;
+type ProfileState = {} & NonNullableFields<Profile>;
 
-export const useProfileStore = create<ProfileState>((set) => ({
+export const useProfileStore = create<ProfileState>(() => ({
   id: "",
   image: "",
   name: "",
-  // updateProfile: (profile) =>
-  //   set((state) => ({
-  //     ...state,
-  //     ...profile,
-  //   })),
 }));

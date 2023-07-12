@@ -3,8 +3,8 @@ import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
-import StoreInitalizer from "./StoreInitalize";
 import { useProfileStore } from "./store";
+import StoreInitalizer from "@/lib/StoreInitalize";
 
 export default async function ProfileLayout({
   params: { user_id },

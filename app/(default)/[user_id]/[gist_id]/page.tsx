@@ -9,7 +9,11 @@ import { experimental_useOptimistic as useOptimistic } from "react";
 import { updateLanguage, updateName } from "./actions";
 import { ClipboardIcon } from "@heroicons/react/24/outline";
 import "@catppuccin/highlightjs/sass/catppuccin-latte.scss";
-import ChooseLanguagePopup from "@/app/design/ChooseLanguagePopup";
+import {
+  useRouteCapabilities as useRouteCapabilities,
+  usePaletteStore,
+  useOnLanguageChange,
+} from "@/app/palette/store";
 
 function NameContent({
   name,
@@ -45,6 +49,18 @@ export default function GistPage() {
     string | null
   >(gist.name, (_, name) => name);
   const text = useRef<HTMLInputElement>(null);
+  const { prompt } = usePaletteStore();
+
+  useRouteCapabilities({
+    pickLang: isOwner,
+  });
+
+  useOnLanguageChange(async (language) => {
+    await updateLanguage({
+      id: gist.id,
+      language,
+    });
+  });
 
   return (
     <>
@@ -149,21 +165,9 @@ export default function GistPage() {
             <button
               className="inline-flex font-mono hover:bg-gray-200 gap-4 px-4 py-2 rounded-lg shrink items-center text-gray-700"
               aria-label="Edit snippet title"
-              onClick={() => setEditing("lang")}
+              onClick={() => prompt("change_lang")}
             >
               <span>{language}</span>
-
-              <ChooseLanguagePopup
-                isOpen={editing === "lang"}
-                initalLanguage={gist.language}
-                onPickLanguage={async (language) => {
-                  await updateLanguage({
-                    id: gist.id,
-                    language,
-                  });
-                }}
-                thenFinally={() => setEditing(null)}
-              />
             </button>
           ) : (
             <>{language && <p>{language}</p>}</>

@@ -8,6 +8,8 @@ import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import SearchProvider from "./SearchProvider";
 import Palette from "./Palette";
+import { usePaletteStore } from "./palette/store";
+import StoreInitalizer from "@/lib/StoreInitalize";
 
 const loadFeatures = () =>
   import("../lib/motionFeatures").then((res) => res.default);
@@ -29,6 +31,8 @@ export default function ClientProviders({
       <LazyMotion features={loadFeatures} strict>
         <SearchProvider>
           <PusherProvider {...config}>
+            <StoreInitalizer store={usePaletteStore} state={{}} />
+
             <Palette />
 
             {children}
