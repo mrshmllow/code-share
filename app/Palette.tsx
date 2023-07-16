@@ -75,7 +75,7 @@ export default function Palette() {
 
     if (currentCapabilities.pickLang) {
       items.push({
-        label: "Change Language",
+        label: "Change Highlighting",
         id: "change_lang",
         icon: <SparklesIcon />,
         type: "catagory",
