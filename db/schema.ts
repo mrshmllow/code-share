@@ -24,8 +24,7 @@ export const gists = pgTable("gists", {
 export const users = pgTable("users", {
   id: text("id").primaryKey(),
   name: text("name"),
-  // TODO: UNIQUE email
-  email: text("email").notNull(),
+  email: text("email").notNull().unique(),
   emailVerified: timestamp("email_verified"),
   image: text("image"),
 });
@@ -33,8 +32,7 @@ export const users = pgTable("users", {
 export const sessions = pgTable("sessions", {
   id: text("id").primaryKey(),
   expires: timestamp("expires").notNull(),
-  // TODO: UNIQUE session_token
-  sessionToken: text("session_token").notNull(),
+  sessionToken: text("session_token").notNull().unique(),
   userId: text("user_id").notNull(),
 });
 
@@ -65,8 +63,7 @@ export const verificationTokens = pgTable(
   "verification_tokens",
   {
     identifier: text("identifier").notNull(),
-    // TODO: UNIQUE token
-    token: text("token").notNull(),
+    token: text("token").notNull().unique(),
     expires: timestamp("expires").notNull(),
   },
   (table) => {
