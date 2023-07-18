@@ -21,6 +21,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { cx } from "cva";
 import { useBreakpointValue } from "@/lib/tailwindHooks";
+import GistHit from "@/app/design/GistCard";
 
 export default function SearchPage() {
   const search = useSearchBox();
@@ -102,37 +103,7 @@ export default function SearchPage() {
           </div>
 
           <div className="w-full">
-            <Hits
-              hitComponent={({ hit }) => (
-                <Link
-                  className="rounded-lg border border-gray-300 mt-5 flex flex-col overflow-clip"
-                  href={`/${hit.owner}/${hit.objectID}`}
-                >
-                  {hit["text"] ? (
-                    <pre className="border-b p-4 flex flex-col break-all whitespace-pre-wrap max-h-40 gradient-mask-b-80">
-                      <code className="">
-                        <Snippet hit={hit} attribute={"text"}></Snippet>
-                      </code>
-                    </pre>
-                  ) : null}
-
-                  <div className="px-4 py-2 bg-gray-100 flex justify-between">
-                    <h2 className="font-mono">
-                      {!hit["name"] ? (
-                        <em>Untitled Gist</em>
-                      ) : (
-                        <Highlight attribute={"name"} hit={hit} />
-                      )}
-                    </h2>
-
-                    {hit["language"] !== null &&
-                      hit["language"] !== undefined && (
-                        <p>{String(hit["language"])}</p>
-                      )}
-                  </div>
-                </Link>
-              )}
-            />
+            <Hits hitComponent={({ hit }) => <GistHit hit={hit} />} />
 
             {hits.length === 0 && <p className="pt-5">No snippets found</p>}
 

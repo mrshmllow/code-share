@@ -31,6 +31,7 @@
     "framer-motion": "^10.12.21",
     "highlight.js": "^11.8.0",
     "hotkeys-js": "^3.11.2",
+    "instantsearch.js": "^4.56.5",
     "isomorphic-dompurify": "^1.8.0",
     "jsonwebtoken": "^9.0.1",
     "nanoid": "^4.0.2",
