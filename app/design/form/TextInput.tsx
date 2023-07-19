@@ -2,7 +2,7 @@ import { VariantProps, cva } from "cva";
 import { ReactNode, forwardRef } from "react";
 
 export const textInput = cva(
-  "px-4 min-h-[2.5rem] rounded-lg inline-flex items-center gap-3 outline-none ring-offset-white focus-visible:ring-2 ring-offset-2 border-gray-300 border text-gray-900 [&:has(:focus)]:border-indigo-500 from-gray-100 to-gray-200 bg-gradient-to-br focus-visible:bg-white disabled:opacity-90",
+  "px-4 min-h-[2.5rem] rounded-lg inline-flex items-center gap-3 outline-none ring-offset-white focus-visible:ring-2 ring-offset-2 border-gray-300 border text-gray-900 [&:has(:focus-visible)]:border-indigo-500 bg-gray-100 [&:has(:focus-visible)]:bg-white disabled:opacity-90",
   {
     variants: {
       full: {
@@ -12,7 +12,7 @@ export const textInput = cva(
     defaultVariants: {
       full: false,
     },
-  },
+  }
 );
 
 interface TextInputProps
@@ -23,7 +23,7 @@ interface TextInputProps
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(function (
   { disabled, icon, full, className, ...extra },
-  ref,
+  ref
 ) {
   return (
     <div className={textInput({ full, className })}>

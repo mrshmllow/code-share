@@ -15,6 +15,8 @@ import { useState, useTransition } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { createGist } from "./actions";
 import Spinner from "./design/icons/Spinner";
+import TextInput from "./design/form/TextInput";
+import ButtonIcon from "./design/button/ButtonIcon";
 
 function CreateGistGroup({
   session,
@@ -93,11 +95,30 @@ export default function Header() {
         Snippet Share
       </Link>
 
-      <div className="flex items-center text-gray-800 gap-4">
+      <form className="hidden sm:flex gap-2 w-2/4" action="/search">
+        <TextInput
+          className="w-full"
+          placeholder="Search"
+          autoCapitalize="none"
+          autoComplete="off"
+          name="search"
+          autoCorrect="off"
+          spellCheck="false"
+          aria-label="Search"
+        />
+
+        <Button type="submit" intent="secondary">
+          <ButtonIcon>
+            <MagnifyingGlassIcon className="w-6 h-6" />
+          </ButtonIcon>
+        </Button>
+      </form>
+
+      <div className="flex items-center gap-2">
         <Link
           href="/search"
           aria-label="Search Snippets"
-          className="hover:bg-gray-100 rounded-lg text-black px-2 min-h-[2.5rem] inline-flex items-center justify-center outline-none ring-offset-white focus-visible:ring-2 ring-offset-2 ring-indigo-500/50 "
+          className="hover:bg-gray-100 rounded-lg text-black px-2 min-h-[2.5rem] inline-flex items-center justify-center outline-none ring-offset-white focus-visible:ring-2 ring-offset-2 ring-indigo-500/50 sm:hidden"
         >
           <MagnifyingGlassIcon className="w-6 h-6" />
         </Link>

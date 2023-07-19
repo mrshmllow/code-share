@@ -1,12 +1,12 @@
 import { cva } from "cva";
 
 export const button = cva(
-  "px-4 min-h-[2.5rem] transform-gpu rounded-lg inline-flex transition-colors items-center justify-center outline-none ring-offset-white focus-visible:ring-2 ring-offset-2 ring-indigo-500/50",
+  "px-4 min-h-[2.5rem] transform-gpu rounded-lg inline-flex transition-all items-center justify-center outline-none ring-offset-white focus-visible:ring-2 ring-offset-2 ring-indigo-500/50",
   {
     variants: {
       intent: {
         secondary:
-          "border-indigo-300 text-indigo-800 hover:text-indigo-800 from-indigo-100 to-indigo-200 bg-gradient-to-br border",
+          "border-indigo-300 text-indigo-800 hover:text-indigo-800 from-indigo-50 to-indigo-100 bg-gradient-to-br border",
         primary:
           "border-indigo-700 text-white from-indigo-500 to-indigo-600 bg-gradient-to-br border",
       },
@@ -38,5 +38,5 @@ export const button = cva(
       disabled: false,
       full: false,
     },
-  },
+  }
 );

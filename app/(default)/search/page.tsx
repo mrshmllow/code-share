@@ -3,11 +3,9 @@
 import {
   useSearchBox,
   Hits,
-  Highlight,
   useHits,
   usePagination,
   Configure,
-  Snippet,
   useRefinementList,
 } from "react-instantsearch-hooks-web";
 import TextInput from "../../design/form/TextInput";
@@ -22,8 +20,11 @@ import {
 import { cx } from "cva";
 import { useBreakpointValue } from "@/lib/tailwindHooks";
 import GistHit from "@/app/design/GistCard";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export default function SearchPage() {
+  const searchParams = useSearchParams();
   const search = useSearchBox();
   const padding = useBreakpointValue("sm", 4, 1);
   const { hits } = useHits();
@@ -48,6 +49,12 @@ export default function SearchPage() {
     attribute: "language",
   });
 
+  useEffect(() => {
+    const query = searchParams.get("search");
+
+    query !== null && search.refine(query);
+  }, []);
+
   return (
     <>
       <Configure hitsPerPage={10} />
@@ -64,6 +71,9 @@ export default function SearchPage() {
           <TextInput
             className="w-full"
             placeholder="Search Snippet Share..."
+            defaultValue={
+              searchParams.get("search") ?? searchParams.get("search")!
+            }
             autoFocus
             onChange={(e) => {
               e.preventDefault();
