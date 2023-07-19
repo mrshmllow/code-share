@@ -24,16 +24,17 @@ type Base = {
   label: string;
   id: string;
   icon?: ReturnType<typeof CheckIcon>;
+  action?: boolean;
 };
 
 type ActionItem = {
   onActivate: () => Promise<void>;
-  type: "action" | "choice";
+  type: "choice";
 } & Base;
 
 type LinkItem = {
   href: string;
-  type: "link" | "action" | "search";
+  type: "link" | "search";
 } & Base;
 
 type Catagory = {
@@ -68,8 +69,9 @@ export default function Palette() {
         label: "New Snippet",
         id: "new",
         icon: <SparklesIcon />,
-        type: "action",
+        type: "link",
         href: "/new",
+        action: true,
       },
     ];
 
@@ -79,6 +81,7 @@ export default function Palette() {
         id: "change_lang",
         icon: <SparklesIcon />,
         type: "catagory",
+        action: true,
         inner: [
           ...hljs.listLanguages().map(
             (lang) =>
@@ -173,13 +176,13 @@ export default function Palette() {
     }
 
     return query === ""
-      ? filteredItems.filter((item) => !(item.type === "action"))
+      ? filteredItems.filter((item) => !item.action)
       : filteredItems.filter((item) => {
           if (item.type === "search") {
             return !query.startsWith(">");
           }
 
-          if (item.type === "action") {
+          if (item.action) {
             if (!query.startsWith(">")) {
               return false;
             }
@@ -347,7 +350,7 @@ export default function Palette() {
 
                                 {active && (
                                   <span className="text-gray-600">
-                                    {item.type === "action"
+                                    {item.action
                                       ? "Run Command"
                                       : item.type === "choice"
                                       ? "Choose"
