@@ -1,6 +1,5 @@
 "use client";
 
-import Spinner from "@/app/design/icons/Spinner";
 import { useContext, useRef, useState } from "react";
 import { GistContext } from "./store";
 import TextInput from "@/app/design/form/TextInput";

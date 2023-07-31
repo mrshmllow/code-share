@@ -1,30 +1,12 @@
+"use client";
+
 import { NameContent } from "@/app/design/NameContent";
-import { db } from "@/db/db";
-import { gists } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import hljs from "highlight.js";
-import { sanitize } from "isomorphic-dompurify";
-import { notFound } from "next/navigation";
+import ButtonishLink from "@/app/design/button/ButtonishLink";
+import { useiFrameStore } from "./store";
+import "@catppuccin/highlightjs/sass/catppuccin-latte.scss";
 
-export default async function GistIframePage({
-  params: { gist_id },
-}: {
-  params: {
-    gist_id: string;
-  };
-}) {
-  const gist = await db.query.gists.findFirst({
-    where: eq(gists.id, gist_id),
-  });
-
-  if (gist === undefined || !gist.visible) return notFound();
-
-  const highlight = hljs.highlightAuto(
-    gist.text,
-    gist.language ? [gist.language] : undefined
-  );
-
-  const language = highlight.language ? highlight.language : gist.language;
+export default function GistIframePage() {
+  const gist = useiFrameStore();
 
   return (
     <div className="border border-gray-300 rounded-lg">
@@ -46,14 +28,23 @@ export default async function GistIframePage({
         <pre className="overflow-x-auto break-all">
           <code
             dangerouslySetInnerHTML={{
-              __html: sanitize(highlight.value),
+              __html: gist.html,
             }}
           ></code>
         </pre>
       </div>
 
-      <div className="border-t border-gray-300 bg-gray-100 p-2 flex justify-end">
-        <>{language && <p>{language}</p>}</>
+      <div className="border-t border-gray-300 bg-gray-100 p-2 flex justify-between items-center">
+        <ButtonishLink
+          href={`https://snip.cafe/${gist.owner}/${gist.id}`}
+          target="_blank"
+          intent="secondary"
+          rel="noopener noreferrer"
+        >
+          View on snip.cafe
+        </ButtonishLink>
+
+        <>{gist.language && <p>{gist.language}</p>}</>
       </div>
     </div>
   );

@@ -19,17 +19,17 @@ export default async function ProfileLayout({
       email: false,
       emailVerified: false,
     },
-    with: {
-      gists: {
-        where: eq(gists.visible, true),
-        columns: {
-          aiCompleted: false,
-          aiNameReason: false,
-          aiTags: false,
-          owner: false,
-        },
-      },
-    },
+    // with: {
+    //   gists: {
+    //     where: eq(gists.visible, true),
+    //     columns: {
+    //       aiCompleted: false,
+    //       aiNameReason: false,
+    //       aiTags: false,
+    //       owner: false,
+    //     },
+    //   },
+    // },
   });
 
   if (!profile) {
