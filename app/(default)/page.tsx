@@ -1,7 +1,7 @@
 "use client";
 
 import { Balancer } from "react-wrap-balancer";
-import NewGistPage from "./(default)/new/page";
+import NewGistPage from "./new/page";
 
 export default function Home() {
   return (

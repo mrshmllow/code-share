@@ -14,32 +14,7 @@ import {
   usePaletteStore,
   useOnLanguageChange,
 } from "@/app/palette/store";
-
-function NameContent({
-  name,
-  aiCompleted,
-}: {
-  name: string | null;
-  aiCompleted: boolean;
-}) {
-  return (
-    <>
-      {!name && !aiCompleted ? (
-        <>
-          <span>~/generting snippet name</span>
-
-          <span className="w-5 h-5">
-            <Spinner />
-          </span>
-        </>
-      ) : !name ? (
-        <em>untitled snippet</em>
-      ) : (
-        <span>{name}</span>
-      )}
-    </>
-  );
-}
+import { NameContent } from "@/app/design/NameContent";
 
 export default function GistPage() {
   const { gist, language, isOwner, html } = useContext(GistContext);

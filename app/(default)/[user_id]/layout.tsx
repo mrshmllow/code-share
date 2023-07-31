@@ -1,5 +1,5 @@
 import { db } from "@/db/db";
-import { users } from "@/db/schema";
+import { gists, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
@@ -18,6 +18,17 @@ export default async function ProfileLayout({
     columns: {
       email: false,
       emailVerified: false,
+    },
+    with: {
+      gists: {
+        where: eq(gists.visible, true),
+        columns: {
+          aiCompleted: false,
+          aiNameReason: false,
+          aiTags: false,
+          owner: false,
+        },
+      },
     },
   });
 
