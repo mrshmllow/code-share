@@ -6,7 +6,9 @@ export default function DefaultLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen">
       <Header />
 
-      <div className="px-4 grid place-items-center">{children}</div>
+      <div className="px-4 grid place-items-center py-4 md:py-8">
+        {children}
+      </div>
     </div>
   );
 }
