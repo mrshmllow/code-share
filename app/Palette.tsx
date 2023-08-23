@@ -149,7 +149,6 @@ export default function Palette() {
   useEventListener(
     "keydown",
     (event) => {
-      console.log("true");
       if (event.key === "Backspace" && query === "") {
         setCatagoryPath((catagoryPath) => {
           catagoryPath.pop();
