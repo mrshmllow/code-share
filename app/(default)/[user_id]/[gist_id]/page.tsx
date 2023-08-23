@@ -6,7 +6,7 @@ import TextInput from "@/app/design/form/TextInput";
 import Button from "@/app/design/button/Button";
 import { experimental_useOptimistic as useOptimistic } from "react";
 import { updateLanguage, updateName } from "./actions";
-import { ClipboardIcon } from "@heroicons/react/24/outline";
+import { ClipboardIcon, LinkIcon } from "@heroicons/react/24/outline";
 import "@catppuccin/highlightjs/sass/catppuccin-latte.scss";
 import {
   useRouteCapabilities as useRouteCapabilities,
@@ -14,6 +14,8 @@ import {
   useOnLanguageChange,
 } from "@/app/palette/store";
 import { NameContent } from "@/app/design/NameContent";
+import { Menu } from "@headlessui/react";
+import { cx } from "cva";
 
 export default function GistPage() {
   const { gist, language, isOwner, html } = useContext(GistContext);
@@ -68,16 +70,78 @@ export default function GistPage() {
                 </p>
               )}
 
-              <Button
-                aria-label="Copy snippet to clipboard"
-                onClick={async () => {
-                  await navigator.clipboard.writeText(gist.text);
-                }}
-              >
-                <Button.Icon>
-                  <ClipboardIcon />
-                </Button.Icon>
-              </Button>
+              <Menu as="div" className="relative inline-block text-left">
+                <Menu.Button as={Button}>Share Snippet</Menu.Button>
+                <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-200 rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10">
+                  <div className="px-2 py-2">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={cx(
+                            "px-4 py-2 rounded-lg text-left flex items-center gap-2 disabled:text-gray-600 w-full",
+                            active && "bg-gray-100"
+                          )}
+                          onClick={async (e) => {
+                            e.preventDefault();
+                            await navigator.clipboard.writeText(gist.text);
+                          }}
+                        >
+                          <span className="w-5 h-5">
+                            <ClipboardIcon />
+                          </span>
+
+                          <span>Copy Text</span>
+                        </button>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={cx(
+                            "px-4 py-2 rounded-lg text-left flex items-center gap-2 disabled:text-gray-600 w-full",
+                            active && "bg-gray-100"
+                          )}
+                          onClick={async (e) => {
+                            e.preventDefault();
+                            await navigator.clipboard.writeText(
+                              `https://snip.cafe/${gist.owner}/${gist.id}`
+                            );
+                          }}
+                        >
+                          <span className="w-5 h-5">
+                            <LinkIcon />
+                          </span>
+
+                          <span>Copy Link</span>
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+
+                  {navigator.share && (
+                    <div className="px-2 py-2">
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            className={cx(
+                              "px-4 py-2 rounded-lg text-left flex items-center gap-2 disabled:text-gray-600 w-full",
+                              active && "bg-gray-100"
+                            )}
+                            onClick={async (e) => {
+                              e.preventDefault();
+                              await navigator.share({
+                                url: `https://snip.cafe/${gist.owner}/${gist.id}`,
+                              });
+                            }}
+                          >
+                            <span>Share Via...</span>
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  )}
+                </Menu.Items>
+              </Menu>
             </>
           ) : (
             <form
