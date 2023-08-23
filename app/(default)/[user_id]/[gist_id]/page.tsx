@@ -6,7 +6,11 @@ import TextInput from "@/app/design/form/TextInput";
 import Button from "@/app/design/button/Button";
 import { experimental_useOptimistic as useOptimistic } from "react";
 import { updateLanguage, updateName } from "./actions";
-import { ClipboardIcon, LinkIcon } from "@heroicons/react/24/outline";
+import {
+  ClipboardIcon,
+  CodeBracketSquareIcon,
+  LinkIcon,
+} from "@heroicons/react/24/outline";
 import "@catppuccin/highlightjs/sass/catppuccin-latte.scss";
 import {
   useRouteCapabilities as useRouteCapabilities,
@@ -113,6 +117,32 @@ export default function GistPage() {
                           </span>
 
                           <span>Copy Link</span>
+                        </button>
+                      )}
+                    </Menu.Item>
+                  </div>
+
+                  <div className="px-2 py-2">
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          className={cx(
+                            "px-4 py-2 rounded-lg text-left flex items-center gap-2 disabled:text-gray-600 w-full",
+                            active && "bg-gray-100"
+                          )}
+                          onClick={async (e) => {
+                            e.preventDefault();
+
+                            await navigator.clipboard.writeText(
+                              `<iframe title="Snip Cafe Embed" src="https://snip.cafe/iframe/${gist.id}"></iframe>`
+                            );
+                          }}
+                        >
+                          <span className="w-5 h-5">
+                            <CodeBracketSquareIcon />
+                          </span>
+
+                          <span>Copy embed HTML</span>
                         </button>
                       )}
                     </Menu.Item>
