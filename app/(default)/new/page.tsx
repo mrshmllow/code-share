@@ -5,10 +5,12 @@ import Button from "@/app/design/button/Button";
 import { createGistFromForm } from "./actions";
 import { Cog6ToothIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function NewGistPage() {
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
+  const session = useSession();
 
   return (
     <Card size="xl">
@@ -40,7 +42,11 @@ export default function NewGistPage() {
           className="w-full"
           type="submit"
           onClick={() => {
-            setLoading(true);
+            if (session.status !== "authenticated") {
+              signIn();
+            } else {
+              setLoading(true);
+            }
           }}
           isBusy={loading}
           disabled={text.length === 0}
