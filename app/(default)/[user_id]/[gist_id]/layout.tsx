@@ -9,6 +9,36 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
 import hljs from "highlight.js";
 import NewGistPopup from "./NewGistPopup";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params: { gist_id, user_id },
+}: {
+  params: { gist_id: string; user_id: string };
+}): Promise<Metadata> {
+  const snippet = await db.query.gists.findFirst({
+    where: and(eq(gists.id, gist_id), eq(gists.owner, user_id)),
+  });
+
+  if (!snippet || !snippet?.visible) return {};
+
+  const url = new URL(`https://snip.cafe/og/${snippet.id}`);
+
+  url.searchParams.set("snippet_content", snippet.text);
+  if (snippet.language) url.searchParams.set("snippet_lang", snippet.language);
+  if (snippet.name) url.searchParams.set("snippet_name", snippet.name);
+
+  return {
+    title: snippet.name ? `${snippet.name} | Snip.Cafe` : null,
+    openGraph: {
+      images: [url.toString()],
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+    },
+  };
+}
 
 export default async function GistLayout({
   params: { gist_id, user_id },
@@ -20,29 +50,29 @@ export default async function GistLayout({
   };
   children: ReactNode;
 }) {
-  const [gist, session] = await Promise.all([
+  const [snippet, session] = await Promise.all([
     db.query.gists.findFirst({
       where: and(eq(gists.id, gist_id), eq(gists.owner, user_id)),
     }),
     getServerSession(authOptions),
   ]);
 
-  const owns = gist?.owner === session?.user?.id;
+  const owns = snippet?.owner === session?.user?.id;
 
   // you must be owner OR the gist must be visible
-  if (gist === undefined || (!owns && !gist.visible)) return notFound();
+  if (snippet === undefined || (!owns && !snippet.visible)) return notFound();
 
   const highlight = hljs.highlightAuto(
-    gist.text,
-    gist.language ? [gist.language] : undefined
+    snippet.text,
+    snippet.language ? [snippet.language] : undefined
   );
 
-  const lang = highlight.language ? highlight.language : gist.language;
+  const lang = highlight.language ? highlight.language : snippet.language;
 
   return (
     <Provider
       language={lang}
-      gist={gist}
+      gist={snippet}
       html={sanitize(highlight.value)}
       session={session}
     >

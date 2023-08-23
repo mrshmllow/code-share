@@ -11,7 +11,7 @@ const ak = Atkinson_Hyperlegible({
 });
 
 export const metadata = {
-  title: "Snippet Share",
+  title: "Snip.Cafe",
   description: "",
 };
 

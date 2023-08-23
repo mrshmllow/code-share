@@ -89,7 +89,7 @@ export default function Header() {
         href="/"
         className="text-lg font-bold sm:text-xl inline-flex items-center"
       >
-        Snippet Share
+        Snip.Cafe
       </Link>
 
       <form className="hidden sm:flex gap-2 w-2/4" action="/search">
