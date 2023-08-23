@@ -159,7 +159,7 @@ export default function Header() {
             </Menu.Button>
             <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-200 rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col z-10">
               <div className="px-2 py-2">
-                <CreateGistGroup session={session} />
+                <CreateGistGroup />
               </div>
               <div className="px-2 py-2">
                 <Menu.Item>
